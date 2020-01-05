@@ -4,8 +4,7 @@ import android.app.Activity;
 
 public class Log {
 
-    public static String TAG = "SNAPSHOTWIZARD";
-
+    public static final String TAG = "SNAPSHOTWIZARD";
 
     public static String getClassName(Class a){
         return a.getSimpleName();
@@ -24,11 +23,13 @@ public class Log {
     }
 
     public static void d (Activity caller, String message){
-        android.util.Log.d( appendTagWithClass(getClassName(caller)), message);
+        String tag = appendTagWithClass(getClassName(caller));
+        android.util.Log.d( tag, message);
     }
 
     public static void d (Activity caller){
-        android.util.Log.d( appendTagWithClass(getClassName(caller)), getMethodName());
+        String tag = appendTagWithClass(getClassName(caller));
+        android.util.Log.d( tag, getMethodName());
     }
 
     public static void e (Activity caller){
