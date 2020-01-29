@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ConsoleMessage;
-import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -18,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class WebpageRetriever extends AppCompatActivity {
 
-    private final String URL = "https://www.pinterest.com";
+    /* TODO: Grab from intent */
+    private final String URL = "https://no.pinterest.com";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,38 +33,34 @@ public class WebpageRetriever extends AppCompatActivity {
     private void loadWebpage() {
         Log.d(this);
         WebView webView = findViewById(R.id.webviewer);
-        webView.getSettings().setJavaScriptEnabled(true);
+        createAndConfigureWebView(webView);
+        webView.loadUrl(URL);
+    }
+
+    private void createAndConfigureWebView(WebView webView){
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+
+        webView.setWebViewClient(new WebViewClient(URL));
         webView.addJavascriptInterface(new MyJavaScriptInterface(this), "HtmlViewer");
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Log.d(this, consoleMessage.message());
+                Log.d(this, "console.log(): " + consoleMessage.message());
                 return true;
             }
         });
-        WebViewClient webViewClient = new WebViewClient(URL);
-        webView.setWebViewClient(webViewClient);
-        webView.loadUrl(URL);
-
-
-        WebSettings ws = webView.getSettings();
-        webView.addJavascriptInterface(new Object() {
-            @JavascriptInterface
-            public void performClick(String strl) {
-                Log.d(this, strl);
-            }
-        }, "ok");
 
         webView.setOnTouchListener(new View.OnTouchListener() {
-
             public boolean onTouch(View v, MotionEvent event) {
                 WebView.HitTestResult hr = ((WebView) v).getHitTestResult();
-
                 Log.d(this, "getExtra = " + hr.getExtra() + "\t\t Type=" + hr.getType());
                 return false;
             }
         });
+
     }
 
 }
@@ -87,29 +84,32 @@ class WebViewClient extends android.webkit.WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        view.loadUrl("javascript: "
-                + "Object.prototype.each = function (fn, bind) {\n" +
-                "                ;\n" +
-                "                for (var i = 0; i < this.length; i++) {\n" +
-                "                    if (i in this) {\n" +
-                "                        fn.call(bind, this[i], i, this);\n" +
-                "                    }\n" +
-                "                }\n" +
-                "            };\n" +
-                "\n" +
-                "            var _addListener = document.addEventListener || document.attachEvent,\n" +
-                "                _eventClick = window.addEventListener ? 'click' : 'onclick';\n" +
-                "\n" +
-                "            var elements = document.getElementsByTagName(\"div\");\n" +
-                "console.log(elements)\n" +
+        super.onPageFinished(view, url);
+        String js = "javascript: " +
+                /* Adds border around clicked elem */
+                "        document.addEventListener(\'click\', function (e) {\n"+
+                "           e.stopPropagation();\n"+
+                "           e = e || window.event;\n" +
+                "           var target = e.target || e.srcElement, text = target.textContent || target.innerText; \n" +
+                "                    target.style = \"border-color: red; border-style: solid; border-width: 2; box-sizing: border-box;\"\n" +
+                "           console.log( target.outerHTML); \n" +
+                "        }, true); \n";
 
-                "            elements.each(function (el) {\n" +
-                "                _addListener.call(el, _eventClick, function () {\n" +
-                // todo process the clicked div element
-                "                    el.style.cssText = \"border-color:  black;border-style:  dashed;\"\n" +
-                "                }, false);\n" +
-                "            })");
+
+                /* For pinterest, stops propagation when image is clicked */
+        view.evaluateJavascript(js, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                Log.d(this, "value:  " + value);
+            }
+        });
+
     }
+
+    public void onData(String value) {
+        //.. do something with the data
+    }
+
 
 }
 
@@ -122,7 +122,7 @@ class MyJavaScriptInterface {
     }
 
     public void showHTML(String html) {
-        Log.d(this, html);
+        Log.d(this, "showHTML: "+ html);
         new AlertDialog.Builder(ctx).setTitle("HTML").setMessage(html)
                 .setPositiveButton(android.R.string.ok, null).setCancelable(false).create().show();
     }
