@@ -28,7 +28,7 @@
                 <data android:mimeType="application/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".components.WebpageRetriever" />
+        <activity android:name=".activities.WebpageRetrieverActivity" />
     </application>
 
 </manifest>

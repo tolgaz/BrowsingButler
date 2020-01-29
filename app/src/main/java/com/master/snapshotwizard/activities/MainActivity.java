@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.components.WebpageRetriever;
 import com.master.snapshotwizard.utils.Log;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(this);
         setContentView(R.layout.activity_main);
-        startActivity(new Intent(this, WebpageRetriever.class));
+        startActivity(new Intent(this, WebpageRetrieverActivity.class));
     }
 }

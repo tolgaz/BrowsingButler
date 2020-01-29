@@ -13,20 +13,9 @@ import org.jsoup.nodes.Element;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class JavaScriptInterface {
-    private Context ctx;
+public class JavaScriptInterface {
     public static ArrayList<Element> selectedElements = new ArrayList<>();
     private String[] validHTMLTags = {"p", "img"};
-
-    JavaScriptInterface(Context ctx) {
-        this.ctx = ctx;
-    }
-
-    public void showHTML(String html) {
-        Log.d(this, "showHTML: "+ html);
-        new AlertDialog.Builder(ctx).setTitle("HTML").setMessage(html)
-                .setPositiveButton(android.R.string.ok, null).setCancelable(false).create().show();
-    }
 
     @JavascriptInterface
     public boolean processSelectedElement(String selectedElement){

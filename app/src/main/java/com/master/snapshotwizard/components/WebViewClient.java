@@ -6,7 +6,7 @@ import android.webkit.WebView;
 
 import com.master.snapshotwizard.utils.Log;
 
-class WebViewClient extends android.webkit.WebViewClient {
+public class WebViewClient extends android.webkit.WebViewClient {
     private String mainUrl;
 
     public WebViewClient(String mainUrl) {

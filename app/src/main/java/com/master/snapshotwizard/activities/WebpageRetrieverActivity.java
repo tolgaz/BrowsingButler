@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.components;
+package com.master.snapshotwizard.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,9 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.components.JavaScriptInterface;
+import com.master.snapshotwizard.components.WebViewClient;
 import com.master.snapshotwizard.utils.Log;
 
-public class WebpageRetriever extends AppCompatActivity {
+public class WebpageRetrieverActivity extends AppCompatActivity {
     /* TODO: Grab from intent */
     private final String URL = "https://no.pinterest.com";
 
@@ -41,7 +43,7 @@ public class WebpageRetriever extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
 
         webView.setWebViewClient(new WebViewClient(URL));
-        webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
+        webView.addJavascriptInterface(new JavaScriptInterface(), "JSInterface");
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
