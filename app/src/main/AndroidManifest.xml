@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,7 +28,7 @@
                 <data android:mimeType="application/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebpageRetriever" />
+        <activity android:name=".components.WebpageRetriever" />
     </application>
 
 </manifest>

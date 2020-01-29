@@ -1,4 +1,4 @@
-package com.master.snapshotwizard;
+package com.master.snapshotwizard.utils;
 
 import android.app.Activity;
 
@@ -57,7 +57,7 @@ public class Log {
         android.util.Log.d(appendTagWithClass(getClassName(caller)), message);
     }
 
-    static void d(Object caller, String message) {
+    public static void d(Object caller, String message) {
         android.util.Log.d(appendTagWithClass(getClassName(caller)), message);
     }
 
