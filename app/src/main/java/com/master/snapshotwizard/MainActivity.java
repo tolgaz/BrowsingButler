@@ -1,7 +1,5 @@
 package com.master.snapshotwizard;
 
-import com.master.snapshotwizard.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
