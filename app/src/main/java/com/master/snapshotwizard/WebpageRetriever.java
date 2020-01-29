@@ -12,14 +12,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class WebpageRetriever extends AppCompatActivity {
 
-    private final String URL = "https://www.nrk.no";
+    private final String URL = "https://www.pinterest.com";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,9 +48,9 @@ public class WebpageRetriever extends AppCompatActivity {
 
 
         WebSettings ws = webView.getSettings();
-        webView.addJavascriptInterface(new Object(){
+        webView.addJavascriptInterface(new Object() {
             @JavascriptInterface
-            public void performClick(String strl){
+            public void performClick(String strl) {
                 Log.d(this, strl);
             }
         }, "ok");
@@ -59,9 +58,9 @@ public class WebpageRetriever extends AppCompatActivity {
         webView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
-                WebView.HitTestResult hr = ((WebView)v).getHitTestResult();
+                WebView.HitTestResult hr = ((WebView) v).getHitTestResult();
 
-                Log.d(this, "getExtra = "+ hr.getExtra() + "\t\t Type=" + hr.getType());
+                Log.d(this, "getExtra = " + hr.getExtra() + "\t\t Type=" + hr.getType());
                 return false;
             }
         });
@@ -72,7 +71,7 @@ public class WebpageRetriever extends AppCompatActivity {
 class WebViewClient extends android.webkit.WebViewClient {
     private String mainUrl;
 
-    public WebViewClient(String mainUrl){
+    public WebViewClient(String mainUrl) {
         this.mainUrl = mainUrl;
     }
 
