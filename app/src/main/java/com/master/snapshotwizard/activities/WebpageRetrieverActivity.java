@@ -1,6 +1,7 @@
 package com.master.snapshotwizard.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,7 +44,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
 
         webView.setWebViewClient(new WebViewClient(URL));
-        webView.addJavascriptInterface(new JavaScriptInterface(), "JSInterface");
+        webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -62,6 +63,31 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         });
     }
 
+    /* Button operations */
+    public void startOperationActivity(View view) {
+        startActivity(new Intent(this, OperationActivity.class));
+    }
+
+    public void makeMagicWandButtonVisible(){
+        Log.d(this, "turning button visible");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.magic_button).setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void makeMagicWandButtonInvisible(){
+        Log.d(this, "turning button INvisible");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.magic_button).setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+    /* Button opeartions */
 }
 
 
