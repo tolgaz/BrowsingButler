@@ -33,7 +33,7 @@ public class WebViewClient extends android.webkit.WebViewClient {
                 "           e = e || window.event;\n" +
                 "           var target = e.target || e.srcElement; \n" +
                             /* Set target.style preemptively */
-                "           target.style = \"border-color: red; border-style: solid; border-width: 2px; box-sizing: border-box;\" \n" +
+                "           target.style = \"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\" \n" +
                 "           const processedValue = JSInterface.processSelectedElement(target.outerHTML); \n" +
                 "           if(!processedValue) target.style = \"border-color: transparent; border-width: 0; \" " +
                 "        }, true); \n";

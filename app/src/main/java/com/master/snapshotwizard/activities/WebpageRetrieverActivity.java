@@ -60,7 +60,6 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
 }
