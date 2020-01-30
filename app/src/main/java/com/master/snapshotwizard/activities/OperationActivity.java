@@ -1,9 +1,12 @@
 package com.master.snapshotwizard.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.utils.Log;
@@ -15,5 +18,13 @@ public class OperationActivity extends AppCompatActivity {
         Log.d(this);
         setContentView(R.layout.activity_operation);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
     }
 }

@@ -3,6 +3,8 @@ package com.master.snapshotwizard.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ConsoleMessage;
@@ -12,6 +14,7 @@ import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.components.JavaScriptInterface;
@@ -27,7 +30,15 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(this);
         setContentView(R.layout.activity_webpageretriever);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         loadWebpage();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
     }
 
     @SuppressLint("JavascriptInterface")
