@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,11 +27,13 @@ class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapat
         // each data item is just a string in this case
         TextView firstLine;
         TextView secondLine;
+        ImageButton wrenchButton;
 
         ListRecycleViewHolder(View itemView) {
             super(itemView);
             firstLine = itemView.findViewById(R.id.first_line);
             secondLine = itemView.findViewById(R.id.second_line);
+            wrenchButton = itemView.findViewById(R.id.wrench_button);
             itemView.setOnClickListener(this);
         }
 
@@ -58,6 +61,7 @@ class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapat
         ListItem listItem = listDataset.get(position);
         holder.firstLine.setText(listItem.getTitle());
         holder.secondLine.setText(listItem.getDescription());
+        if(listItem.getTitle().contains("Apply script")) holder.wrenchButton.setVisibility(View.VISIBLE);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

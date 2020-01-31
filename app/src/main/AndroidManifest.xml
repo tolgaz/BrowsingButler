@@ -4,7 +4,8 @@
     package="com.master.snapshotwizard">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -15,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <!--         <activity android:name=".activities.WebpageRetrieverActivity"> -->
-        <activity android:name=".activities.OperationActivity">
+        <activity android:name=".activities.WebpageRetrieverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -31,7 +32,8 @@
                 <data android:mimeType="application/*" />
             </intent-filter>
         </activity>
-        <!-- <activity android:name=".activities.OperationActivity" /> -->
+        <activity android:name=".activities.SaveActivity" />
+         <activity android:name=".activities.OperationActivity" />
     </application>
 
 </manifest>

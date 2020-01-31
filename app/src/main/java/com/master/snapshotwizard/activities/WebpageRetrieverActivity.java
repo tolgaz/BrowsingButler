@@ -1,8 +1,10 @@
 package com.master.snapshotwizard.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -14,6 +16,7 @@ import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.components.JavaScriptInterface;
@@ -31,6 +34,13 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(this);
         setContentView(R.layout.activity_webpageretriever);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         configuration.configureToolbar(this, R.string.toolbar_main);
         loadWebpage();
     }
