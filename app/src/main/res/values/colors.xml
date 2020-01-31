@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#FADBD6D6</color>
+    <color name="colorPrimaryDark">#FACFCBCB</color>
     <color name="colorAccent">#D81B60</color>
     <color name="borderColor">#000000</color>
+    <color name="primaryLine">#000000</color>
+    <color name="secondaryLine">#8A000000</color>
+    <color name="color_alizarin">#e74c3c</color>
+
 </resources>

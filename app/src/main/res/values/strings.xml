@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">SnapshotWizard</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="toolbar_main">Click on a element to start!</string>
+    <string name="toolbar_operation_screen">Choose operation</string>
+    <string name="operations_save_title">Save..</string>
+    <string name="operations_save_desc">Do operations combined with saving elements. E.g., sharing, compressing, resizing, applying scripts or searching on Google.  </string>
+    <string name="operations_share_title">Share via/Open with..</string>
+    <string name="operations_share_desc">Opens a window where you can share the chosen elements with other people or applications!</string>
+    <string name="operations_script_title">Apply script</string>
+    <string name="operations_script_desc">Here you can apply premade or custom scripts to elements! (Scripts configuration is found in Options or by pressing the wrench)</string>
+    <string name="operations_google_title">Search on Google..</string>
+    <string name="operations_google_desc">Here you can use the elements you chose to create a search query on Google!</string>
 </resources>

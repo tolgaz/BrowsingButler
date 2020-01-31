@@ -6,9 +6,9 @@ import android.view.MenuInflater;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.utils.Configuration;
 import com.master.snapshotwizard.utils.Log;
 
 public class OperationActivity extends AppCompatActivity {
@@ -18,8 +18,9 @@ public class OperationActivity extends AppCompatActivity {
         Log.d(this);
         setContentView(R.layout.activity_operation);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    }
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_operation_screen);
+        WebpageRetrieverActivity.configuration.configureList(this, "Operations");
+  }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

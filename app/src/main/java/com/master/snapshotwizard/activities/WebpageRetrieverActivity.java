@@ -19,18 +19,20 @@ import androidx.appcompat.widget.Toolbar;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.components.WebViewClient;
+import com.master.snapshotwizard.utils.Configuration;
 import com.master.snapshotwizard.utils.Log;
 
 public class WebpageRetrieverActivity extends AppCompatActivity {
     /* TODO: Grab from intent */
     private final String URL = "https://no.pinterest.com";
+    public static Configuration configuration = new Configuration();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
         setContentView(R.layout.activity_webpageretriever);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        configuration.configureToolbar(this, R.string.toolbar_main);
         loadWebpage();
     }
 
