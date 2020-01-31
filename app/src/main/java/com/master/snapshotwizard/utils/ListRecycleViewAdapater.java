@@ -39,13 +39,11 @@ class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapat
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
-
     // Provide a suitable constructor (depends on the kind of dataset)
     ListRecycleViewAdapater(Context context, ArrayList<ListItem> listDataset) {
         this.mInflater = LayoutInflater.from(context);
         this.listDataset = listDataset;
     }
-
     // Create new views (invoked by the layout manager)
     @NonNull
     @Override

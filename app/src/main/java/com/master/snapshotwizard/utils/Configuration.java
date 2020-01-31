@@ -1,7 +1,6 @@
 package com.master.snapshotwizard.utils;
 
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,7 +35,6 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
                 listRecycleViewAdapater = new ListRecycleViewAdapater(activity, listDataset);
                 listRecycleViewAdapater.setClickListener(this);
                 recyclerView.setAdapter(listRecycleViewAdapater);
-
                 break;
             default:
                 Log.d("ListConfiguration", "switch EndedInDefault");

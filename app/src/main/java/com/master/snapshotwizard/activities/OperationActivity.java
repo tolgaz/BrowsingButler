@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.utils.Configuration;
 import com.master.snapshotwizard.utils.Log;
 
 public class OperationActivity extends AppCompatActivity {
