@@ -1,13 +1,9 @@
 package com.master.snapshotwizard.utils;
 
-
 import android.os.Environment;
 
 import com.master.snapshotwizard.components.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
-
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,57 +13,79 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Arrays;
 
 public class ElementGrabber {
-    public static void grabElements(){
+    private static String TAG = "ElementGrabber";
+
+    public static void grabElements() {
         ArrayList<ElementWrapper> elements = JavaScriptInterface.selectedElements;
-        try {
-            getImages(elements);
-        } catch (IOException e) {
-            e.printStackTrace();
+        getImages(elements);
+    }
+
+    private static void getImages(ArrayList<ElementWrapper> elements) {
+        Log.d(TAG, "getImages");
+        ArrayList<String> sources = getSourceLinks(elements);
+        File folder = createDirectory();
+
+        for (final String src : sources) {
+            //Open a URL Stream
+            try (InputStream inputStream = new URL(src).openStream()) {
+                String name = getFileNameFromSrc(src);
+                createNewFile(folder, name);
+                writeToFile(inputStream, folder, name);
+            } catch (IOException e) {
+                Log.d(TAG, Arrays.toString(e.getStackTrace()));
+            }
         }
     }
 
-    private static void getImages(ArrayList<ElementWrapper> elements) throws IOException {
-        Log.d("ElementGrabber", "getImages");
-        ArrayList<String> sources = new ArrayList<>();
-        for(ElementWrapper elementWrapper: elements){
-            sources.add(elementWrapper.getElement().attr("src"));
-            Log.d("ElementGrabber", "inLoop"  + elementWrapper);
-        }
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/SnapshotWizard/");
-
-        folder.mkdirs();
-
-        for(final String src: sources){
-                try {
-                    int indexname = src.lastIndexOf("/");
-                    String newSrc = src;
-                    if (indexname == src.length()) {
-                        newSrc = src.substring(1, indexname);
-                    }
-
-                    indexname = newSrc.lastIndexOf("/");
-                    String name = newSrc.substring(indexname, newSrc.length());
-                    if(!name.contains(".jpg")) name += ".jpg";
-                    //Open a URL Stream
-                    InputStream in = new URL(src).openStream();
-                    File file = new File(folder,name);
-                    file.createNewFile();
-                    OutputStream out = new BufferedOutputStream(new FileOutputStream(folder.getAbsolutePath() + name));
-
-                    for (int b; (b = in.read()) != -1; ) {
-                        out.write(b);
-
-                    }
-                    out.close();
-                    in.close();
-                }
-                catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    private static void writeToFile(InputStream inputStream, File folder, String name) {
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(folder.getAbsolutePath() + name))) {
+            for (int b; (b = inputStream.read()) != -1; ) {
+                out.write(b);
             }
+        } catch (Exception e) {
+            Log.d(TAG, Arrays.toString(e.getStackTrace()));
+        }
+    }
+
+    private static void createNewFile(File folder, String name) throws IOException {
+        File file = new File(folder, name);
+        if (!file.createNewFile()) {
+            Log.d(TAG, "createNewFile, File already exists!");
+        }
+    }
+
+    private static String getFileNameFromSrc(String src) {
+        Log.d(TAG, "getFileNameFromSrc started");
+        int indexname = "/".lastIndexOf(src);
+        String newSrc = src;
+        /* If the file ends iwth  / */
+        if (indexname == src.length()) {
+            newSrc = src.substring(1, indexname);
+        }
+        indexname = "/".lastIndexOf(newSrc);
+        Log.d(TAG, "getFileNameFromSrc ended");
+        return newSrc.substring(indexname);
+    }
+
+    private static File createDirectory() {
+        Log.d(TAG, "createFileAndDirectory started");
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/SnapshotWizard/");
+        if (!folder.mkdirs()) Log.d("ElementGrabber", "mkDir faileD");
+        Log.d(TAG, "createFileAndDirectory ended");
+        return folder;
+    }
+
+    private static ArrayList<String> getSourceLinks(ArrayList<ElementWrapper> elements) {
+        Log.d(TAG, "getSourceLinks started");
+        ArrayList<String> sources = new ArrayList<>();
+        for (ElementWrapper elementWrapper : elements) {
+            sources.add(elementWrapper.getElement().attr("src"));
+            Log.d(TAG, "inLoop" + elementWrapper);
+        }
+        Log.d(TAG, "getSourceLinks ended");
+        return sources;
     }
 }
