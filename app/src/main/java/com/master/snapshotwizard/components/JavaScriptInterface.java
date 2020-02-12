@@ -6,6 +6,8 @@ import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
 import com.master.snapshotwizard.utils.Log;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +47,20 @@ public class JavaScriptInterface {
     }
 
     private boolean checkIfElementIsValidTag(ElementWrapper elementWrapper) {
-        String tag = elementWrapper.getNormalName();
-        return Arrays.asList(validHTMLTags).contains(tag);
+        /* Might be a div with a <img> inside. How do we retrieve? */
+        /* Currently grab element and find the img tag inside */
+        Elements elements = elementWrapper.getElement().getAllElements();
+        Element element = null;
+        for(Element tmpElement : elements){
+            element = tmpElement;
+            if(Arrays.asList(validHTMLTags).contains(element.normalName())) break;
+            element = null;
+        }
+        if(element != null){
+            elementWrapper.setMediaElement(element);
+            return true;
+        }
+         return false;
     }
 
     private ElementWrapper checkIfElementListContains(ElementWrapper elementWrapper) {

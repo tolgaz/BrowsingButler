@@ -1,9 +1,11 @@
 package com.master.snapshotwizard.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -39,6 +41,8 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
                 /* Save */
                 Log.d(this, "pos 0 ");
                 ElementGrabber.grabElements();
+                displayToastSuccessful();
+                returnBackToOperationScreen();
                 break;
             case 1:
                 /* Save and compress */
@@ -61,5 +65,13 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
                 break;
         }
 
+    }
+
+    private void returnBackToOperationScreen() {
+        startActivity(new Intent(this, OperationActivity.class));
+    }
+
+    private void displayToastSuccessful() {
+        Toast.makeText(this, "Media has been successfully saved!", Toast.LENGTH_LONG).show();
     }
 }

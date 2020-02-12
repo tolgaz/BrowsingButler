@@ -1,10 +1,13 @@
 package com.master.snapshotwizard.utils;
 
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
 import com.master.snapshotwizard.components.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
+
+import org.jsoup.nodes.Element;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -23,6 +26,7 @@ public class ElementGrabber {
     public static void grabElements() throws MalformedURLException {
         ArrayList<ElementWrapper> elements = JavaScriptInterface.selectedElements;
         getImages(elements);
+
     }
 
     private static void getImages(ArrayList<ElementWrapper> elements) throws MalformedURLException {
@@ -53,7 +57,7 @@ public class ElementGrabber {
         String host = url.getHost();
         String filename = getFilenameFromSrc(src);
         String extension = getExtensionFromSrc(src);
-
+        if (extension.equalsIgnoreCase(".jpg")) extension = ".jpg";
         return protocol + "://" + host + "/" + filename + extension;
     }
 
@@ -110,7 +114,11 @@ public class ElementGrabber {
         Log.d(TAG, "getSourceLinks started");
         ArrayList<String> sources = new ArrayList<>();
         for (ElementWrapper elementWrapper : elements) {
-            sources.add(elementWrapper.getElement().attr("src"));
+            Element mediaElement = elementWrapper.getElement();
+            if (elementWrapper.getMediaElement() != null) {
+                mediaElement = elementWrapper.getMediaElement();
+            }
+            sources.add(mediaElement.attr("src"));
             Log.d(TAG, "inLoop" + elementWrapper);
         }
         Log.d(TAG, "getSourceLinks ended");

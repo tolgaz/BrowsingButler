@@ -7,10 +7,12 @@ public class ElementWrapper implements Comparable{
 
     private Element element;
     private Document document;
+    private Element mediaElement;
 
     public ElementWrapper(Document document){
         this.document = document;
         this.element = document.body().child(0);
+        this.mediaElement = null;
     }
 
     public String getNormalName(){
@@ -32,5 +34,13 @@ public class ElementWrapper implements Comparable{
             if(this.element.outerHtml().equals(elementWrapper.getElement().outerHtml())) return 0;
         }
         return -1;
+    }
+
+    public Element getMediaElement() {
+        return mediaElement;
+    }
+
+    public void setMediaElement(Element mediaElement) {
+        this.mediaElement = mediaElement;
     }
 }
