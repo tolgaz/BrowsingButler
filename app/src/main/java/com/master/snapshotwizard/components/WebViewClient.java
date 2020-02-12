@@ -16,11 +16,15 @@ public class WebViewClient extends android.webkit.WebViewClient {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         Log.d(this, "MainURL: " + mainUrl + ", request: " + request.getUrl());
-        String url = request.getUrl().toString();
+        String url = removeKeywords(request.getUrl().toString());
         if (url.equals(mainUrl)) {
             view.loadUrl(url);
         }
-        return true;
+        return false;
+    }
+
+    private String removeKeywords(String url){
+        return url.replace("//m.", "//");
     }
 
     @Override

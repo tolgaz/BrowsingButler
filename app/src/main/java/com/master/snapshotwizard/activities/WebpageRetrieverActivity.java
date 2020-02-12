@@ -26,13 +26,17 @@ import com.master.snapshotwizard.utils.Log;
 
 public class WebpageRetrieverActivity extends AppCompatActivity {
     /* TODO: Grab from intent */
-    private final String URL = "https://no.pinterest.com";
+    public static String URL = null;
     public static Configuration configuration = new Configuration();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
+        Bundle intentExtras = getIntent().getExtras();
+        if(intentExtras  != null) URL = intentExtras.getString("android.intent.extra.TEXT");
+        if (URL == null) URL = getResources().getString(R.string.main_url);
+
         setContentView(R.layout.activity_webpageretriever);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},

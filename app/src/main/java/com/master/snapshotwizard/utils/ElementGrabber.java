@@ -2,6 +2,7 @@ package com.master.snapshotwizard.utils;
 
 import android.os.Environment;
 
+import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
 import com.master.snapshotwizard.components.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 
@@ -11,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,20 +20,25 @@ import java.util.Arrays;
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
 
-    public static void grabElements() {
+    public static void grabElements() throws MalformedURLException {
         ArrayList<ElementWrapper> elements = JavaScriptInterface.selectedElements;
         getImages(elements);
     }
 
-    private static void getImages(ArrayList<ElementWrapper> elements) {
+    private static void getImages(ArrayList<ElementWrapper> elements) throws MalformedURLException {
         Log.d(TAG, "getImages");
         ArrayList<String> sources = getSourceLinks(elements);
         File folder = createDirectory();
 
         for (final String src : sources) {
             //Open a URL Stream
-            try (InputStream inputStream = new URL(src).openStream()) {
-                String name = getFileNameFromSrc(src);
+            /*
+                Imgur links are like: https://i.imgur.com/yj9Xp7Q_d.jpg?maxwidth=520&shape=thumb&fidelity=high
+                We want to remove the query params. And trim the _d from the end of the url.
+             */
+            String trimmedURL = trimURL(src);
+            try (InputStream inputStream = new URL(trimmedURL).openStream()) {
+                String name = getFilenameFromSrc(trimmedURL) + getExtensionFromSrc(trimmedURL);
                 createNewFile(folder, name);
                 writeToFile(inputStream, folder, name);
             } catch (IOException e) {
@@ -40,13 +47,23 @@ public class ElementGrabber {
         }
     }
 
+    private static String trimURL(String src) throws MalformedURLException {
+        URL url = new URL(src);
+        String protocol = url.getProtocol();
+        String host = url.getHost();
+        String filename = getFilenameFromSrc(src);
+        String extension = getExtensionFromSrc(src);
+
+        return protocol + "://" + host + "/" + filename + extension;
+    }
+
     private static void writeToFile(InputStream inputStream, File folder, String name) {
-        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(folder.getAbsolutePath() + name))) {
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(folder.getAbsolutePath() + "/" + name))) {
             for (int b; (b = inputStream.read()) != -1; ) {
                 out.write(b);
             }
         } catch (Exception e) {
-            Log.d(TAG, Arrays.toString(e.getStackTrace()));
+            Log.d(TAG, e.getMessage());
         }
     }
 
@@ -57,22 +74,33 @@ public class ElementGrabber {
         }
     }
 
-    private static String getFileNameFromSrc(String src) {
-        Log.d(TAG, "getFileNameFromSrc started");
-        int indexname = "/".lastIndexOf(src);
-        String newSrc = src;
-        /* If the file ends iwth  / */
-        if (indexname == src.length()) {
-            newSrc = src.substring(1, indexname);
-        }
-        indexname = "/".lastIndexOf(newSrc);
-        Log.d(TAG, "getFileNameFromSrc ended");
-        return newSrc.substring(indexname);
+    private static String getExtensionFromSrc(String src) throws MalformedURLException {
+        String path = new URL(src).getPath();
+        String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
+        return filenameWithextension.substring(filenameWithextension.lastIndexOf('.'));
     }
 
-    private static File createDirectory() {
+    private static String getFilenameFromSrc(String src) throws MalformedURLException {
+        String path = new URL(src).getPath();
+        String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
+        /* Remove _d From file */
+        String filename = filenameWithextension.substring(0, filenameWithextension.lastIndexOf('.'));
+        return removeUnderscoreDIfExists(filename);
+    }
+
+    private static String removeUnderscoreDIfExists(String filename) {
+        if(filename.length() > 2 && filename.endsWith("_d")) return filename.substring(0, filename.length() - 2);
+        return filename;
+    }
+
+    private static String trimSrcToHostDomain(String src) throws MalformedURLException {
+        String host = new URL(src).getHost();
+        return host.substring(host.indexOf(".") + 1, host.lastIndexOf("."));
+    }
+
+    private static File createDirectory() throws MalformedURLException {
         Log.d(TAG, "createFileAndDirectory started");
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/SnapshotWizard/");
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/SnapshotWizard/" + trimSrcToHostDomain(WebpageRetrieverActivity.URL));
         if (!folder.mkdirs()) Log.d("ElementGrabber", "mkDir faileD");
         Log.d(TAG, "createFileAndDirectory ended");
         return folder;
@@ -88,4 +116,4 @@ public class ElementGrabber {
         Log.d(TAG, "getSourceLinks ended");
         return sources;
     }
-}
+} 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.activities.ActivityWithSwitchHandler;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Configuration implements ListRecycleViewAdapater.ItemClickListener {
@@ -47,7 +48,7 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
         listDataset.add(new ListItem(getText(activity, R.string.operations_script_title), getText(activity, R.string.operations_script_desc)));
         listDataset.add(new ListItem(getText(activity, R.string.operations_google_title), getText(activity, R.string.operations_google_desc)));
 
-        RecyclerView recyclerView = activity.findViewById(R.id.save_recycle_view);
+        RecyclerView recyclerView = activity.findViewById(R.id.operation_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         listRecycleViewAdapater = new ListRecycleViewAdapater(activity, listDataset);
         listRecycleViewAdapater.setClickListener(this);
@@ -74,7 +75,7 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position) throws MalformedURLException {
         Log.d(this, "You clicked " + listRecycleViewAdapater.getItem(position) + " on row number " + position);
         currActivity.switchHandler(view, position);
     }

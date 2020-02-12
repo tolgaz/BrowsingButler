@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.master.snapshotwizard.R;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapater.ListRecycleViewHolder> {
     private ArrayList<ListItem> listDataset;
@@ -39,7 +41,13 @@ class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapat
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) {
+                try {
+                    mClickListener.onItemClick(view, getAdapterPosition());
+                } catch (MalformedURLException e) {
+                    Log.d(this, "Wrong URL. " + Arrays.toString(e.getStackTrace()));
+                }
+            }
         }
     }
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -80,6 +88,6 @@ class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapat
     }
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position) throws MalformedURLException;
     }
 }

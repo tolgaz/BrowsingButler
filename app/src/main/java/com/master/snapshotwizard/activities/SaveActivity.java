@@ -11,6 +11,8 @@ import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.utils.ElementGrabber;
 import com.master.snapshotwizard.utils.Log;
 
+import java.net.MalformedURLException;
+
 public class SaveActivity extends ActivityWithSwitchHandler  {
 
     @Override
@@ -31,7 +33,7 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
     }
 
     @Override
-    public void switchHandler(View view, int position){
+    public void switchHandler(View view, int position) throws MalformedURLException {
         switch (position){
             case 0:
                 /* Save */
