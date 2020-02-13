@@ -12,12 +12,16 @@ public class ElementWrapper implements Comparable{
     public ElementWrapper(Document document){
         this.document = document;
         this.element = document.body().child(0);
-        this.mediaElement = null;
     }
 
     public String getNormalName(){
         return element.normalName();
     }
+
+    public String getMediaElementNormalName(){
+        return mediaElement.normalName();
+    }
+
 
     public Element getElement() {
         return element;
@@ -44,3 +48,4 @@ public class ElementWrapper implements Comparable{
         this.mediaElement = mediaElement;
     }
 }
+

@@ -18,9 +18,15 @@ public class OperationActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         setContentView(R.layout.activity_operation);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+  }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_operation_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Operations");
-  }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

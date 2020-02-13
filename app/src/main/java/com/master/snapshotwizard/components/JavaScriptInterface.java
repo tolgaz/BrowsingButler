@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class JavaScriptInterface {
     public static ArrayList<ElementWrapper> selectedElements = new ArrayList<>();
-    private String[] validHTMLTags = {"p", "img"};
+    private String[] validHTMLTags = {"img", "video"};
     WebpageRetrieverActivity webpageRetrieverActivity;
 
     public JavaScriptInterface(WebpageRetrieverActivity webpageRetrieverActivity){

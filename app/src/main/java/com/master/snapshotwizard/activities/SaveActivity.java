@@ -2,6 +2,7 @@ package com.master.snapshotwizard.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -68,7 +69,8 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
     }
 
     private void returnBackToOperationScreen() {
-        startActivity(new Intent(this, OperationActivity.class));
+        finish();
+        overridePendingTransition( R.anim.trans_right_in, R.anim.trans_right_out);
     }
 
     private void displayToastSuccessful() {

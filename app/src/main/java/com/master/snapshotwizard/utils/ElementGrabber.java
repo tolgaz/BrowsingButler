@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
@@ -34,13 +35,13 @@ public class ElementGrabber {
         ArrayList<String> sources = getSourceLinks(elements);
         File folder = createDirectory();
 
-        for (final String src : sources) {
+        for (final ElementWrapper elementWrapper : elements) {
             //Open a URL Stream
             /*
                 Imgur links are like: https://i.imgur.com/yj9Xp7Q_d.jpg?maxwidth=520&shape=thumb&fidelity=high
                 We want to remove the query params. And trim the _d from the end of the url.
              */
-            String trimmedURL = trimURL(src);
+            String trimmedURL = trimURL(elementWrapper);
             try (InputStream inputStream = new URL(trimmedURL).openStream()) {
                 String name = getFilenameFromSrc(trimmedURL) + getExtensionFromSrc(trimmedURL);
                 createNewFile(folder, name);
@@ -51,13 +52,15 @@ public class ElementGrabber {
         }
     }
 
-    private static String trimURL(String src) throws MalformedURLException {
+    private static String trimURL(ElementWrapper elementWrapper) throws MalformedURLException {
+        String src = getSourceLink(elementWrapper);
         URL url = new URL(src);
         String protocol = url.getProtocol();
         String host = url.getHost();
         String filename = getFilenameFromSrc(src);
         String extension = getExtensionFromSrc(src);
-        if (extension.equalsIgnoreCase(".jpg")) extension = ".jpg";
+        /* Check if tag is img for now. Then replace it with JPG: TODO: what is the tag og gifs, m4v, mp4, videos */
+        if (elementWrapper.getNormalName().equals("img")) extension = ".jpg";
         return protocol + "://" + host + "/" + filename + extension;
     }
 
@@ -123,5 +126,17 @@ public class ElementGrabber {
         }
         Log.d(TAG, "getSourceLinks ended");
         return sources;
+    }
+
+    private static String getSourceLink(ElementWrapper elementWrapper) {
+        Log.d(TAG, "getSourceLink started");
+
+        Element mediaElement = elementWrapper.getElement();
+        if (elementWrapper.getMediaElement() != null) {
+            mediaElement = elementWrapper.getMediaElement();
+        }
+        Log.d(TAG, "inLoop" + elementWrapper);
+        Log.d(TAG, "getSourceLink ended");
+        return mediaElement.attr("src");
     }
 } 

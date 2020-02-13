@@ -34,6 +34,7 @@ public class WebViewClient extends android.webkit.WebViewClient {
                 /* Adds border around clicked elem */
                 "        document.addEventListener(\'click\', function (e) {\n"+
                 "           e.stopPropagation();\n"+
+                "           e.preventDefault();\n"+
                 "           e = e || window.event;\n" +
                 "           var target = e.target || e.srcElement; \n" +
                             /* Set target.style preemptively */
