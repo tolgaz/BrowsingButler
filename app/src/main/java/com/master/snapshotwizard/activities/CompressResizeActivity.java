@@ -1,10 +1,7 @@
 package com.master.snapshotwizard.activities;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.widget.ImageView;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +11,11 @@ import com.master.snapshotwizard.utils.ElementGrabber;
 import com.master.snapshotwizard.utils.Log;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
 
-public class CompressResizeActivity extends AppCompatActivity {
+public class CompressResizeActivity extends ActivityWithSwitchHandler {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,4 +28,16 @@ public class CompressResizeActivity extends AppCompatActivity {
 
    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this, "onResume");
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compressresize_screen);
+        WebpageRetrieverActivity.configuration.configureList(this, "CompressResize");
+    }
+
+    @Override
+    public void switchHandler(View view, int position) throws MalformedURLException {
+
+    }
 }

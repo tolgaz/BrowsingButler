@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.activities.ActivityWithSwitchHandler;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -35,11 +36,15 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
             case "Save":
                 configureSave(currActivity);
                 break;
+            case "CompressResize":
+                configureCompressResize(currActivity);
+                break;
             default:
                 Log.d("ListConfiguration", "switch EndedInDefault");
         }
         Log.d("ListConfiguration", "ending configureList");
     }
+
 
     private void configureOperations(ActivityWithSwitchHandler activity){
         ArrayList<ListItem> listDataset = new ArrayList<>();
@@ -68,6 +73,12 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
         listRecycleViewAdapater = new ListRecycleViewAdapater(activity, listDataset);
         listRecycleViewAdapater.setClickListener(this);
         recyclerView.setAdapter(listRecycleViewAdapater);
+    }
+
+
+    private void configureCompressResize(ActivityWithSwitchHandler currActivity) {
+        ArrayList<File> listDataset = ElementGrabber.getSavedFiles();
+
     }
 
     private static String getText(AppCompatActivity activity, int id) {

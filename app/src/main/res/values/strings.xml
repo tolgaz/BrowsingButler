@@ -8,6 +8,7 @@
     <string name="toolbar_main">Click on a element to start!</string>
     <string name="toolbar_operation_screen">Choose operation</string>
     <string name="toolbar_save_screen">Choose a save operation</string>
+    <string name="toolbar_compressresize_screen">Save and compress</string>
 
     <!-- Operation screen, user chooses what operation -->
     <string name="operations_save_title">Save..</string>
