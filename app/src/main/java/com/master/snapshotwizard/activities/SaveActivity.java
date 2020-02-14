@@ -48,6 +48,7 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
             case 1:
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
+                startActivity(new Intent(this, CompressResizeActivity.class));
                 break;
             case 2:
                 /* Save and share */
@@ -70,7 +71,17 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
 
     private void returnBackToOperationScreen() {
         finish();
+        transitionBack();
+    }
+
+    private void transitionBack() {
         overridePendingTransition( R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        transitionBack();
     }
 
     private void displayToastSuccessful() {

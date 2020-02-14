@@ -19,15 +19,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
+    private static ArrayList<File> savedFiles = new ArrayList<>();
 
     public static void grabElements() throws MalformedURLException {
         ArrayList<ElementWrapper> elements = JavaScriptInterface.selectedElements;
+        savedFiles = new ArrayList<>();
         getImages(elements);
-
     }
 
     private static void getImages(ArrayList<ElementWrapper> elements) throws MalformedURLException {
@@ -44,7 +44,7 @@ public class ElementGrabber {
             String trimmedURL = trimURL(elementWrapper);
             try (InputStream inputStream = new URL(trimmedURL).openStream()) {
                 String name = getFilenameFromSrc(trimmedURL) + getExtensionFromSrc(trimmedURL);
-                createNewFile(folder, name);
+                savedFiles.add(createNewFile(folder, name));
                 writeToFile(inputStream, folder, name);
             } catch (IOException e) {
                 Log.d(TAG, Arrays.toString(e.getStackTrace()));
@@ -74,11 +74,13 @@ public class ElementGrabber {
         }
     }
 
-    private static void createNewFile(File folder, String name) throws IOException {
+    private static File createNewFile(File folder, String name) throws IOException {
+        // TODO: handle overwriting, maybe we dont?
         File file = new File(folder, name);
         if (!file.createNewFile()) {
             Log.d(TAG, "createNewFile, File already exists!");
         }
+        return file;
     }
 
     private static String getExtensionFromSrc(String src) throws MalformedURLException {
@@ -139,4 +141,8 @@ public class ElementGrabber {
         Log.d(TAG, "getSourceLink ended");
         return mediaElement.attr("src");
     }
-} 
+
+    public static ArrayList<File> getSavedFiles() {
+        return savedFiles;
+    }
+}

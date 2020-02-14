@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SaveActivity" />
-         <activity android:name=".activities.OperationActivity" />
+        <activity android:name=".activities.OperationActivity" />
+        <activity android:name=".activities.CompressResizeActivity" />
     </application>
 
 </manifest>
