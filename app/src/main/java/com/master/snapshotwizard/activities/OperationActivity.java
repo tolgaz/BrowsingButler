@@ -1,12 +1,15 @@
 package com.master.snapshotwizard.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.utils.Log;
@@ -18,6 +21,15 @@ public class OperationActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         setContentView(R.layout.activity_operation);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+
+        /* Only for when WebPageRetriver is not used - TESTING */
+        WebpageRetrieverActivity.URL = getResources().getString(R.string.main_url);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
   }
 
     @Override

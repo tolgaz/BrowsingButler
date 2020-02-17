@@ -1,7 +1,6 @@
 package com.master.snapshotwizard.utils;
 
 import android.os.Environment;
-import android.widget.Toast;
 
 import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
 import com.master.snapshotwizard.components.ElementWrapper;
@@ -22,17 +21,14 @@ import java.util.Arrays;
 
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
-    private static ArrayList<File> savedFiles = new ArrayList<>();
 
     public static void grabElements() throws MalformedURLException {
-        ArrayList<ElementWrapper> elements = JavaScriptInterface.selectedElements;
-        savedFiles = new ArrayList<>();
+        ArrayList<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
         getImages(elements);
     }
 
     private static void getImages(ArrayList<ElementWrapper> elements) throws MalformedURLException {
         Log.d(TAG, "getImages");
-        ArrayList<String> sources = getSourceLinks(elements);
         File folder = createDirectory();
 
         for (final ElementWrapper elementWrapper : elements) {
@@ -42,9 +38,10 @@ public class ElementGrabber {
                 We want to remove the query params. And trim the _d from the end of the url.
              */
             String trimmedURL = trimURL(elementWrapper);
+
             try (InputStream inputStream = new URL(trimmedURL).openStream()) {
                 String name = getFilenameFromSrc(trimmedURL) + getExtensionFromSrc(trimmedURL);
-                savedFiles.add(createNewFile(folder, name));
+                elementWrapper.setFile(createNewFile(folder, name));
                 writeToFile(inputStream, folder, name);
             } catch (IOException e) {
                 Log.d(TAG, Arrays.toString(e.getStackTrace()));
@@ -140,9 +137,5 @@ public class ElementGrabber {
         Log.d(TAG, "inLoop" + elementWrapper);
         Log.d(TAG, "getSourceLink ended");
         return mediaElement.attr("src");
-    }
-
-    public static ArrayList<File> getSavedFiles() {
-        return savedFiles;
     }
 }

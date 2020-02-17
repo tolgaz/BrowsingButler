@@ -11,9 +11,14 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JavaScriptInterface {
-    public static ArrayList<ElementWrapper> selectedElements = new ArrayList<>();
+    private static ArrayList<ElementWrapper> selectedElements = generateTestData();
+
+
+
     private String[] validHTMLTags = {"img", "video"};
     WebpageRetrieverActivity webpageRetrieverActivity;
 
@@ -69,4 +74,19 @@ public class JavaScriptInterface {
         }
         return null;
     }
+
+    public static ArrayList<ElementWrapper> getSelectedElements() {
+        return selectedElements;
+    }
+
+    private static ArrayList<ElementWrapper> generateTestData() {
+        return (ArrayList<ElementWrapper>) Stream.of(
+            new ElementWrapper(Jsoup.parse("<video id=\"video-G2UMu6l\" class=\"Video-element\" poster=\"https://i.imgur.com/G2UMu6l_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/G2UMu6l.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>")),
+            new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/spu7fxm_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
+            new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/MHhF1n9_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
+            new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/LmxlQup_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
+            new ElementWrapper(Jsoup.parse("<video id=\"video-DcJglzN\" class=\"Video-element\" poster=\"https://i.imgur.com/DcJglzN_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/DcJglzN.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>"))
+        ).collect(Collectors.toList());
+    };
+
 }

@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapater.ListRecycleViewHolder> {
+class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleViewAdapter.ListRecycleViewHolder> {
     private ArrayList<ListItem> listDataset;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -51,7 +51,7 @@ class ListRecycleViewAdapater extends RecyclerView.Adapter<ListRecycleViewAdapat
         }
     }
     // Provide a suitable constructor (depends on the kind of dataset)
-    ListRecycleViewAdapater(Context context, ArrayList<ListItem> listDataset) {
+    ListRecycleViewAdapter(Context context, ArrayList<ListItem> listDataset) {
         this.mInflater = LayoutInflater.from(context);
         this.listDataset = listDataset;
     }

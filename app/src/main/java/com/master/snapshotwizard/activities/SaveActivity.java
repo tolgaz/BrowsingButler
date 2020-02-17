@@ -24,9 +24,16 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
         Log.d(this);
         setContentView(R.layout.activity_save);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_save_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Save");
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,6 +55,7 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
             case 1:
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
+                ElementGrabber.grabElements();
                 startActivity(new Intent(this, CompressResizeActivity.class));
                 break;
             case 2:

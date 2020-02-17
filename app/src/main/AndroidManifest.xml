@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <!--         <activity android:name=".activities.WebpageRetrieverActivity"> -->
-        <activity android:name=".activities.WebpageRetrieverActivity">
+        <activity android:name=".activities.OperationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,7 +33,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SaveActivity" />
-        <activity android:name=".activities.OperationActivity" />
         <activity android:name=".activities.CompressResizeActivity" />
     </application>
 

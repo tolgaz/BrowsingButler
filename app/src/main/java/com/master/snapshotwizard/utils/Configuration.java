@@ -8,15 +8,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.AlignContent;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.activities.ActivityWithSwitchHandler;
+import com.master.snapshotwizard.components.ElementWrapper;
+import com.master.snapshotwizard.components.JavaScriptInterface;
+import com.master.snapshotwizard.utils.ListRecycleViewAdapter.ItemClickListener;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
-public class Configuration implements ListRecycleViewAdapater.ItemClickListener {
-    private ListRecycleViewAdapater listRecycleViewAdapater;
+public class Configuration implements ItemClickListener {
+    private ListRecycleViewAdapter listRecycleViewAdapater;
     private ActivityWithSwitchHandler currActivity;
 
     public void configureToolbar(AppCompatActivity activity, int subtitleId){
@@ -55,7 +64,7 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
 
         RecyclerView recyclerView = activity.findViewById(R.id.operation_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        listRecycleViewAdapater = new ListRecycleViewAdapater(activity, listDataset);
+        listRecycleViewAdapater = new ListRecycleViewAdapter(activity, listDataset);
         listRecycleViewAdapater.setClickListener(this);
         recyclerView.setAdapter(listRecycleViewAdapater);
     }
@@ -70,15 +79,26 @@ public class Configuration implements ListRecycleViewAdapater.ItemClickListener 
 
         RecyclerView recyclerView = activity.findViewById(R.id.save_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        listRecycleViewAdapater = new ListRecycleViewAdapater(activity, listDataset);
+        listRecycleViewAdapater = new ListRecycleViewAdapter(activity, listDataset);
         listRecycleViewAdapater.setClickListener(this);
         recyclerView.setAdapter(listRecycleViewAdapater);
     }
 
 
-    private void configureCompressResize(ActivityWithSwitchHandler currActivity) {
-        ArrayList<File> listDataset = ElementGrabber.getSavedFiles();
+    private void configureCompressResize(ActivityWithSwitchHandler activity) {
+        ArrayList<ElementWrapper> fileDataset = JavaScriptInterface.getSelectedElements();
+        RecyclerView recyclerView = activity.findViewById(R.id.image_picker_recycle_view);
 
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(activity, FlexDirection.ROW);
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.SPACE_EVENLY);
+        flexboxLayoutManager.setMaxLine(5);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
+
+        ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter = new ImagePickerRecycleViewAdapter(activity, fileDataset);
+        imagePickerRecycleViewAdapter.setClickListener(this);
+        recyclerView.setAdapter(imagePickerRecycleViewAdapter);
     }
 
     private static String getText(AppCompatActivity activity, int id) {

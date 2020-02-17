@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp">
 
-    <ImageView
-        android:id="@+id/image_preview"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        android:layout_weight="1"
-        tools:srcCompat="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="184dp"
+            android:layout_height="184dp"
+            android:layout_margin="1dp"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/image_tick"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right|top"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:srcCompat="@android:drawable/checkbox_on_background" />
+    </FrameLayout>
 
 </LinearLayout>
