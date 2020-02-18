@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SaveActivity" />
+        <activity android:name=".activities.MediaPickerActivity" />
         <activity android:name=".activities.CompressResizeActivity" />
     </application>
 

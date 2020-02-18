@@ -27,6 +27,7 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
     private ArrayList<ElementWrapper> fileDataset;
     private LayoutInflater mInflater;
     private ListRecycleViewAdapter.ItemClickListener mClickListener;
+    private ArrayList<ImagePickerRecycleViewHolder> viewHolders = new ArrayList<>();
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -37,10 +38,11 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         ImageView imageView;
         ImageView imageTick;
 
-        ImagePickerRecycleViewHolder(View itemView) {
+        ImagePickerRecycleViewHolder(View itemView, boolean visible) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.image_preview);
             this.imageTick = itemView.findViewById(R.id.image_tick);
+            this.imageTick.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
             itemView.setOnClickListener(this);
         }
 
@@ -48,13 +50,20 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         public void onClick(View view) {
             if (mClickListener != null) {
                 try {
-                    if(imageTick.getVisibility() != View.VISIBLE) imageTick.setVisibility(View.VISIBLE);
-                    else imageTick.setVisibility(View.INVISIBLE);
                     mClickListener.onItemClick(view, getAdapterPosition());
+                    flipVisibility();
                 } catch (MalformedURLException e) {
                     Log.d(this, "Wrong URL. " + Arrays.toString(e.getStackTrace()));
                 }
             }
+        }
+
+        public void select(){
+            imageTick.setVisibility(View.VISIBLE);
+        }
+
+        private void flipVisibility(){
+            imageTick.setVisibility(imageTick.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
         }
     }
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -67,7 +76,9 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
     @Override
     public ImagePickerRecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.image_picker, parent, false);
-        return new ImagePickerRecycleViewHolder(view);
+        ImagePickerRecycleViewHolder imagePickerRecycleViewHolder = new ImagePickerRecycleViewHolder(view, fileDataset.get(viewHolders.size()).getChosen());
+        viewHolders.add(imagePickerRecycleViewHolder);
+        return imagePickerRecycleViewHolder;
     }
 
     // binds the data to the TextView in each row
@@ -85,13 +96,20 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         if(layoutParams instanceof FlexboxLayoutManager.LayoutParams){
             ((FlexboxLayoutManager.LayoutParams) layoutParams).setFlexGrow(1f);
         }
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return fileDataset.size();
+    }
+
+    public ArrayList<ElementWrapper> getFileDataset(){
+        return fileDataset;
+    }
+
+    public ArrayList<ImagePickerRecycleViewHolder> getViewHolders() {
+        return viewHolders;
     }
 
     // convenience method for getting data at click position

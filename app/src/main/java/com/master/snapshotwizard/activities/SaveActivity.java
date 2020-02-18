@@ -2,7 +2,6 @@ package com.master.snapshotwizard.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -56,7 +55,7 @@ public class SaveActivity extends ActivityWithSwitchHandler  {
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
                 ElementGrabber.grabElements();
-                startActivity(new Intent(this, CompressResizeActivity.class));
+                startActivity(new Intent(this, MediaPickerActivity.class));
                 break;
             case 2:
                 /* Save and share */

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#FAFAFA</color>
     <color name="colorAccent">#D81B60</color>
     <color name="borderColor">#000000</color>
+    <color name="buttonColor">#009688</color>
     <color name="primaryLine">#000000</color>
     <color name="secondaryLine">#8A000000</color>
     <color name="color_alizarin">#e74c3c</color>

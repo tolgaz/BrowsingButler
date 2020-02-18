@@ -1,6 +1,5 @@
 package com.master.snapshotwizard.utils;
 
-import android.content.Intent;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -20,12 +18,12 @@ import com.master.snapshotwizard.components.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.utils.ListRecycleViewAdapter.ItemClickListener;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Configuration implements ItemClickListener {
     private ListRecycleViewAdapter listRecycleViewAdapater;
+    private ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter;
     private ActivityWithSwitchHandler currActivity;
 
     public void configureToolbar(AppCompatActivity activity, int subtitleId){
@@ -45,8 +43,11 @@ public class Configuration implements ItemClickListener {
             case "Save":
                 configureSave(currActivity);
                 break;
+            case "MediaPicker":
+                configureMediaPicker(currActivity);
+                break;
             case "CompressResize":
-                configureCompressResize(currActivity);
+               // configureMediaPicker(currActivity);
                 break;
             default:
                 Log.d("ListConfiguration", "switch EndedInDefault");
@@ -85,7 +86,7 @@ public class Configuration implements ItemClickListener {
     }
 
 
-    private void configureCompressResize(ActivityWithSwitchHandler activity) {
+    private void configureMediaPicker(ActivityWithSwitchHandler activity) {
         ArrayList<ElementWrapper> fileDataset = JavaScriptInterface.getSelectedElements();
         RecyclerView recyclerView = activity.findViewById(R.id.image_picker_recycle_view);
 
@@ -96,13 +97,17 @@ public class Configuration implements ItemClickListener {
         flexboxLayoutManager.setMaxLine(5);
         recyclerView.setLayoutManager(flexboxLayoutManager);
 
-        ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter = new ImagePickerRecycleViewAdapter(activity, fileDataset);
+        imagePickerRecycleViewAdapter = new ImagePickerRecycleViewAdapter(activity, fileDataset);
         imagePickerRecycleViewAdapter.setClickListener(this);
         recyclerView.setAdapter(imagePickerRecycleViewAdapter);
     }
 
     private static String getText(AppCompatActivity activity, int id) {
         return activity.getResources().getString(id);
+    }
+
+    public ImagePickerRecycleViewAdapter getImagePickerRecycleViewAdapter(){
+        return imagePickerRecycleViewAdapter;
     }
 
     @Override
