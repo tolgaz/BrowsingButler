@@ -38,7 +38,7 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
         });
 
         Button continueCompress = findViewById(R.id.continue_compress);
-        continueCompress.setOnClickListener(this::startCompressResizeActivity);
+        continueCompress.setOnClickListener(v -> startCompressResizeActivity());
    }
 
     @Override
@@ -64,7 +64,7 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
         Log.d(this, "switchHandler done");
     }
 
-    public void startCompressResizeActivity(View view) {
+    public void startCompressResizeActivity() {
         Log.d(this, "startCompressResizeActivity clicked");
         startActivity(new Intent(this, CompressResizeActivity.class));
     }

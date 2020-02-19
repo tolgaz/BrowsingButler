@@ -13,6 +13,8 @@ import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +40,9 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         if (URL == null) URL = getResources().getString(R.string.main_url);
 
         setContentView(R.layout.activity_webpageretriever);
+        ImageButton magicButton = findViewById(R.id.magic_button);
+        magicButton.setOnClickListener(v -> startOperationActivity());
+
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 1);
@@ -90,28 +95,18 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     }
 
     /* Button operations */
-    public void startOperationActivity(View view) {
+    public void startOperationActivity() {
         startActivity(new Intent(this, OperationActivity.class));
     }
 
     public void makeMagicWandButtonVisible(){
         Log.d(this, "turning button visible");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.magic_button).setVisibility(View.VISIBLE);
-            }
-        });
+        runOnUiThread(() -> findViewById(R.id.magic_button).setVisibility(View.VISIBLE));
     }
 
     public void makeMagicWandButtonInvisible(){
         Log.d(this, "turning button INvisible");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.magic_button).setVisibility(View.INVISIBLE);
-            }
-        });
+        runOnUiThread(() -> findViewById(R.id.magic_button).setVisibility(View.INVISIBLE));
     }
     /* Button opeartions */
 }
