@@ -17,9 +17,6 @@ import java.util.stream.Stream;
 
 public class JavaScriptInterface {
     private static ArrayList<ElementWrapper> selectedElements = generateTestData();
-
-
-
     private String[] validHTMLTags = {"img", "video"};
     WebpageRetrieverActivity webpageRetrieverActivity;
 

@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.utils;
+package com.master.snapshotwizard.components;
 
 import android.view.View;
 
@@ -20,6 +20,7 @@ import com.master.snapshotwizard.adapters.ListRecycleViewAdapter;
 import com.master.snapshotwizard.adapters.ListRecycleViewAdapter.ItemClickListener;
 import com.master.snapshotwizard.models.ListItem;
 import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;
+import com.master.snapshotwizard.utils.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

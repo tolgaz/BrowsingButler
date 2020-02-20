@@ -13,7 +13,6 @@ import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -23,7 +22,7 @@ import androidx.core.app.ActivityCompat;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.components.WebViewClient;
-import com.master.snapshotwizard.utils.Configuration;
+import com.master.snapshotwizard.components.Configuration;
 import com.master.snapshotwizard.utils.Log;
 
 public class WebpageRetrieverActivity extends AppCompatActivity {
