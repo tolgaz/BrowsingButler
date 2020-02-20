@@ -16,8 +16,10 @@ import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.activities.ActivityWithSwitchHandler;
 import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
-import com.master.snapshotwizard.utils.ListRecycleViewAdapter.ItemClickListener;
+import com.master.snapshotwizard.adapters.ListRecycleViewAdapter;
+import com.master.snapshotwizard.adapters.ListRecycleViewAdapter.ItemClickListener;
 import com.master.snapshotwizard.models.ListItem;
+import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

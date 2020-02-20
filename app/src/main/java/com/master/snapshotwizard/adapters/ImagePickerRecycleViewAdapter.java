@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.utils;
+package com.master.snapshotwizard.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.models.ElementWrapper;
+import com.master.snapshotwizard.utils.Log;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -67,7 +68,7 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         }
     }
     // Provide a suitable constructor (depends on the kind of dataset)
-    ImagePickerRecycleViewAdapter(Context context, ArrayList<ElementWrapper> fileDataset) {
+    public ImagePickerRecycleViewAdapter(Context context, ArrayList<ElementWrapper> fileDataset) {
         this.mInflater = LayoutInflater.from(context);
         this.fileDataset = fileDataset;
     }
@@ -118,7 +119,7 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
     }
 
     // allows clicks events to be caught
-    void setClickListener(ListRecycleViewAdapter.ItemClickListener itemClickListener) {
+    public void setClickListener(ListRecycleViewAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 

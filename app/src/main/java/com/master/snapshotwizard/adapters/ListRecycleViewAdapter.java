@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.utils;
+package com.master.snapshotwizard.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.models.ListItem;
+import com.master.snapshotwizard.utils.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleViewAdapter.ListRecycleViewHolder> {
+public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleViewAdapter.ListRecycleViewHolder> {
     private ArrayList<ListItem> listDataset;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -52,7 +53,7 @@ class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleViewAdapter
         }
     }
     // Provide a suitable constructor (depends on the kind of dataset)
-    ListRecycleViewAdapter(Context context, ArrayList<ListItem> listDataset) {
+    public ListRecycleViewAdapter(Context context, ArrayList<ListItem> listDataset) {
         this.mInflater = LayoutInflater.from(context);
         this.listDataset = listDataset;
     }
@@ -80,11 +81,11 @@ class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleViewAdapter
     }
 
     // convenience method for getting data at click position
-    ListItem getItem(int id) {
+    public ListItem getItem(int id) {
         return listDataset.get(id);
     }
     // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
+    public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
     // parent activity will implement this method to respond to click events

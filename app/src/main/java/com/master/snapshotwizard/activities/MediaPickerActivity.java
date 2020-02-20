@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
-import com.master.snapshotwizard.utils.ImagePickerRecycleViewAdapter;
-import com.master.snapshotwizard.utils.ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder;
+import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;
+import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder;
 import com.master.snapshotwizard.utils.Log;
 
 import java.util.ArrayList;
