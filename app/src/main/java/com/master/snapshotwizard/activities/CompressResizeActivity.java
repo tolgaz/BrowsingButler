@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
 import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.utils.Log;
 import com.warkiz.widget.IndicatorSeekBar;

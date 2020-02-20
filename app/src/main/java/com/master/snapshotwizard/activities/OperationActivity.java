@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
 import com.master.snapshotwizard.utils.Log;
 
 public class OperationActivity extends ActivityWithSwitchHandler {

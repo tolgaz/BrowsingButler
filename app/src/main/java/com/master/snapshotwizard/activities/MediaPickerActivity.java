@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
 import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;

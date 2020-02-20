@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.activities;
+package com.master.snapshotwizard.interfaces;
 
 import android.view.View;
 

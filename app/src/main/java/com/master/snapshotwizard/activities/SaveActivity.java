@@ -10,12 +10,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
 import com.master.snapshotwizard.utils.ElementGrabber;
 import com.master.snapshotwizard.utils.Log;
 
 import java.net.MalformedURLException;
 
-public class SaveActivity extends ActivityWithSwitchHandler  {
+public class SaveActivity extends ActivityWithSwitchHandler {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
