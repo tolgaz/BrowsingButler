@@ -14,9 +14,10 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.activities.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.components.ElementWrapper;
+import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.utils.ListRecycleViewAdapter.ItemClickListener;
+import com.master.snapshotwizard.models.ListItem;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

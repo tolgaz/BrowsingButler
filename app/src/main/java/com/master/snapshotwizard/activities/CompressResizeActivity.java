@@ -13,8 +13,6 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -22,13 +20,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 
 import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.components.ElementWrapper;
+import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.utils.Log;
 import com.warkiz.widget.IndicatorSeekBar;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 

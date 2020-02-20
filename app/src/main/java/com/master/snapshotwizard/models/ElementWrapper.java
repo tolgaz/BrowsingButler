@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.components;
+package com.master.snapshotwizard.models;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

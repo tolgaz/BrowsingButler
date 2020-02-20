@@ -3,6 +3,7 @@ package com.master.snapshotwizard.components;
 import android.webkit.JavascriptInterface;
 
 import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
+import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.utils.Log;
 
 import org.jsoup.Jsoup;

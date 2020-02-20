@@ -1,6 +1,6 @@
-package com.master.snapshotwizard.utils;
+package com.master.snapshotwizard.models;
 
-class ListItem {
+public class ListItem {
     private String title;
     private String description;
 

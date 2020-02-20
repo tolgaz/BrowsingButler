@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.models.ListItem;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

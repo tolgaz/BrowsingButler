@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.components.ElementWrapper;
+import com.master.snapshotwizard.models.ElementWrapper;
 
 import java.io.File;
 import java.net.MalformedURLException;
