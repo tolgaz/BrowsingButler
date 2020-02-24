@@ -19,9 +19,13 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 
+import com.arthenica.mobileffmpeg.Config;
+import com.arthenica.mobileffmpeg.FFmpeg;
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
 import com.master.snapshotwizard.models.ElementWrapper;
+import com.master.snapshotwizard.utils.ActivityUtils;
+import com.master.snapshotwizard.utils.FileUtils;
 import com.master.snapshotwizard.utils.Log;
 import com.warkiz.widget.IndicatorSeekBar;
 
@@ -29,12 +33,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import id.zelory.compressor.Compressor;
 
+import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_CANCEL;
+import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class CompressResizeActivity extends ActivityWithSwitchHandler {
+
+    private ActivityUtils activityUtils;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +54,39 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         setContentView(R.layout.activity_compressresize);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
+        this.activityUtils = new ActivityUtils(this);
+    }
+
+    private void handleOnlyVideoElementWrappers() {
+        List<ElementWrapper> nonVideoElementWrappers = WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter()
+                .getFileDataset()
+                .stream()
+                .filter(ElementWrapper::getChosen)
+                .filter(eW -> {
+                    File file = eW.getFile();
+                    String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
+                    return !type.contains("video");
+                }).collect(Collectors.toList());
+        /* if no video ew dont show quality - show resize */
+        if(nonVideoElementWrappers.isEmpty()){
+            CheckBox checkBox = findViewById(R.id.resize_chooser_button);
+            findViewById(R.id.quality_wrapper).setVisibility(View.GONE);
+            checkBox.callOnClick();
+            checkBox.setChecked(true);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this, "onResume");
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
 
         Button applyButton = findViewById(R.id.apply_compress_resize_button);
         applyButton.setOnClickListener(v -> applyCompressResize());
 
         CheckBox resizeCheckbox = findViewById(R.id.resize_chooser_button);
         resizeCheckbox.setOnClickListener(v -> flipVisibilityResizeContainer(applyButton));
-
 
         EditText widthEditText = findViewById(R.id.resize_width_input);
         EditText heightEditText = findViewById(R.id.resize_height_input);
@@ -75,13 +113,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         widthEditText.addTextChangedListener(myTextWatcher);
         heightEditText.addTextChangedListener(myTextWatcher);
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
-        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
+        handleOnlyVideoElementWrappers();
     }
 
     @Override
@@ -129,7 +161,16 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                         File file = elementWrapper.getFile();
                         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
                             /* TODO: support for viddeos */
+                            Log.d(this, "old size:" + Integer.parseInt(String.valueOf(file.length()/1024)));
+                            if(type == null) {
+                                Log.d(this, "ERROR: type is null!! " + file.toString());
+                                return;
+                            }
                             if(type.contains("video")){
+                                String extension = FileUtils.getExtensionFromSrc(file.getName());
+                                String outputFileName = file.getParent() + "/" + FileUtils.getFilenameFromSrc(file.getName()) + "_compressed" + extension;
+                                String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth, resizeHeight, outputFileName);
+                                evaluateFFmpegReturnValue(FFmpeg.execute(cmd));
                             } else {
                                 File compressedFile = compressFile(resizeWidth, resizeHeight, progressBarValue, file);
                                 /* Move and overwrite original image */
@@ -138,9 +179,9 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                     });
         } catch (Exception e){
             Log.d(this, e.getMessage());
-            Log.d(this, "compressQuality: " + ", resizwidth: " + resizeWidthEditText + ", resizehieght: " + resizeHeightEditText);
         }
         Log.d(this, "applyCompressResize done");
+        activityUtils.engageActivityComplete("Media has been successfully compressed/resized and saved!");
     }
 
     private void moveAndOverwriteFile(Path source, Path target) {
@@ -166,6 +207,23 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
             Log.d(this, e.getMessage());
             return null;
         }
+    }
+
+    private void evaluateFFmpegReturnValue(int rc) {
+        if (rc == RETURN_CODE_SUCCESS) {
+            Log.d(Config.TAG, "Command exeecution completed successfully.");
+        } else if (rc == RETURN_CODE_CANCEL) {
+            Log.d(Config.TAG, "Command execution cancelled by user.");
+        } else {
+            Log.d(Config.TAG, String.format("Command execution failed with rc=%d and the output below.", rc));
+            Config.printLastCommandOutput(4);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        activityUtils.transitionBack();
     }
 
     @Override

@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.master.snapshotwizard.R;
 import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
+import com.master.snapshotwizard.utils.ActivityUtils;
 import com.master.snapshotwizard.utils.ElementGrabber;
 import com.master.snapshotwizard.utils.Log;
 
@@ -18,12 +18,15 @@ import java.net.MalformedURLException;
 
 public class SaveActivity extends ActivityWithSwitchHandler {
 
+    private ActivityUtils activityUtils;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
         setContentView(R.layout.activity_save);
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        this.activityUtils = new ActivityUtils(this);
     }
 
     @Override
@@ -49,8 +52,7 @@ public class SaveActivity extends ActivityWithSwitchHandler {
                 /* Save */
                 Log.d(this, "pos 0 ");
                 ElementGrabber.grabElements();
-                displayToastSuccessful();
-                returnBackToOperationScreen();
+                activityUtils.engageActivityComplete("Media has been successfully saved!");
                 break;
             case 1:
                 /* Save and compress */
@@ -74,25 +76,11 @@ public class SaveActivity extends ActivityWithSwitchHandler {
                 Log.d(this, "Swith default");
                 break;
         }
-
-    }
-
-    private void returnBackToOperationScreen() {
-        finish();
-        transitionBack();
-    }
-
-    private void transitionBack() {
-        overridePendingTransition( R.anim.trans_right_in, R.anim.trans_right_out);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        transitionBack();
-    }
-
-    private void displayToastSuccessful() {
-        Toast.makeText(this, "Media has been successfully saved!", Toast.LENGTH_LONG).show();
+        activityUtils.transitionBack();
     }
 }
