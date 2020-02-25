@@ -51,8 +51,8 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
-        setContentView(R.layout.activity_compressresize);
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        this.setContentView(R.layout.activity_compressresize);
+        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         this.activityUtils = new ActivityUtils(this);
     }
@@ -68,9 +68,9 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                     return !type.contains("video");
                 }).collect(Collectors.toList());
         /* if no video ew dont show quality - show resize */
-        if(nonVideoElementWrappers.isEmpty()){
-            CheckBox checkBox = findViewById(R.id.resize_chooser_button);
-            findViewById(R.id.quality_wrapper).setVisibility(View.GONE);
+        if (nonVideoElementWrappers.isEmpty()) {
+            CheckBox checkBox = this.findViewById(R.id.resize_chooser_button);
+            this.findViewById(R.id.quality_wrapper).setVisibility(View.GONE);
             checkBox.callOnClick();
             checkBox.setChecked(true);
         }
@@ -82,26 +82,28 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
 
-        Button applyButton = findViewById(R.id.apply_compress_resize_button);
-        applyButton.setOnClickListener(v -> applyCompressResize());
+        Button applyButton = this.findViewById(R.id.apply_compress_resize_button);
+        applyButton.setOnClickListener(v -> this.applyCompressResize());
 
-        CheckBox resizeCheckbox = findViewById(R.id.resize_chooser_button);
-        resizeCheckbox.setOnClickListener(v -> flipVisibilityResizeContainer(applyButton));
+        CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_button);
+        resizeCheckbox.setOnClickListener(v -> this.flipVisibilityResizeContainer(applyButton));
 
-        EditText widthEditText = findViewById(R.id.resize_width_input);
-        EditText heightEditText = findViewById(R.id.resize_height_input);
+        EditText widthEditText = this.findViewById(R.id.resize_width_input);
+        EditText heightEditText = this.findViewById(R.id.resize_height_input);
 
         TextWatcher myTextWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(widthEditText.getText().toString().equals("") || heightEditText.getText().toString().equals("")){
-                    ViewCompat.setBackgroundTintList(applyButton, ColorStateList.valueOf(getColor(R.color.DarkGray)));
+                if (widthEditText.getText().toString().equals("") || heightEditText.getText().toString().equals("")) {
+                    ViewCompat.setBackgroundTintList(applyButton, ColorStateList.valueOf(CompressResizeActivity.this.getColor(R.color.DarkGray)));
                     applyButton.setClickable(false);
                 } else {
                     ViewCompat.setBackgroundTintList(applyButton, null);
@@ -113,27 +115,27 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         widthEditText.addTextChangedListener(myTextWatcher);
         heightEditText.addTextChangedListener(myTextWatcher);
 
-        handleOnlyVideoElementWrappers();
+        this.handleOnlyVideoElementWrappers();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
 
     private void flipVisibilityResizeContainer(Button applyButton) {
         Log.d(this, "flipVisibilityResizeContainer clicked");
-        ConstraintLayout constraintLayout = findViewById(R.id.container_resize);
+        ConstraintLayout constraintLayout = this.findViewById(R.id.container_resize);
         int visibility = constraintLayout.getVisibility();
-        if(visibility == View.VISIBLE) {
-            ((TextView) findViewById(R.id.resize_width_input)).setText(null);
-            ((TextView) findViewById(R.id.resize_height_input)).setText(null);
+        if (visibility == View.VISIBLE) {
+            ((TextView) this.findViewById(R.id.resize_width_input)).setText(null);
+            ((TextView) this.findViewById(R.id.resize_height_input)).setText(null);
             ViewCompat.setBackgroundTintList(applyButton, null);
             applyButton.setClickable(true);
         } else {
-            ViewCompat.setBackgroundTintList(applyButton, ColorStateList.valueOf(getColor(R.color.DarkGray)));
+            ViewCompat.setBackgroundTintList(applyButton, ColorStateList.valueOf(this.getColor(R.color.DarkGray)));
             applyButton.setClickable(false);
         }
         constraintLayout.setVisibility(visibility == View.GONE ? View.VISIBLE : View.GONE);
@@ -141,13 +143,13 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
 
     private void applyCompressResize() {
         Log.d(this, "applyCompressResize");
-        IndicatorSeekBar seekBar = findViewById(R.id.seekBar);
+        IndicatorSeekBar seekBar = this.findViewById(R.id.seekBar);
         int progressBarValue = seekBar.getProgress();
 
-        EditText resizeWidthEditText = findViewById(R.id.resize_width_input);
-        EditText resizeHeightEditText = findViewById(R.id.resize_height_input);
+        EditText resizeWidthEditText = this.findViewById(R.id.resize_width_input);
+        EditText resizeHeightEditText = this.findViewById(R.id.resize_height_input);
         Log.d(this, "compressQuality: " + progressBarValue);
-        try{
+        try {
             // Try to grab int values
             int resizeWidth = Integer.parseInt(resizeWidthEditText.getText().toString());
             int resizeHeight = Integer.parseInt(resizeHeightEditText.getText().toString());
@@ -160,28 +162,29 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                     .forEach(elementWrapper -> {
                         File file = elementWrapper.getFile();
                         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
-                            /* TODO: support for viddeos */
-                            Log.d(this, "old size:" + Integer.parseInt(String.valueOf(file.length()/1024)));
-                            if(type == null) {
-                                Log.d(this, "ERROR: type is null!! " + file.toString());
-                                return;
-                            }
-                            if(type.contains("video")){
-                                String extension = FileUtils.getExtensionFromSrc(file.getName());
-                                String outputFileName = file.getParent() + "/" + FileUtils.getFilenameFromSrc(file.getName()) + "_compressed" + extension;
-                                String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth, resizeHeight, outputFileName);
-                                evaluateFFmpegReturnValue(FFmpeg.execute(cmd));
-                            } else {
-                                File compressedFile = compressFile(resizeWidth, resizeHeight, progressBarValue, file);
-                                /* Move and overwrite original image */
-                                if(compressedFile != null) moveAndOverwriteFile(compressedFile.toPath(), file.toPath());
-                            }
+                        /* TODO: support for viddeos */
+                        Log.d(this, "old size:" + Integer.parseInt(String.valueOf(file.length() / 1024)));
+                        if (type == null) {
+                            Log.d(this, "ERROR: type is null!! " + file.toString());
+                            return;
+                        }
+                        if (type.contains("video")) {
+                            String extension = FileUtils.getExtensionFromSrc(file.getName());
+                            String outputFileName = file.getParent() + "/" + FileUtils.getFilenameFromSrc(file.getName()) + "_compressed" + extension;
+                            String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth, resizeHeight, outputFileName);
+                            this.evaluateFFmpegReturnValue(FFmpeg.execute(cmd));
+                        } else {
+                            File compressedFile = this.compressFile(resizeWidth, resizeHeight, progressBarValue, file);
+                            /* Move and overwrite original image */
+                            if (compressedFile != null)
+                                this.moveAndOverwriteFile(compressedFile.toPath(), file.toPath());
+                        }
                     });
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.d(this, e.getMessage());
         }
         Log.d(this, "applyCompressResize done");
-        activityUtils.engageActivityComplete("Media has been successfully compressed/resized and saved!");
+        this.activityUtils.engageActivityComplete("Media has been successfully compressed/resized and saved!");
     }
 
     private void moveAndOverwriteFile(Path source, Path target) {
@@ -194,7 +197,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
 
     private File compressFile(int resizeWidth, int resizeHeight, int progressBarValue, File file) {
         /* Compress and resize image, save in tmp cache */
-        try{
+        try {
             return new Compressor(this)
                     .setMaxWidth(resizeWidth)
                     .setMaxHeight(resizeHeight)
@@ -203,7 +206,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                     .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_PICTURES).getAbsolutePath())
                     .compressToFile(file);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.d(this, e.getMessage());
             return null;
         }
@@ -223,7 +226,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        activityUtils.transitionBack();
+        this.activityUtils.transitionBack();
     }
 
     @Override

@@ -20,28 +20,28 @@ public class JavaScriptInterface {
     private String[] validHTMLTags = {"img", "video"};
     WebpageRetrieverActivity webpageRetrieverActivity;
 
-    public JavaScriptInterface(WebpageRetrieverActivity webpageRetrieverActivity){
+    public JavaScriptInterface(WebpageRetrieverActivity webpageRetrieverActivity) {
         this.webpageRetrieverActivity = webpageRetrieverActivity;
     }
 
     @JavascriptInterface
-    public boolean processSelectedElement(String selectedElement){
+    public boolean processSelectedElement(String selectedElement) {
         Log.d(this, "processSelectedElement: " + selectedElement);
         ElementWrapper elementWrapper = new ElementWrapper(Jsoup.parse(selectedElement));
-        if(!checkIfElementIsValidTag(elementWrapper)) return false;
+        if (!this.checkIfElementIsValidTag(elementWrapper)) return false;
         /* It contains the elems, return false, and remove border */
-        ElementWrapper duplicateElement = checkIfElementListContains(elementWrapper);
+        ElementWrapper duplicateElement = this.checkIfElementListContains(elementWrapper);
         if (duplicateElement != null) {
             selectedElements.remove(duplicateElement);
-            if(selectedElements.isEmpty()){
-                webpageRetrieverActivity.makeMagicWandButtonInvisible();
+            if (selectedElements.isEmpty()) {
+                this.webpageRetrieverActivity.makeMagicWandButtonInvisible();
             }
             return false;
         }
         /* Shoiw magic wand if more htan 1 element is selected */
         selectedElements.add(elementWrapper);
-        webpageRetrieverActivity.makeMagicWandButtonVisible();
-        if(elementWrapper.getElement().text().isEmpty()){
+        this.webpageRetrieverActivity.makeMagicWandButtonVisible();
+        if (elementWrapper.getElement().text().isEmpty()) {
             /* Text */
         } else {
             /* Non-text */
@@ -54,21 +54,21 @@ public class JavaScriptInterface {
         /* Currently grab element and find the img tag inside */
         Elements elements = elementWrapper.getElement().getAllElements();
         Element element = null;
-        for(Element tmpElement : elements){
+        for (Element tmpElement : elements) {
             element = tmpElement;
-            if(Arrays.asList(validHTMLTags).contains(element.normalName())) break;
+            if (Arrays.asList(this.validHTMLTags).contains(element.normalName())) break;
             element = null;
         }
-        if(element != null){
+        if (element != null) {
             elementWrapper.setMediaElement(element);
             return true;
         }
-         return false;
+        return false;
     }
 
     private ElementWrapper checkIfElementListContains(ElementWrapper elementWrapper) {
-        for(ElementWrapper eW : selectedElements){
-            if(eW.compareTo(elementWrapper) == 0)  return eW;
+        for (ElementWrapper eW : selectedElements) {
+            if (eW.compareTo(elementWrapper) == 0) return eW;
         }
         return null;
     }
@@ -79,12 +79,12 @@ public class JavaScriptInterface {
 
     private static ArrayList<ElementWrapper> generateTestData() {
         return (ArrayList<ElementWrapper>) Stream.of(
-            new ElementWrapper(Jsoup.parse("<video id=\"video-G2UMu6l\" class=\"Video-element\" poster=\"https://i.imgur.com/G2UMu6l_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/G2UMu6l.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>")),
-            new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/spu7fxm_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
-            new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/MHhF1n9_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
-            new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/LmxlQup_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
-            new ElementWrapper(Jsoup.parse("<video id=\"video-DcJglzN\" class=\"Video-element\" poster=\"https://i.imgur.com/DcJglzN_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/DcJglzN.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>"))
+                new ElementWrapper(Jsoup.parse("<video id=\"video-G2UMu6l\" class=\"Video-element\" poster=\"https://i.imgur.com/G2UMu6l_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/G2UMu6l.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>")),
+                new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/spu7fxm_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
+                new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/MHhF1n9_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
+                new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/LmxlQup_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
+                new ElementWrapper(Jsoup.parse("<video id=\"video-DcJglzN\" class=\"Video-element\" poster=\"https://i.imgur.com/DcJglzN_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/DcJglzN.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>"))
         ).collect(Collectors.toList());
-    };
+    }
 
 }

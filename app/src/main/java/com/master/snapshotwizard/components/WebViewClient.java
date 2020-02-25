@@ -15,15 +15,15 @@ public class WebViewClient extends android.webkit.WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        Log.d(this, "MainURL: " + mainUrl + ", request: " + request.getUrl());
-        String url = removeKeywords(request.getUrl().toString());
-        if (url.equals(mainUrl)) {
+        Log.d(this, "MainURL: " + this.mainUrl + ", request: " + request.getUrl());
+        String url = this.removeKeywords(request.getUrl().toString());
+        if (url.equals(this.mainUrl)) {
             view.loadUrl(url);
         }
         return false;
     }
 
-    private String removeKeywords(String url){
+    private String removeKeywords(String url) {
         return url.replace("//m.", "//");
     }
 
@@ -32,12 +32,12 @@ public class WebViewClient extends android.webkit.WebViewClient {
         super.onPageFinished(view, url);
         String js = "javascript: " +
                 /* Adds border around clicked elem */
-                "        document.addEventListener(\'click\', function (e) {\n"+
-                "           e.stopPropagation();\n"+
-                "           e.preventDefault();\n"+
+                "        document.addEventListener(\'click\', function (e) {\n" +
+                "           e.stopPropagation();\n" +
+                "           e.preventDefault();\n" +
                 "           e = e || window.event;\n" +
                 "           var target = e.target || e.srcElement; \n" +
-                            /* Set target.style preemptively */
+                /* Set target.style preemptively */
                 "           target.style = \"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\" \n" +
                 "           const processedValue = JSInterface.processSelectedElement(target.outerHTML); \n" +
                 "           if(!processedValue) target.style = \"border-color: transparent; border-width: 0; \" " +

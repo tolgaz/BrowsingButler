@@ -10,11 +10,11 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 
 import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.models.ElementWrapper;
-import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;
 import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder;
+import com.master.snapshotwizard.components.JavaScriptInterface;
+import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
+import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.utils.Log;
 
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
-        setContentView(R.layout.activity_mediapicker);
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        this.setContentView(R.layout.activity_mediapicker);
+        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
-        Button selectAll = findViewById(R.id.select_all);
+        Button selectAll = this.findViewById(R.id.select_all);
         selectAll.setOnClickListener(v -> {
             Log.d(this, "selectAll clicked");
             ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter = WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter();
@@ -38,9 +38,9 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
             elementWrappers.forEach(eW -> eW.setChosen(true));
         });
 
-        Button continueCompress = findViewById(R.id.continue_compress);
-        continueCompress.setOnClickListener(v -> startCompressResizeActivity());
-   }
+        Button continueCompress = this.findViewById(R.id.continue_compress);
+        continueCompress.setOnClickListener(v -> this.startCompressResizeActivity());
+    }
 
     @Override
     protected void onResume() {
@@ -52,11 +52,12 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
 
+    @Override
     public void switchHandler(View view, int position) {
         Log.d(this, "switchHandler");
         ElementWrapper clickedElementWrapper = JavaScriptInterface.getSelectedElements().get(position);
@@ -67,7 +68,7 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
 
     public void startCompressResizeActivity() {
         Log.d(this, "startCompressResizeActivity clicked");
-        startActivity(new Intent(this, CompressResizeActivity.class));
+        this.startActivity(new Intent(this, CompressResizeActivity.class));
     }
 
 }

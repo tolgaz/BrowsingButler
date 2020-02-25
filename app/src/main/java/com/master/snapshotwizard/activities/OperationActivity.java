@@ -24,20 +24,20 @@ public class OperationActivity extends ActivityWithSwitchHandler {
         super.onCreate(savedInstanceState);
 
         Log.d(this);
-        setContentView(R.layout.activity_operation);
-        if(firstRun){
+        this.setContentView(R.layout.activity_operation);
+        if (firstRun) {
             firstRun = false;
-            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+            this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         }
         /* Only for when WebPageRetriver is not used - TESTING */
-        WebpageRetrieverActivity.URL = getResources().getString(R.string.main_url);
+        WebpageRetrieverActivity.URL = this.getResources().getString(R.string.main_url);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 1);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-  }
+    }
 
     @Override
     protected void onResume() {
@@ -49,18 +49,18 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
 
     @Override
     public void switchHandler(View view, int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 /* Save */
                 Log.d(this, "Swith 0");
-                startActivity(new Intent(this, SaveActivity.class));
+                this.startActivity(new Intent(this, SaveActivity.class));
                 break;
             case 1:
                 /* Share via */

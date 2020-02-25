@@ -24,8 +24,8 @@ public class SaveActivity extends ActivityWithSwitchHandler {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
-        setContentView(R.layout.activity_save);
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        this.setContentView(R.layout.activity_save);
+        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         this.activityUtils = new ActivityUtils(this);
     }
 
@@ -40,25 +40,25 @@ public class SaveActivity extends ActivityWithSwitchHandler {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
 
     @Override
     public void switchHandler(View view, int position) throws MalformedURLException {
-        switch (position){
+        switch (position) {
             case 0:
                 /* Save */
                 Log.d(this, "pos 0 ");
                 ElementGrabber.grabElements();
-                activityUtils.engageActivityComplete("Media has been successfully saved!");
+                this.activityUtils.engageActivityComplete("Media has been successfully saved!");
                 break;
             case 1:
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
                 ElementGrabber.grabElements();
-                startActivity(new Intent(this, MediaPickerActivity.class));
+                this.startActivity(new Intent(this, MediaPickerActivity.class));
                 break;
             case 2:
                 /* Save and share */
@@ -81,6 +81,6 @@ public class SaveActivity extends ActivityWithSwitchHandler {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        activityUtils.transitionBack();
+        this.activityUtils.transitionBack();
     }
 }

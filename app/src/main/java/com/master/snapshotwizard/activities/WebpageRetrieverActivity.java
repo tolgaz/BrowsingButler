@@ -20,9 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.master.snapshotwizard.R;
+import com.master.snapshotwizard.components.Configuration;
 import com.master.snapshotwizard.components.JavaScriptInterface;
 import com.master.snapshotwizard.components.WebViewClient;
-import com.master.snapshotwizard.components.Configuration;
 import com.master.snapshotwizard.utils.Log;
 
 public class WebpageRetrieverActivity extends AppCompatActivity {
@@ -34,13 +34,13 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
-        Bundle intentExtras = getIntent().getExtras();
-        if(intentExtras  != null) URL = intentExtras.getString("android.intent.extra.TEXT");
-        if (URL == null) URL = getResources().getString(R.string.main_url);
+        Bundle intentExtras = this.getIntent().getExtras();
+        if (intentExtras != null) URL = intentExtras.getString("android.intent.extra.TEXT");
+        if (URL == null) URL = this.getResources().getString(R.string.main_url);
 
-        setContentView(R.layout.activity_webpageretriever);
-        ImageButton magicButton = findViewById(R.id.magic_button);
-        magicButton.setOnClickListener(v -> startOperationActivity());
+        this.setContentView(R.layout.activity_webpageretriever);
+        ImageButton magicButton = this.findViewById(R.id.magic_button);
+        magicButton.setOnClickListener(v -> this.startOperationActivity());
 
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -50,12 +50,12 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         configuration.configureToolbar(this, R.string.toolbar_main);
-        loadWebpage();
+        this.loadWebpage();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
@@ -63,12 +63,12 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     @SuppressLint("JavascriptInterface")
     private void loadWebpage() {
         Log.d(this);
-        WebView webView = findViewById(R.id.webviewer);
-        createAndConfigureWebView(webView);
+        WebView webView = this.findViewById(R.id.webviewer);
+        this.createAndConfigureWebView(webView);
         webView.loadUrl(URL);
     }
 
-    private void createAndConfigureWebView(WebView webView){
+    private void createAndConfigureWebView(WebView webView) {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -85,6 +85,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         });
 
         webView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
             public boolean onTouch(View v, MotionEvent event) {
                 WebView.HitTestResult hr = ((WebView) v).getHitTestResult();
                 Log.d(this, "getExtra = " + hr.getExtra() + "\t\t Type=" + hr.getType());
@@ -95,17 +96,17 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
 
     /* Button operations */
     public void startOperationActivity() {
-        startActivity(new Intent(this, OperationActivity.class));
+        this.startActivity(new Intent(this, OperationActivity.class));
     }
 
-    public void makeMagicWandButtonVisible(){
+    public void makeMagicWandButtonVisible() {
         Log.d(this, "turning button visible");
-        runOnUiThread(() -> findViewById(R.id.magic_button).setVisibility(View.VISIBLE));
+        this.runOnUiThread(() -> this.findViewById(R.id.magic_button).setVisibility(View.VISIBLE));
     }
 
-    public void makeMagicWandButtonInvisible(){
+    public void makeMagicWandButtonInvisible() {
         Log.d(this, "turning button INvisible");
-        runOnUiThread(() -> findViewById(R.id.magic_button).setVisibility(View.INVISIBLE));
+        this.runOnUiThread(() -> this.findViewById(R.id.magic_button).setVisibility(View.INVISIBLE));
     }
     /* Button opeartions */
 }

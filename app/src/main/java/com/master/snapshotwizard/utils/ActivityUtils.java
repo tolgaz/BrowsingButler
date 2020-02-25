@@ -11,28 +11,28 @@ public class ActivityUtils {
 
     private Activity activity;
 
-    public ActivityUtils(Activity activity){
+    public ActivityUtils(Activity activity) {
         this.activity = activity;
     }
 
     public void engageActivityComplete(String text) {
-        displayToastSuccessful(text);
-        returnBackToOperationScreen();
+        this.displayToastSuccessful(text);
+        this.returnBackToOperationScreen();
     }
 
     private void displayToastSuccessful(String text) {
-        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(this.activity, text, Toast.LENGTH_LONG).show();
     }
 
     private void returnBackToOperationScreen() {
-        Intent intent = new Intent(activity, OperationActivity.class);
+        Intent intent = new Intent(this.activity, OperationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(intent);
-        transitionBack();
+        this.activity.startActivity(intent);
+        this.transitionBack();
     }
 
     public void transitionBack() {
-        activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+        this.activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 
 }

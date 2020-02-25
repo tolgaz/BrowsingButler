@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 
 import java.io.File;
 
-public class ElementWrapper implements Comparable{
+public class ElementWrapper implements Comparable {
 
     private Element element;
     private Document document;
@@ -13,40 +13,40 @@ public class ElementWrapper implements Comparable{
     private File file;
     private Boolean chosen;
 
-    public ElementWrapper(Document document){
+    public ElementWrapper(Document document) {
         this.document = document;
         this.element = document.body().child(0);
         this.chosen = false;
     }
 
-    public String getNormalName(){
-        return element.normalName();
+    public String getNormalName() {
+        return this.element.normalName();
     }
 
-    public String getMediaElementNormalName(){
-        return mediaElement.normalName();
+    public String getMediaElementNormalName() {
+        return this.mediaElement.normalName();
     }
 
 
     public Element getElement() {
-        return element;
+        return this.element;
     }
 
     public Document getDocument() {
-        return document;
+        return this.document;
     }
 
     @Override
     public int compareTo(Object o) {
-        if(o instanceof ElementWrapper){
+        if (o instanceof ElementWrapper) {
             ElementWrapper elementWrapper = (ElementWrapper) o;
-            if(this.element.outerHtml().equals(elementWrapper.getElement().outerHtml())) return 0;
+            if (this.element.outerHtml().equals(elementWrapper.getElement().outerHtml())) return 0;
         }
         return -1;
     }
 
     public Element getMediaElement() {
-        return mediaElement;
+        return this.mediaElement;
     }
 
     public void setMediaElement(Element mediaElement) {
@@ -58,11 +58,11 @@ public class ElementWrapper implements Comparable{
     }
 
     public File getFile() {
-        return file;
+        return this.file;
     }
 
     public Boolean getChosen() {
-        return chosen;
+        return this.chosen;
     }
 
     public void setChosen(Boolean chosen) {

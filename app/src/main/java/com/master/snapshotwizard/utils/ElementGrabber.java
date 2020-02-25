@@ -3,8 +3,8 @@ package com.master.snapshotwizard.utils;
 import android.os.Environment;
 
 import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
-import com.master.snapshotwizard.models.ElementWrapper;
 import com.master.snapshotwizard.components.JavaScriptInterface;
+import com.master.snapshotwizard.models.ElementWrapper;
 
 import org.jsoup.nodes.Element;
 
@@ -95,7 +95,8 @@ public class ElementGrabber {
     }
 
     private static String removeUnderscoreDIfExists(String filename) {
-        if(filename.length() > 2 && filename.endsWith("_d")) return filename.substring(0, filename.length() - 2);
+        if (filename.length() > 2 && filename.endsWith("_d"))
+            return filename.substring(0, filename.length() - 2);
         return filename;
     }
 

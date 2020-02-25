@@ -4,16 +4,16 @@ public class ListItem {
     private String title;
     private String description;
 
-    public ListItem (String title, String description){
+    public ListItem(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 }
