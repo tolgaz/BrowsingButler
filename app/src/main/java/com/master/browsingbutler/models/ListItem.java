@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.models;
+package com.master.browsingbutler.models;
 
 public class ListItem {
     private String title;

@@ -1,10 +1,10 @@
-package com.master.snapshotwizard.utils;
+package com.master.browsingbutler.utils;
 
 import android.app.Activity;
 
 public class Log {
 
-    private static final String TAG = "SNAPSHOTWIZARD";
+    private static final String TAG = "BROWSINGBUTLER";
 
     private static String getClassName(Class a) {
         return a.getSimpleName();

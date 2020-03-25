@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.activities;
+package com.master.browsingbutler.activities;
 
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -21,12 +21,12 @@ import androidx.core.view.ViewCompat;
 
 import com.arthenica.mobileffmpeg.Config;
 import com.arthenica.mobileffmpeg.FFmpeg;
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.models.ElementWrapper;
-import com.master.snapshotwizard.utils.ActivityUtils;
-import com.master.snapshotwizard.utils.FileUtils;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
+import com.master.browsingbutler.models.ElementWrapper;
+import com.master.browsingbutler.utils.ActivityUtils;
+import com.master.browsingbutler.utils.FileUtils;
+import com.master.browsingbutler.utils.Log;
 import com.warkiz.widget.IndicatorSeekBar;
 
 import java.io.File;

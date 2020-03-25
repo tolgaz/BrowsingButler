@@ -1,4 +1,4 @@
-package com.master.snapshotwizard;
+package com.master.browsingbutler;
 
 import org.junit.Test;
 

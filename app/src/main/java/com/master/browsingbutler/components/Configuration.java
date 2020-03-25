@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.components;
+package com.master.browsingbutler.components;
 
 import android.view.View;
 
@@ -12,14 +12,14 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;
-import com.master.snapshotwizard.adapters.ListRecycleViewAdapter;
-import com.master.snapshotwizard.adapters.ListRecycleViewAdapter.ItemClickListener;
-import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.models.ElementWrapper;
-import com.master.snapshotwizard.models.ListItem;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter;
+import com.master.browsingbutler.adapters.ListRecycleViewAdapter;
+import com.master.browsingbutler.adapters.ListRecycleViewAdapter.ItemClickListener;
+import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
+import com.master.browsingbutler.models.ElementWrapper;
+import com.master.browsingbutler.models.ListItem;
+import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

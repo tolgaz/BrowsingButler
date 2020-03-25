@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.utils;
+package com.master.browsingbutler.utils;
 
 public class FileUtils {
     public static String getExtensionFromSrc(String name) {

@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.interfaces;
+package com.master.browsingbutler.interfaces;
 
 import android.view.View;
 

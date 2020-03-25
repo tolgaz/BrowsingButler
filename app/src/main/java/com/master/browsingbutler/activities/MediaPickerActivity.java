@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.activities;
+package com.master.browsingbutler.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter;
-import com.master.snapshotwizard.adapters.ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder;
-import com.master.snapshotwizard.components.JavaScriptInterface;
-import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.models.ElementWrapper;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter;
+import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder;
+import com.master.browsingbutler.components.JavaScriptInterface;
+import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
+import com.master.browsingbutler.models.ElementWrapper;
+import com.master.browsingbutler.utils.Log;
 
 import java.util.ArrayList;
 

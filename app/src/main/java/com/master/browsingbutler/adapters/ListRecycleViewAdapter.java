@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.adapters;
+package com.master.browsingbutler.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.models.ListItem;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.models.ListItem;
+import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

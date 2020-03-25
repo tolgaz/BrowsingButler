@@ -1,10 +1,10 @@
-package com.master.snapshotwizard.utils;
+package com.master.browsingbutler.utils;
 
 import android.os.Environment;
 
-import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
-import com.master.snapshotwizard.components.JavaScriptInterface;
-import com.master.snapshotwizard.models.ElementWrapper;
+import com.master.browsingbutler.activities.WebpageRetrieverActivity;
+import com.master.browsingbutler.components.JavaScriptInterface;
+import com.master.browsingbutler.models.ElementWrapper;
 
 import org.jsoup.nodes.Element;
 
@@ -107,7 +107,7 @@ public class ElementGrabber {
 
     private static File createDirectory() throws MalformedURLException {
         Log.d(TAG, "createFileAndDirectory started");
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/SnapshotWizard/" + trimSrcToHostDomain(WebpageRetrieverActivity.URL));
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/BrowsingButler/" + trimSrcToHostDomain(WebpageRetrieverActivity.URL));
         if (!folder.mkdirs()) Log.d("ElementGrabber", "mkDir faileD");
         Log.d(TAG, "createFileAndDirectory ended");
         return folder;

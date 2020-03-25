@@ -1,7 +1,7 @@
 <resources>
     <string name="main_url">https://m.imgur.com/</string>
 
-    <string name="app_name">SnapshotWizard</string>
+    <string name="app_name">BrowsingButler</string>
     <string name="title_activity_main2">Main2Activity</string>
 
     <!-- Toolbar -->

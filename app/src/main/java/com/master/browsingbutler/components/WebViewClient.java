@@ -1,10 +1,10 @@
-package com.master.snapshotwizard.components;
+package com.master.browsingbutler.components;
 
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.utils.Log;
 
 public class WebViewClient extends android.webkit.WebViewClient {
     private String mainUrl;

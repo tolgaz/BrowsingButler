@@ -1,11 +1,11 @@
-package com.master.snapshotwizard.utils;
+package com.master.browsingbutler.utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.activities.OperationActivity;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.activities.OperationActivity;
 
 public class ActivityUtils {
 

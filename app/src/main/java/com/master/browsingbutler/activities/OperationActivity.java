@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.activities;
+package com.master.browsingbutler.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -11,9 +11,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
+import com.master.browsingbutler.utils.Log;
 
 public class OperationActivity extends ActivityWithSwitchHandler {
 

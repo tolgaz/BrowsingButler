@@ -1,10 +1,10 @@
-package com.master.snapshotwizard.components;
+package com.master.browsingbutler.components;
 
 import android.webkit.JavascriptInterface;
 
-import com.master.snapshotwizard.activities.WebpageRetrieverActivity;
-import com.master.snapshotwizard.models.ElementWrapper;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.activities.WebpageRetrieverActivity;
+import com.master.browsingbutler.models.ElementWrapper;
+import com.master.browsingbutler.utils.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;

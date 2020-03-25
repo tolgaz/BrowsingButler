@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.adapters;
+package com.master.browsingbutler.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,9 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.models.ElementWrapper;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.models.ElementWrapper;
+import com.master.browsingbutler.utils.Log;
 
 import java.io.File;
 import java.net.MalformedURLException;

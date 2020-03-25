@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.activities;
+package com.master.browsingbutler.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,11 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.interfaces.ActivityWithSwitchHandler;
-import com.master.snapshotwizard.utils.ActivityUtils;
-import com.master.snapshotwizard.utils.ElementGrabber;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
+import com.master.browsingbutler.utils.ActivityUtils;
+import com.master.browsingbutler.utils.ElementGrabber;
+import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
 

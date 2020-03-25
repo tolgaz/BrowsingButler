@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.activities;
+package com.master.browsingbutler.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,11 +19,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.master.snapshotwizard.R;
-import com.master.snapshotwizard.components.Configuration;
-import com.master.snapshotwizard.components.JavaScriptInterface;
-import com.master.snapshotwizard.components.WebViewClient;
-import com.master.snapshotwizard.utils.Log;
+import com.master.browsingbutler.R;
+import com.master.browsingbutler.components.Configuration;
+import com.master.browsingbutler.components.JavaScriptInterface;
+import com.master.browsingbutler.components.WebViewClient;
+import com.master.browsingbutler.utils.Log;
 
 public class WebpageRetrieverActivity extends AppCompatActivity {
     /* TODO: Grab from intent */

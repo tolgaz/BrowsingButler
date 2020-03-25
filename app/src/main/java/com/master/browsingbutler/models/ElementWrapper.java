@@ -1,4 +1,4 @@
-package com.master.snapshotwizard.models;
+package com.master.browsingbutler.models;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

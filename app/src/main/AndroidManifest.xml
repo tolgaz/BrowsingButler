@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.master.snapshotwizard">
+    package="com.master.browsingbutler">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <!--         <activity android:name=".activities.WebpageRetrieverActivity"> -->
-        <activity android:name=".activities.OperationActivity">
+        <activity android:name="com.master.browsingbutler.activities.OperationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,9 +33,9 @@
                 <data android:mimeType="application/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SaveActivity" />
-        <activity android:name=".activities.MediaPickerActivity" />
-        <activity android:name=".activities.CompressResizeActivity" />
+        <activity android:name="com.master.browsingbutler.activities.SaveActivity" />
+        <activity android:name="com.master.browsingbutler.activities.MediaPickerActivity" />
+        <activity android:name="com.master.browsingbutler.activities.CompressResizeActivity" />
     </application>
 
 </manifest>
