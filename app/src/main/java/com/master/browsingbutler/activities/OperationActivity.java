@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.components.ShareViaOpenWithHandler;
 import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.utils.Log;
 
@@ -65,6 +66,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
             case 1:
                 /* Share via */
                 Log.d(this, "Swith 1");
+                ShareViaOpenWithHandler.onlyShare(this);
                 break;
             case 2:
                 /* Share via */

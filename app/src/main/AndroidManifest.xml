@@ -36,6 +36,17 @@
         <activity android:name="com.master.browsingbutler.activities.SaveActivity" />
         <activity android:name="com.master.browsingbutler.activities.MediaPickerActivity" />
         <activity android:name="com.master.browsingbutler.activities.CompressResizeActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.master.browsingbutler.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!-- ressource file to create -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

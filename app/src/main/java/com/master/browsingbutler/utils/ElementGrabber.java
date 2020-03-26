@@ -49,7 +49,7 @@ public class ElementGrabber {
         }
     }
 
-    private static String trimURL(ElementWrapper elementWrapper) throws MalformedURLException {
+    public static String trimURL(ElementWrapper elementWrapper) throws MalformedURLException {
         String src = getSourceLink(elementWrapper);
         URL url = new URL(src);
         String protocol = url.getProtocol();

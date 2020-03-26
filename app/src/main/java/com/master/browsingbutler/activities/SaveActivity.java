@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.components.ShareViaOpenWithHandler;
 import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.ElementGrabber;
@@ -63,6 +64,8 @@ public class SaveActivity extends ActivityWithSwitchHandler {
             case 2:
                 /* Save and share */
                 Log.d(this, "pos 2 ");
+                ElementGrabber.grabElements();
+                ShareViaOpenWithHandler.saveAndShare(this);
                 break;
             case 3:
                 /* Save and apply script */
