@@ -36,6 +36,7 @@
         <activity android:name="com.master.browsingbutler.activities.SaveActivity" />
         <activity android:name="com.master.browsingbutler.activities.MediaPickerActivity" />
         <activity android:name="com.master.browsingbutler.activities.CompressResizeActivity" />
+        <activity android:name=".activities.ScriptActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

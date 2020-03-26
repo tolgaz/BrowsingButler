@@ -45,16 +45,12 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class CompressResizeActivity extends ActivityWithSwitchHandler {
 
-    private ActivityUtils activityUtils;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
         this.setContentView(R.layout.activity_compressresize);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-
-        this.activityUtils = new ActivityUtils(this);
     }
 
     private void handleOnlyVideoElementWrappers() {
@@ -184,7 +180,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
             Log.d(this, e.getMessage());
         }
         Log.d(this, "applyCompressResize done");
-        this.activityUtils.engageActivityComplete("Media has been successfully compressed/resized and saved!");
+        ActivityUtils.engageActivityComplete(this, "Media has been successfully compressed/resized and saved!");
     }
 
     private void moveAndOverwriteFile(Path source, Path target) {
@@ -226,7 +222,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        this.activityUtils.transitionBack();
+        ActivityUtils.transitionBack(this);
     }
 
     @Override

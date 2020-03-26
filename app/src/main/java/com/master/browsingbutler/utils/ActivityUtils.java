@@ -8,31 +8,23 @@ import com.master.browsingbutler.R;
 import com.master.browsingbutler.activities.OperationActivity;
 
 public class ActivityUtils {
-
-    private Activity activity;
-
-    public ActivityUtils(Activity activity) {
-        this.activity = activity;
+    public static void engageActivityComplete(Activity activity, String text) {
+        displayToastSuccessful(activity, text);
+        returnBackToOperationScreen(activity);
     }
 
-    public void engageActivityComplete(String text) {
-        this.displayToastSuccessful(text);
-        this.returnBackToOperationScreen();
+    private static void displayToastSuccessful(Activity activity, String text) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
     }
 
-    private void displayToastSuccessful(String text) {
-        Toast.makeText(this.activity, text, Toast.LENGTH_LONG).show();
-    }
-
-    private void returnBackToOperationScreen() {
-        Intent intent = new Intent(this.activity, OperationActivity.class);
+    private static void returnBackToOperationScreen(Activity activity) {
+        Intent intent = new Intent(activity, OperationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        this.activity.startActivity(intent);
-        this.transitionBack();
+        activity.startActivity(intent);
+        transitionBack(activity);
     }
 
-    public void transitionBack() {
-        this.activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    public static void transitionBack(Activity activity) {
+        activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
-
 }

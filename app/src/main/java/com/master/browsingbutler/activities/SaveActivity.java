@@ -19,15 +19,12 @@ import java.net.MalformedURLException;
 
 public class SaveActivity extends ActivityWithSwitchHandler {
 
-    private ActivityUtils activityUtils;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
         this.setContentView(R.layout.activity_save);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-        this.activityUtils = new ActivityUtils(this);
     }
 
     @Override
@@ -53,7 +50,7 @@ public class SaveActivity extends ActivityWithSwitchHandler {
                 /* Save */
                 Log.d(this, "pos 0 ");
                 ElementGrabber.grabElements();
-                this.activityUtils.engageActivityComplete("Media has been successfully saved!");
+                ActivityUtils.engageActivityComplete(this, "Media has been successfully saved!");
                 break;
             case 1:
                 /* Save and compress */
@@ -84,6 +81,6 @@ public class SaveActivity extends ActivityWithSwitchHandler {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        this.activityUtils.transitionBack();
+        ActivityUtils.transitionBack(this);
     }
 }
