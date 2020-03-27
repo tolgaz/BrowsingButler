@@ -3,75 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/first_line"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            android:singleLine="true"
+            android:text="This is the title line"
+            android:textColor="@color/primaryLine"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/wrench_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF"
+            android:visibility="gone"
+            app:srcCompat="@android:drawable/ic_menu_preferences" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/first_line"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:singleLine="true"
-                android:text="This is the title line"
-                android:textColor="@color/primaryLine"
-                android:textSize="18sp" />
-
-            <ImageButton
-                android:id="@+id/wrench_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="#00FFFFFF"
-                android:visibility="gone"
-                app:srcCompat="@android:drawable/ic_menu_preferences" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/second_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/second_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:text="Do operations combined with saving elements. E.g., sharing, compressing, resizing, applying scripts or searching on Google."
-                android:textColor="@color/secondaryLine"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <!-- <LinearLayout
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
-            android:orientation = "horizontal">
-
-            <TextView
-                android:id = "@+id/third_line"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:textColor = "@color/secondaryLine"
-                android:textSize = "14sp"
-                android:fontFamily="sans-serif"
-                android:text = "This is the third line" />
-        </LinearLayout> -->
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            android:text="Do operations combined with saving elements. E.g., sharing, compressing, resizing, applying scripts or searching on Google."
+            android:textColor="@color/secondaryLine"
+            android:textSize="16sp" />
     </LinearLayout>
+
+    <!-- <LinearLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:orientation = "horizontal">
+
+        <TextView
+            android:id = "@+id/third_line"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor = "@color/secondaryLine"
+            android:textSize = "14sp"
+            android:fontFamily="sans-serif"
+            android:text = "This is the third line" />
+    </LinearLayout> -->
 </LinearLayout>

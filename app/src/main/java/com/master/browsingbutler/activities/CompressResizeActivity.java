@@ -22,7 +22,6 @@ import androidx.core.view.ViewCompat;
 import com.arthenica.mobileffmpeg.Config;
 import com.arthenica.mobileffmpeg.FFmpeg;
 import com.master.browsingbutler.R;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.FileUtils;

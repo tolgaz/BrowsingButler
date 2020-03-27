@@ -1,5 +1,6 @@
-package com.master.browsingbutler.interfaces;
+package com.master.browsingbutler.activities;
 
+import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -23,6 +24,7 @@ public abstract class ActivityWithSwitchHandler extends AppCompatActivity {
                 return true;
             case R.id.menu_script_settings:
                 Log.d("onOptionsItemSelected", "script!");
+                this.startActivity(new Intent(this, ScriptActivity.class));
                 return true;
             case R.id.menu_FAQ:
                 Log.d("onOptionsItemSelected", "faq!");

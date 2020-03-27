@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.components.Scripts;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.utils.Log;
 
 public class OperationActivity extends ActivityWithSwitchHandler {
@@ -38,6 +38,8 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        /* only tempoararry this shoudl bne in the activity first launched */
+        Scripts.initScripts(this);
     }
 
     @Override

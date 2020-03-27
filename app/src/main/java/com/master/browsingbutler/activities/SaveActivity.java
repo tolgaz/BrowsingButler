@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.ElementGrabber;
 import com.master.browsingbutler.utils.Log;

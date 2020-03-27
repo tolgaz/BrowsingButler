@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.Configuration;
 import com.master.browsingbutler.components.JavaScriptInterface;
+import com.master.browsingbutler.components.Scripts;
 import com.master.browsingbutler.components.WebViewClient;
 import com.master.browsingbutler.utils.Log;
 
@@ -50,6 +51,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         configuration.configureToolbar(this, R.string.toolbar_main);
+        Scripts.initScripts(this);
         this.loadWebpage();
     }
 

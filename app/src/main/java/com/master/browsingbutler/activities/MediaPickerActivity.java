@@ -13,7 +13,6 @@ import com.master.browsingbutler.R;
 import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter;
 import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder;
 import com.master.browsingbutler.components.JavaScriptInterface;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.utils.Log;
 

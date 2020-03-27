@@ -10,6 +10,7 @@
     <string name="toolbar_save_screen">Choose a save operation</string>
     <string name="toolbar_media_picker_screen">Save and compress</string>
     <string name="toolbar_compress_resize_screen">Save and compress</string>
+    <string name="toolbar_script_screen">Script settings</string>
 
     <!-- Operation screen, user chooses what operation -->
     <string name="operations_save_title">Save..</string>
@@ -32,5 +33,13 @@
     <string name="save_script_desc">Apply scripts on downloaded elements. Script options can be found by pressing the wrench</string>
     <string name="save_google_title">Save and search on Google</string>
     <string name="save_google_desc">Choose elements to create a search query on Google.</string>
+
+
+    <!-- Premade script info -->
+    <string name="compresTo50_title">Compress all elements to 50%</string>
+    <string name="compresTo50_desc">Downloads all elements and compresses themto half their quality.</string>
+    <string name="downloadAndSend_title">Download all elements and send them through email</string>
+    <string name="downloadAndSend_desc">Firstly downloads all elements and then opens a new mail with the elements as attachments.</string>
+
 
 </resources>

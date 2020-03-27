@@ -69,7 +69,6 @@
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="200dp"
-
                 android:layout_height="100dp"
                 android:layout_marginEnd="22dp"
                 android:layout_marginBottom="14dp"
@@ -92,9 +91,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </com.warkiz.widget.IndicatorStayLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
