@@ -184,7 +184,6 @@
 
         <ImageButton
             android:id="@+id/script_selection_button"
-            style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -213,6 +212,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="32dp"
             android:background="@drawable/button_outline_green"
+            android:clickable="true"
             android:minWidth="96dp"
             android:text="Create script"
             android:textAllCaps="false"

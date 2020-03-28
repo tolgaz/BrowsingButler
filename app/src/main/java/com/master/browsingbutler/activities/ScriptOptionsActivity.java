@@ -43,6 +43,11 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler {
         TextView desc = this.findViewById(R.id.input_script_desc);
         desc.setText(script.getDescription());
 
+        createAndAddTextWatchers(title, desc);
+
+    }
+
+    private void createAndAddTextWatchers(TextView title, TextView desc) {
         TextWatcher titleTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
