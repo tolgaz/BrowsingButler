@@ -2,9 +2,7 @@ package com.master.browsingbutler.models;
 
 import androidx.annotation.NonNull;
 
-import java.io.Serializable;
-
-public class Script implements Serializable {
+public class Script {
     private static int scriptCounter = 0;
 
     public enum Type {
@@ -24,10 +22,7 @@ public class Script implements Serializable {
     }
 
     public Script(String title, String description) {
-        this.title = title;
-        this.description = description;
-        this.isPremade = false;
-        this.ID = scriptCounter++;
+        this(title, description, false);
     }
 
     public String getTitle() {
