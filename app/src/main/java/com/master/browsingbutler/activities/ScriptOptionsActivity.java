@@ -35,6 +35,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
     Script script;
     boolean newScript;
+    boolean hasChangeBeenMade = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +92,8 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
                 createScriptButton.setText("Save changes");
                 deleteScriptButton.setOnClickListener(v -> {
                     Scripts.deleteScript(this.script);
+                    //toast script deleted
+                    ActivityUtils.displayToastSuccessful(this, getString(R.string.toast_script_deleted));
                     this.onBackPressed();
                 });
             } else {
@@ -98,12 +101,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             }
             scriptActionButton.setOnClickListener(v -> actionSpinner.performClick());
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
-            createScriptButton.setOnClickListener(v -> {
-                /* validate input */
-                if (!this.validateInput(title, scriptActions, scriptSelections)) return;
-                if (this.newScript) Scripts.addScript(this.script);
-                this.onBackPressed();
-            });
+            createScriptButton.setOnClickListener(v -> this.onBackPressed());
         }
     }
 
@@ -121,21 +119,23 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     }
 
     private boolean validateInput(EditText title, TextView scriptActions, TextView scriptSelections) {
-        if (title.getText().toString().isEmpty()) {
-            title.setError("You must give the script a name!");
-            return false;
+        boolean validationSuccessful = true;
+        if (scriptSelections.getText().toString().isEmpty()) {
+            scriptSelections.requestFocus();
+            scriptSelections.setError("You must choose some selection(s) for the script!");
+            validationSuccessful = false;
         }
         if (scriptActions.getText().toString().isEmpty()) {
             scriptActions.requestFocus();
             scriptActions.setError("You must choose some action(s) for the script!");
-            return false;
+            validationSuccessful = false;
         }
-        if (scriptSelections.getText().toString().isEmpty()) {
-            scriptSelections.requestFocus();
-            scriptSelections.setError("You must choose some selection(s) for the script!");
-            return false;
+        if (title.getText().toString().isEmpty()) {
+            title.requestFocus();
+            title.setError("You must give the script a name!");
+            validationSuccessful = false;
         }
-        return true;
+        return validationSuccessful;
     }
 
     private <T extends ScriptOption> void configureOptionTextView(List<T> options, TextView textView) {
@@ -186,6 +186,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
             @Override
             public void afterTextChanged(Editable s) {
+                ScriptOptionsActivity.this.hasChangeBeenMade = true;
                 ScriptOptionsActivity.this.script.setTitle(s.toString());
             }
         };
@@ -201,6 +202,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
             @Override
             public void afterTextChanged(Editable s) {
+                ScriptOptionsActivity.this.hasChangeBeenMade = true;
                 ScriptOptionsActivity.this.script.setDescription(s.toString());
             }
         };
@@ -224,10 +226,18 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
     @Override
     public void onBackPressed() {
-        EditText title = this.findViewById(R.id.input_script_name);
-        TextView scriptActions = this.findViewById(R.id.script_actions);
-        TextView scriptSelections = this.findViewById(R.id.script_selections);
-        if (!this.validateInput(title, scriptActions, scriptSelections)) return;
+        if (this.hasChangeBeenMade) {
+            EditText title = this.findViewById(R.id.input_script_name);
+            TextView scriptActions = this.findViewById(R.id.script_actions);
+            TextView scriptSelections = this.findViewById(R.id.script_selections);
+            if (!this.validateInput(title, scriptActions, scriptSelections)) return;
+            if (this.newScript) {
+                Scripts.addScript(this.script);
+                ActivityUtils.displayToastSuccessful(this, getString(R.string.toast_script_created));
+            } else {
+                ActivityUtils.displayToastSuccessful(this, getString(R.string.toast_script_saved));
+            }
+        }
 
         super.onBackPressed();
         ActivityUtils.transitionBack(this);
@@ -236,6 +246,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     @Override
     public void onItemsSelected(boolean[] selected, Script.Option optionType) {
         Log.d("spinner onitemselectd", Arrays.toString(selected));
+        this.hasChangeBeenMade = true;
         /* ugly */
         if (optionType == Script.Option.ACTION) {
             ArrayList<ScriptAction> actuallySelectedOptions = new ArrayList<>();

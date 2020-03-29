@@ -13,7 +13,7 @@ public class ActivityUtils {
         returnBackToOperationScreen(activity);
     }
 
-    private static void displayToastSuccessful(Activity activity, String text) {
+    public static void displayToastSuccessful(Activity activity, String text) {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
     }
 

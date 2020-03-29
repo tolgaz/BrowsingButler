@@ -65,4 +65,9 @@
     <!-- Shared pref -->
     <string name="application_shared_pref_name">BROWSINGBUTLER_SHARED_PREFERENCES</string>
     <string name="scripts_save_key">SCRIPTS</string>
+
+    <!-- Script toasts -->
+    <string name="toast_script_created">Script has sucessfully been created!</string>
+    <string name="toast_script_saved">Script has sucessfully been saved!</string>
+    <string name="toast_script_deleted">Script has sucessfully been deleted!</string>
 </resources>
