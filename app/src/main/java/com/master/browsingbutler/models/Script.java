@@ -35,6 +35,10 @@ public class Script {
         this(title, description, false);
     }
 
+    public Script() {
+        this(null, null);
+    }
+
     public String getTitle() {
         return this.title;
     }

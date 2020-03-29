@@ -61,15 +61,13 @@ public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClick
     private CharSequence[] getTitleAndDescriptionFromScriptActions() {
         CharSequence[] cs = new CharSequence[this.items.size()];
         AtomicInteger index = new AtomicInteger();
-        this.items.forEach(scriptElement -> {
-            if (this.optionType == Script.Option.ACTION) {
+        this.items.forEach(scriptElement ->
                 cs[index.getAndIncrement()] = Html.fromHtml(
-                        scriptElement.getTitle() + "<br><small><small>" + scriptElement.getDescription() + "</small></small>",
-                        0);
-            } else {
-                cs[index.getAndIncrement()] = scriptElement.getTitle();
-            }
-        });
+                        scriptElement.getTitle() +
+                                (this.optionType == Script.Option.ACTION ?
+                                        "<br><small><small>" + scriptElement.getDescription() + "</small></small>"
+                                        : null),
+                        0));
         return cs;
     }
 

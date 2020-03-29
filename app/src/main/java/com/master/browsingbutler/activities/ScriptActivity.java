@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         this.setContentView(R.layout.activity_script_overview);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+
+        Button newScript = this.findViewById(R.id.new_script_button);
     }
 
     @Override

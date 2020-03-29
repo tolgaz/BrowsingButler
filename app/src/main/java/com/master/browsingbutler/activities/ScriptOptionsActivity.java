@@ -8,12 +8,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.MultiSpinner;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ScriptOptionsActivity extends AppCompatActivity implements MultiSpinnerListener {
+public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements MultiSpinnerListener {
 
     Script script;
 
@@ -40,11 +40,15 @@ public class ScriptOptionsActivity extends AppCompatActivity implements MultiSpi
         Log.d(this);
         this.setContentView(R.layout.activity_script_settings);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_script_screen);
 
-        int scriptID = (int) this.getIntent().getExtras().get("SCRIPT-ID");
-        this.script = Scripts.getAllScripts().get(scriptID);
+        if (this.getIntent().getExtras() != null) {
+            int scriptID = (int) this.getIntent().getExtras().get("SCRIPT-ID");
+            this.script = Scripts.getAllScripts().get(scriptID);
+        } else {
+            this.script = new Script();
+        }
+
         Log.d("ScriptOptionsActivity", this.script.toString());
         this.fillAllScriptFields();
 
@@ -54,6 +58,9 @@ public class ScriptOptionsActivity extends AppCompatActivity implements MultiSpi
         /* text view config */
         this.configureOptionTextView(this.script.getActions(), R.id.script_actions);
         this.configureOptionTextView(this.script.getSelections(), R.id.script_selections);
+
+        /* createScriptButton button */
+        Button createScriptButton = this.findViewById(R.id.create_script_button);
 
         /* spinner actions and selection config */
         MultiSpinner actionSpinner = this.findViewById(R.id.script_action_spinner);
@@ -68,9 +75,13 @@ public class ScriptOptionsActivity extends AppCompatActivity implements MultiSpi
         if (this.script.isPremade()) {
             scriptActionButton.setVisibility(View.GONE);
             scriptSelectionButton.setVisibility(View.GONE);
+            createScriptButton.setVisibility(View.GONE);
         } else {
             scriptActionButton.setOnClickListener(v -> actionSpinner.performClick());
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
+            createScriptButton.setOnClickListener(v -> {
+                Log.d(this.getClass(), "NEW SCRIPT! " + this.script);
+            });
         }
     }
 
@@ -207,5 +218,10 @@ public class ScriptOptionsActivity extends AppCompatActivity implements MultiSpi
         scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_all_pictures_title)));
         scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_all_text_title)));
         ScriptSelection.setScriptSelections(scriptSelections);
+    }
+
+    @Override
+    public void switchHandler(View view, int position) {
+        throw new UnsupportedOperationException();
     }
 }
