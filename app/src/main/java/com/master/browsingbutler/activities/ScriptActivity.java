@@ -26,7 +26,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         Button newScript = this.findViewById(R.id.new_script_button);
-        newScript.setOnClickListener(v -> this.startActivity(new Intent(this, ScriptOptionsActivity.class)));
+        newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
     }
 
     @Override
@@ -52,11 +52,17 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
 
     @Override
     public void switchHandler(View view, int position) {
-        boolean premade = ((LinearLayout) view.getParent().getParent()).getId() == R.id.premade_script_layout;
-        ScriptItem script = (ScriptItem) (premade ? Configuration.premadeListDataset.get(position) : Configuration.customListDataset.get(position));
+        this.startActivity(this.configureScriptOptionIntent(view, position, false));
+    }
 
+    private Intent configureScriptOptionIntent(View view, int position, boolean newScript) {
         Intent intent = new Intent(this, ScriptOptionsActivity.class);
-        intent.putExtra("SCRIPT-ID", script.getScript().getID());
-        this.startActivity(intent);
+        if (!newScript) {
+            boolean premade = ((LinearLayout) view.getParent().getParent()).getId() == R.id.premade_script_layout;
+            ScriptItem script = (ScriptItem) (premade ? Configuration.premadeListDataset.get(position) : Configuration.customListDataset.get(position));
+            intent.putExtra("SCRIPT-ID", script.getScript().getID());
+        }
+        intent.putExtra("NEW_SCRIPT", newScript);
+        return intent;
     }
 }

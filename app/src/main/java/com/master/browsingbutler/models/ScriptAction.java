@@ -2,24 +2,28 @@ package com.master.browsingbutler.models;
 
 import java.util.List;
 
-public class ScriptAction extends ScriptOption {
-    private static List<ScriptOption> scriptActions;
+public class ScriptAction implements ScriptOption {
+    private static int actionCounter = 0;
+    private int ID;
+    private static List<ScriptAction> scriptActions;
     private String title;
     private String description;
 
     public ScriptAction(String title, String description) {
         this.title = title;
         this.description = description;
+        this.ID = actionCounter++;
     }
 
-    public static List<ScriptOption> getScriptActions() {
+    public static List<ScriptAction> getScriptActions() {
         return scriptActions;
     }
 
-    public static void setScriptActions(List<ScriptOption> scriptActions) {
+    public static void setScriptActions(List<ScriptAction> scriptActions) {
         ScriptAction.scriptActions = scriptActions;
     }
 
+    @Override
     public String getTitle() {
         return this.title;
     }
@@ -28,6 +32,7 @@ public class ScriptAction extends ScriptOption {
         this.title = title;
     }
 
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -39,5 +44,13 @@ public class ScriptAction extends ScriptOption {
     @Override
     public Script.Option getOptionType() {
         return Script.Option.ACTION;
+    }
+
+    public int getID() {
+        return this.ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 }

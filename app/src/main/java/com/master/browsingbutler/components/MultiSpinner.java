@@ -12,14 +12,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.master.browsingbutler.models.Script;
+import com.master.browsingbutler.models.ScriptAction;
 import com.master.browsingbutler.models.ScriptOption;
+import com.master.browsingbutler.models.ScriptSelection;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClickListener, OnCancelListener {
+public class MultiSpinner<T> extends AppCompatSpinner implements OnMultiChoiceClickListener, OnCancelListener {
 
-    private List<ScriptOption> items;
+    private List<T> items;
     private boolean[] selected;
     private MultiSpinnerListener listener;
     private Script.Option optionType;
@@ -61,17 +63,21 @@ public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClick
     private CharSequence[] getTitleAndDescriptionFromScriptActions() {
         CharSequence[] cs = new CharSequence[this.items.size()];
         AtomicInteger index = new AtomicInteger();
-        this.items.forEach(scriptElement ->
-                cs[index.getAndIncrement()] = Html.fromHtml(
-                        scriptElement.getTitle() +
-                                (this.optionType == Script.Option.ACTION ?
-                                        "<br><small><small>" + scriptElement.getDescription() + "</small></small>"
-                                        : ""),
-                        0));
+        this.items.forEach(scriptElement -> {
+            if (this.optionType == Script.Option.ACTION) {
+                ScriptAction action = (ScriptAction) scriptElement;
+                cs[index.getAndIncrement()] =
+                        Html.fromHtml(action.getTitle() + "<br><small><small>" + action.getDescription() + "</small></small>", 0);
+            } else {
+                ScriptSelection selection = (ScriptSelection) scriptElement;
+                cs[index.getAndIncrement()] = selection.getTitle();
+            }
+        });
+
         return cs;
     }
 
-    public void setItems(List<ScriptOption> items, List<ScriptOption> scriptElement, Script.Option optionType, String title, MultiSpinnerListener listener) {
+    public void setItems(List<T> items, List<T> scriptElement, Script.Option optionType, String title, MultiSpinnerListener listener) {
         this.items = items;
         this.optionType = optionType;
         this.title = title;
@@ -82,7 +88,7 @@ public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClick
         for (int i = 0; i < items.size(); i++) {
             boolean match = false;
             for (int j = 0; j < scriptElement.size(); j++) {
-                if (items.get(i) == scriptElement.get(j)) {
+                if (((ScriptOption) items.get(i)).getID() == ((ScriptOption) scriptElement.get(j)).getID()) {
                     match = true;
                     break;
                 }

@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.master.browsingbutler.R;
-import com.master.browsingbutler.components.Scripts;
+import com.master.browsingbutler.components.Initializer;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
 import com.master.browsingbutler.utils.Log;
 
@@ -23,6 +23,8 @@ public class OperationActivity extends ActivityWithSwitchHandler {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Initializer.initApplication(this);
 
         Log.d(this);
         this.setContentView(R.layout.activity_operation);
@@ -38,11 +40,10 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        /* only tempoararry this shoudl bne in the activity first launched */
-        if (Scripts.getAllScripts() == null) {
-            Scripts.initScripts(this);
-        }
+
+
     }
+
 
     @Override
     protected void onResume() {

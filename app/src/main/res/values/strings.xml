@@ -61,4 +61,8 @@
     <string name="script_selection_last_x_elements_title">Last x elements</string>
     <string name="script_selection_all_pictures_title">All pictures</string>
     <string name="script_selection_all_text_title">All text</string>
+
+    <!-- Shared pref -->
+    <string name="application_shared_pref_name">BROWSINGBUTLER_SHARED_PREFERENCES</string>
+    <string name="scripts_save_key">SCRIPTS</string>
 </resources>

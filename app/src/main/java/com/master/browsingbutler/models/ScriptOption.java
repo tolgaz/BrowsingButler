@@ -1,9 +1,11 @@
 package com.master.browsingbutler.models;
 
-public abstract class ScriptOption {
-    public abstract Script.Option getOptionType();
+public interface ScriptOption {
+    Script.Option getOptionType();
 
-    public abstract String getTitle();
+    String getTitle();
 
-    public abstract String getDescription();
+    String getDescription();
+
+    int getID();
 }

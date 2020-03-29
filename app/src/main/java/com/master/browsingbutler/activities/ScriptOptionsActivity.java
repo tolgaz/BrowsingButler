@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.components.Initializer;
 import com.master.browsingbutler.components.MultiSpinner;
 import com.master.browsingbutler.components.MultiSpinner.MultiSpinnerListener;
 import com.master.browsingbutler.components.Scripts;
@@ -33,6 +34,7 @@ import java.util.List;
 public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements MultiSpinnerListener {
 
     Script script;
+    boolean newScript;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,10 +45,13 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_script_screen);
 
         if (this.getIntent().getExtras() != null) {
-            int scriptID = (int) this.getIntent().getExtras().get("SCRIPT-ID");
-            this.script = Scripts.getAllScripts().get(scriptID);
-        } else {
-            this.script = new Script();
+            this.newScript = (boolean) this.getIntent().getExtras().get("NEW_SCRIPT");
+            if (!this.newScript) {
+                int scriptID = (int) this.getIntent().getExtras().get("SCRIPT-ID");
+                this.script = Scripts.getAllScripts().get(scriptID);
+            } else {
+                this.script = new Script();
+            }
         }
 
         Log.d("ScriptOptionsActivity", this.script.toString());
@@ -67,10 +72,10 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         Button createScriptButton = this.findViewById(R.id.create_script_button);
 
         /* spinner actions and selection config */
-        MultiSpinner actionSpinner = this.findViewById(R.id.script_action_spinner);
+        MultiSpinner<ScriptAction> actionSpinner = this.findViewById(R.id.script_action_spinner);
         actionSpinner.setItems(ScriptAction.getScriptActions(), this.script.getActions(), Script.Option.ACTION, this.getString(R.string.action_spinner_text), this);
 
-        MultiSpinner selectionSpinner = this.findViewById(R.id.script_selection_spinner);
+        MultiSpinner<ScriptSelection> selectionSpinner = this.findViewById(R.id.script_selection_spinner);
         selectionSpinner.setItems(ScriptSelection.getScriptSelections(), this.script.getSelections(), Script.Option.SELECTION, this.getString(R.string.selection_spinner_text), this);
 
         ImageButton scriptActionButton = this.findViewById(R.id.script_action_button);
@@ -81,15 +86,24 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             scriptSelectionButton.setVisibility(View.GONE);
             createScriptButton.setVisibility(View.GONE);
         } else {
+            if (!this.newScript) createScriptButton.setText("Save changes");
             scriptActionButton.setOnClickListener(v -> actionSpinner.performClick());
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
             createScriptButton.setOnClickListener(v -> {
                 /* validate input */
                 if (!this.validateInput(title, scriptActions, scriptSelections)) return;
-                Scripts.addScript(this.script);
+                if (this.newScript) Scripts.addScript(this.script);
                 this.onBackPressed();
             });
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(this.getClass(), "onPause!!");
+        /* Save new script info */
+        Initializer.saveScripts(this.getApplicationContext());
     }
 
     private boolean validateInput(EditText title, TextView scriptActions, TextView scriptSelections) {
@@ -110,7 +124,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         return true;
     }
 
-    private void configureOptionTextView(List<ScriptOption> options, TextView textView) {
+    private <T extends ScriptOption> void configureOptionTextView(List<T> options, TextView textView) {
         if (options.isEmpty()) {
             textView.setText(null);
         } else {
@@ -203,25 +217,30 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     @Override
     public void onItemsSelected(boolean[] selected, Script.Option optionType) {
         Log.d("spinner onitemselectd", Arrays.toString(selected));
-
-        ArrayList<ScriptOption> actuallySelectedOptions = new ArrayList<>();
-        for (int i = 0; i < selected.length; i++) {
-            if (selected[i]) {
-                actuallySelectedOptions.add(optionType == Script.Option.ACTION ? ScriptAction.getScriptActions().get(i) : ScriptSelection.getScriptSelections().get(i));
-            }
-        }
-
+        /* ugly */
         if (optionType == Script.Option.ACTION) {
+            ArrayList<ScriptAction> actuallySelectedOptions = new ArrayList<>();
+            for (int i = 0; i < selected.length; i++) {
+                if (selected[i])
+                    actuallySelectedOptions.add(ScriptAction.getScriptActions().get(i));
+            }
+
             this.script.setActions(actuallySelectedOptions);
             this.configureOptionTextView(this.script.getActions(), this.findViewById(R.id.script_actions));
         } else {
+            ArrayList<ScriptSelection> actuallySelectedOptions = new ArrayList<>();
+            for (int i = 0; i < selected.length; i++) {
+                if (selected[i])
+                    actuallySelectedOptions.add(ScriptSelection.getScriptSelections().get(i));
+            }
+
             this.script.setSelections(actuallySelectedOptions);
             this.configureOptionTextView(this.script.getSelections(), this.findViewById(R.id.script_selections));
         }
     }
 
     private void initScriptActions() {
-        ArrayList<ScriptOption> scriptActions = new ArrayList<>();
+        ArrayList<ScriptAction> scriptActions = new ArrayList<>();
         scriptActions.add(new ScriptAction(this.getString(R.string.script_action_download_title), this.getString(R.string.script_action_download_desc)));
         scriptActions.add(new ScriptAction(this.getString(R.string.script_action_compress_title), this.getString(R.string.script_action_compress_desc)));
         scriptActions.add(new ScriptAction(this.getString(R.string.script_action_file_creator_title), this.getString(R.string.script_action_file_creator_desc)));
@@ -230,7 +249,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     }
 
     private void initScriptSelections() {
-        ArrayList<ScriptOption> scriptSelections = new ArrayList<>();
+        ArrayList<ScriptSelection> scriptSelections = new ArrayList<>();
         scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_all_elements_title)));
         scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_first_elements_title)));
         scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_last_elements_title)));

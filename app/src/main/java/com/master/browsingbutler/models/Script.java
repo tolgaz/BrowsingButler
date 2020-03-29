@@ -21,8 +21,8 @@ public class Script {
     private String description;
     private boolean isPremade;
     private int ID;
-    private List<ScriptOption> actions = new ArrayList<>();
-    private List<ScriptOption> selections = new ArrayList<>();
+    private List<ScriptAction> actions = new ArrayList<>();
+    private List<ScriptSelection> selections = new ArrayList<>();
 
     public Script(String title, String description, boolean isPremade) {
         this.title = title;
@@ -63,25 +63,25 @@ public class Script {
         return this.ID;
     }
 
-    public void setActions(List<ScriptOption> actions) {
+    public void setActions(List<ScriptAction> actions) {
         this.actions = actions;
     }
 
-    public List<ScriptOption> getActions() {
+    public List<ScriptAction> getActions() {
         return this.actions;
     }
 
-    public List<ScriptOption> getSelections() {
+    public List<ScriptSelection> getSelections() {
         return this.selections;
     }
 
-    public void setSelections(List<ScriptOption> selections) {
+    public void setSelections(List<ScriptSelection> selections) {
         this.selections = selections;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "SCRIPT. Title: " + this.title + ", description: " + this.description + ". actions: " + this.actions.size();
+        return "SCRIPT. Title: " + this.title + ", description: " + this.description + ". actions: " + this.actions.size() + ". selections: " + this.selections.size();
     }
 }
