@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 
-import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.Script;
 import com.master.browsingbutler.models.ScriptOption;
 
@@ -24,6 +23,7 @@ public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClick
     private boolean[] selected;
     private MultiSpinnerListener listener;
     private Script.Option optionType;
+    private String title;
 
     public MultiSpinner(Context context) {
         super(context);
@@ -52,7 +52,7 @@ public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClick
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
         builder.setMultiChoiceItems(this.getTitleAndDescriptionFromScriptActions(), this.selected, this);
         builder.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.cancel());
-        builder.setTitle(this.getContext().getString(R.string.action_spinner_text));
+        builder.setTitle(this.title);
         builder.setOnCancelListener(this);
         builder.show();
         return true;
@@ -66,14 +66,15 @@ public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClick
                         scriptElement.getTitle() +
                                 (this.optionType == Script.Option.ACTION ?
                                         "<br><small><small>" + scriptElement.getDescription() + "</small></small>"
-                                        : null),
+                                        : ""),
                         0));
         return cs;
     }
 
-    public void setItems(List<ScriptOption> items, List<ScriptOption> scriptElement, Script.Option optionType, MultiSpinnerListener listener) {
+    public void setItems(List<ScriptOption> items, List<ScriptOption> scriptElement, Script.Option optionType, String title, MultiSpinnerListener listener) {
         this.items = items;
         this.optionType = optionType;
+        this.title = title;
         this.listener = listener;
 
         // can this be done better??

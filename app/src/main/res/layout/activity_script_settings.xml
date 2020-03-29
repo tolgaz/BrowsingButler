@@ -117,6 +117,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:id="@+id/script_actions"
             android:layout_width="320dp"
             android:layout_height="47dp"
@@ -169,6 +171,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:id="@+id/script_selections"
             android:layout_width="320dp"
             android:layout_height="47dp"

@@ -26,6 +26,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         Button newScript = this.findViewById(R.id.new_script_button);
+        newScript.setOnClickListener(v -> this.startActivity(new Intent(this, ScriptOptionsActivity.class)));
     }
 
     @Override

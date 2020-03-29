@@ -41,6 +41,7 @@
     <string name="downloadAndSend_title">Download all elements and send them through email</string>
     <string name="downloadAndSend_desc">Firstly downloads all elements and then opens a new mail with the elements as attachments.</string>
     <string name="action_spinner_text">Choose action(s) for script!</string>
+    <string name="selection_spinner_text">Choose selection(s) for script!</string>
 
     <!-- Script actions -->
     <string name="script_action_download_title">Download</string>

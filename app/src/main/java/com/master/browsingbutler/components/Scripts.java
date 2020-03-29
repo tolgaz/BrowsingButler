@@ -31,4 +31,8 @@ public class Scripts {
     public static void setAllScripts(List<Script> allScripts) {
         Scripts.allScripts = allScripts;
     }
+
+    public static void addScript(Script script) {
+        allScripts.add(script);
+    }
 }

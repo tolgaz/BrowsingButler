@@ -50,24 +50,28 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         }
 
         Log.d("ScriptOptionsActivity", this.script.toString());
-        this.fillAllScriptFields();
+        EditText title = this.findViewById(R.id.input_script_name);
+        EditText desc = this.findViewById(R.id.input_script_desc);
+        this.fillAllScriptFields(title, desc);
 
         if (ScriptAction.getScriptActions() == null) this.initScriptActions();
         if (ScriptSelection.getScriptSelections() == null) this.initScriptSelections();
 
         /* text view config */
-        this.configureOptionTextView(this.script.getActions(), R.id.script_actions);
-        this.configureOptionTextView(this.script.getSelections(), R.id.script_selections);
+        TextView scriptActions = this.findViewById(R.id.script_actions);
+        TextView scriptSelections = this.findViewById(R.id.script_selections);
+        this.configureOptionTextView(this.script.getActions(), scriptActions);
+        this.configureOptionTextView(this.script.getSelections(), scriptSelections);
 
         /* createScriptButton button */
         Button createScriptButton = this.findViewById(R.id.create_script_button);
 
         /* spinner actions and selection config */
         MultiSpinner actionSpinner = this.findViewById(R.id.script_action_spinner);
-        actionSpinner.setItems(ScriptAction.getScriptActions(), this.script.getActions(), Script.Option.ACTION, this);
+        actionSpinner.setItems(ScriptAction.getScriptActions(), this.script.getActions(), Script.Option.ACTION, this.getString(R.string.action_spinner_text), this);
 
         MultiSpinner selectionSpinner = this.findViewById(R.id.script_selection_spinner);
-        selectionSpinner.setItems(ScriptSelection.getScriptSelections(), this.script.getSelections(), Script.Option.SELECTION, this);
+        selectionSpinner.setItems(ScriptSelection.getScriptSelections(), this.script.getSelections(), Script.Option.SELECTION, this.getString(R.string.selection_spinner_text), this);
 
         ImageButton scriptActionButton = this.findViewById(R.id.script_action_button);
         ImageButton scriptSelectionButton = this.findViewById(R.id.script_selection_button);
@@ -80,17 +84,37 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             scriptActionButton.setOnClickListener(v -> actionSpinner.performClick());
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
             createScriptButton.setOnClickListener(v -> {
-                Log.d(this.getClass(), "NEW SCRIPT! " + this.script);
+                /* validate input */
+                if (!this.validateInput(title, scriptActions, scriptSelections)) return;
+                Scripts.addScript(this.script);
+                this.onBackPressed();
             });
         }
     }
 
-    private void configureOptionTextView(List<ScriptOption> options, int textViewId) {
-        TextView textView = this.findViewById(textViewId);
+    private boolean validateInput(EditText title, TextView scriptActions, TextView scriptSelections) {
+        if (title.getText().toString().isEmpty()) {
+            title.setError("You must give the script a name!");
+            return false;
+        }
+        if (scriptActions.getText().toString().isEmpty()) {
+            scriptActions.requestFocus();
+            scriptActions.setError("You must choose some action(s) for the script!");
+            return false;
+        }
+        if (scriptSelections.getText().toString().isEmpty()) {
+            scriptSelections.requestFocus();
+            scriptSelections.setError("You must choose some selection(s) for the script!");
+            return false;
+        }
+        return true;
+    }
 
+    private void configureOptionTextView(List<ScriptOption> options, TextView textView) {
         if (options.isEmpty()) {
             textView.setText(null);
         } else {
+            textView.setError(null);
             textView.setTextColor(Color.BLACK);
             StringBuilder stringListOfOptions = new StringBuilder();
             options.forEach(option -> stringListOfOptions.append(option.getTitle()).append(". "));
@@ -105,12 +129,9 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     }
 
 
-    private void fillAllScriptFields() {
+    private void fillAllScriptFields(EditText title, EditText desc) {
         /* Name and desc */
-        EditText title = this.findViewById(R.id.input_script_name);
         title.setText(this.script.getTitle());
-
-        EditText desc = this.findViewById(R.id.input_script_desc);
         desc.setText(this.script.getDescription());
 
         if (this.script.isPremade()) {
@@ -192,10 +213,10 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
         if (optionType == Script.Option.ACTION) {
             this.script.setActions(actuallySelectedOptions);
-            this.configureOptionTextView(this.script.getActions(), R.id.script_actions);
+            this.configureOptionTextView(this.script.getActions(), this.findViewById(R.id.script_actions));
         } else {
             this.script.setSelections(actuallySelectedOptions);
-            this.configureOptionTextView(this.script.getSelections(), R.id.script_selections);
+            this.configureOptionTextView(this.script.getSelections(), this.findViewById(R.id.script_selections));
         }
     }
 
