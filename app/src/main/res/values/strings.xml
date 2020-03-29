@@ -40,6 +40,24 @@
     <string name="compresTo50_desc">Downloads all elements and compresses themto half their quality.</string>
     <string name="downloadAndSend_title">Download all elements and send them through email</string>
     <string name="downloadAndSend_desc">Firstly downloads all elements and then opens a new mail with the elements as attachments.</string>
+    <string name="action_spinner_text">Choose action(s) for script!</string>
 
+    <!-- Script actions -->
+    <string name="script_action_download_title">Download</string>
+    <string name="script_action_download_desc">Downloads element to the specified path.</string>
+    <string name="script_action_compress_title">Compress</string>
+    <string name="script_action_compress_desc">Compresses downloaded elements. </string>
+    <string name="script_action_file_creator_title">Create a file with chosen elements</string>
+    <string name="script_action_file_creator_desc">Choose between JPG, PNG and PDF.</string>
+    <string name="script_action_share_title">Share</string>
+    <string name="script_action_share_desc">Share to a prespecified application</string>
 
+    <!-- Script selection -->
+    <string name="script_selection_all_elements_title">All elements</string>
+    <string name="script_selection_first_elements_title">First element</string>
+    <string name="script_selection_last_elements_title">Last element</string>
+    <string name="script_selection_first_x_elements_title">First x elements</string>
+    <string name="script_selection_last_x_elements_title">Last x elements</string>
+    <string name="script_selection_all_pictures_title">All pictures</string>
+    <string name="script_selection_all_text_title">All text</string>
 </resources>

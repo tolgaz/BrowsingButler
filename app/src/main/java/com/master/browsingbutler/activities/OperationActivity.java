@@ -39,7 +39,9 @@ public class OperationActivity extends ActivityWithSwitchHandler {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         /* only tempoararry this shoudl bne in the activity first launched */
-        Scripts.initScripts(this);
+        if (Scripts.getAllScripts() == null) {
+            Scripts.initScripts(this);
+        }
     }
 
     @Override

@@ -57,6 +57,10 @@ public class Log {
         android.util.Log.d(appendTagWithClass(getClassName(caller)), message);
     }
 
+    public static void d(String tag, String message) {
+        android.util.Log.d(appendTagWithClass(tag), message);
+    }
+
     public static void e(Class caller, String message) {
         android.util.Log.e(appendTagWithClass(getClassName(caller)), message);
     }

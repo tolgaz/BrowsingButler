@@ -6,14 +6,14 @@ import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.Script;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Scripts {
 
-    public static ArrayList<Script> allScripts;
-
+    private static List<Script> allScripts = null;
 
     public static void initScripts(Activity activity) {
-        allScripts = new ArrayList<>();
+        List<Script> allScripts = new ArrayList<>();
         /* Compress all elements to 50% */
         Script compressTo50 = new Script(activity.getString(R.string.compresTo50_title), activity.getString(R.string.compresTo50_desc), true);
         /* Download and send elements */
@@ -21,5 +21,14 @@ public class Scripts {
 
         allScripts.add(compressTo50);
         allScripts.add(downloadAndSend);
+        setAllScripts(allScripts);
+    }
+
+    public static List<Script> getAllScripts() {
+        return allScripts;
+    }
+
+    public static void setAllScripts(List<Script> allScripts) {
+        Scripts.allScripts = allScripts;
     }
 }

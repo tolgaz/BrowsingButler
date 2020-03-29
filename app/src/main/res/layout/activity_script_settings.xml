@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -115,38 +116,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/script_actons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
-            android:ems="15"
+        <TextView
+            android:id="@+id/script_actions"
+            android:layout_width="320dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center|start"
             android:hint="Press the button to choose action(s)"
-            android:inputType="text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/action_textview" />
 
         <ImageButton
             android:id="@+id/script_action_button"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/button_outline"
             android:backgroundTint="@color/buttonColor"
             android:tint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/script_actons"
+            app:layout_constraintStart_toEndOf="@+id/script_actions"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_input_add" />
+
+        <com.master.browsingbutler.components.MultiSpinner
+            android:id="@+id/script_action_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -166,37 +168,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/script_selection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
-            android:ems="15"
+        <TextView
+            android:id="@+id/script_selections"
+            android:layout_width="320dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center|start"
             android:hint="Press the button to choose selection(s)"
-            android:inputType="text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selection_textview" />
 
         <ImageButton
             android:id="@+id/script_selection_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/button_outline"
             android:backgroundTint="@color/buttonColor"
             android:tint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/script_selection"
+            app:layout_constraintStart_toEndOf="@+id/script_selections"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_input_add" />
+
+
+        <com.master.browsingbutler.components.MultiSpinner
+            android:id="@+id/script_selection_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

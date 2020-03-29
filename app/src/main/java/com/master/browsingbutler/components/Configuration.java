@@ -95,7 +95,7 @@ public class Configuration implements ItemClickListener {
         customListDataset = new ArrayList<>();
 
         /* Get the scripts array - fill the list dataset with info */
-        Scripts.allScripts.forEach(script -> {
+        Scripts.getAllScripts().forEach(script -> {
             ListItem listItem = new ScriptItem(script.getTitle(), script.getDescription(), script);
             if (script.isPremade()) {
                 premadeListDataset.add(listItem);
