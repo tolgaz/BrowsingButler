@@ -63,6 +63,10 @@ public class Script {
         return this.ID;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public void setActions(List<ScriptAction> actions) {
         this.actions = actions;
     }
@@ -79,9 +83,17 @@ public class Script {
         this.selections = selections;
     }
 
+    public static int getScriptCounter() {
+        return scriptCounter;
+    }
+
+    public static void setScriptCounter(int newScriptCounter) {
+        scriptCounter = newScriptCounter;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "SCRIPT. Title: " + this.title + ", description: " + this.description + ". actions: " + this.actions.size() + ". selections: " + this.selections.size();
+        return "SCRIPT. ID: " + this.ID + ". Title: " + this.title + ", description: " + this.description + ". actions: " + this.actions.size() + ". selections: " + this.selections.size();
     }
 }

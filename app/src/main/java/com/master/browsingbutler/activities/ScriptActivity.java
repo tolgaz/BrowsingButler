@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
@@ -58,7 +57,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
     private Intent configureScriptOptionIntent(View view, int position, boolean newScript) {
         Intent intent = new Intent(this, ScriptOptionsActivity.class);
         if (!newScript) {
-            boolean premade = ((LinearLayout) view.getParent().getParent()).getId() == R.id.premade_script_layout;
+            boolean premade = ((View) view.getParent().getParent()).getId() == R.id.premade_script_layout;
             ScriptItem script = (ScriptItem) (premade ? Configuration.premadeListDataset.get(position) : Configuration.customListDataset.get(position));
             intent.putExtra("SCRIPT-ID", script.getScript().getID());
         }

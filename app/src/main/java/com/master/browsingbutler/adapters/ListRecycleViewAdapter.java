@@ -72,7 +72,15 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
     public void onBindViewHolder(ListRecycleViewHolder holder, int position) {
         ListItem listItem = this.listDataset.get(position);
         holder.firstLine.setText(listItem.getTitle());
-        holder.secondLine.setText(listItem.getDescription());
+        if (listItem.getDescription().isEmpty()) {
+            holder.secondLine.setVisibility(View.GONE);
+
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) holder.firstLine.getLayoutParams();
+            marginLayoutParams.bottomMargin = 5;
+            holder.firstLine.setLayoutParams(marginLayoutParams);
+        } else {
+            holder.secondLine.setText(listItem.getDescription());
+        }
         if (listItem.getTitle().contains("Apply script"))
             holder.wrenchButton.setVisibility(View.VISIBLE);
     }

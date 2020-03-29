@@ -59,8 +59,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         EditText desc = this.findViewById(R.id.input_script_desc);
         this.fillAllScriptFields(title, desc);
 
-        if (ScriptAction.getScriptActions() == null) this.initScriptActions();
-        if (ScriptSelection.getScriptSelections() == null) this.initScriptSelections();
+        this.initActionsAndSelections();
 
         /* text view config */
         TextView scriptActions = this.findViewById(R.id.script_actions);
@@ -68,8 +67,9 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         this.configureOptionTextView(this.script.getActions(), scriptActions);
         this.configureOptionTextView(this.script.getSelections(), scriptSelections);
 
-        /* createScriptButton button */
+        /* createScriptButton and delete button */
         Button createScriptButton = this.findViewById(R.id.create_script_button);
+        Button deleteScriptButton = this.findViewById(R.id.delete_script_button);
 
         /* spinner actions and selection config */
         MultiSpinner<ScriptAction> actionSpinner = this.findViewById(R.id.script_action_spinner);
@@ -85,8 +85,17 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             scriptActionButton.setVisibility(View.GONE);
             scriptSelectionButton.setVisibility(View.GONE);
             createScriptButton.setVisibility(View.GONE);
+            deleteScriptButton.setVisibility(View.GONE);
         } else {
-            if (!this.newScript) createScriptButton.setText("Save changes");
+            if (!this.newScript) {
+                createScriptButton.setText("Save changes");
+                deleteScriptButton.setOnClickListener(v -> {
+                    Scripts.deleteScript(this.script);
+                    this.onBackPressed();
+                });
+            } else {
+                deleteScriptButton.setVisibility(View.GONE);
+            }
             scriptActionButton.setOnClickListener(v -> actionSpinner.performClick());
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
             createScriptButton.setOnClickListener(v -> {
@@ -96,6 +105,11 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
                 this.onBackPressed();
             });
         }
+    }
+
+    private void initActionsAndSelections() {
+        if (ScriptAction.getScriptActions() == null) this.initScriptActions();
+        if (ScriptSelection.getScriptSelections() == null) this.initScriptSelections();
     }
 
     @Override
@@ -210,6 +224,11 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
     @Override
     public void onBackPressed() {
+        EditText title = this.findViewById(R.id.input_script_name);
+        TextView scriptActions = this.findViewById(R.id.script_actions);
+        TextView scriptSelections = this.findViewById(R.id.script_selections);
+        if (!this.validateInput(title, scriptActions, scriptSelections)) return;
+
         super.onBackPressed();
         ActivityUtils.transitionBack(this);
     }

@@ -65,10 +65,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/custom_script_recycle_view"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="250dp"
+            android:layout_marginRight="5dp"
+            android:scrollbarStyle="insideInset">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/custom_script_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout

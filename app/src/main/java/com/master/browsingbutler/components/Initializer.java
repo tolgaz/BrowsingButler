@@ -37,6 +37,7 @@ public class Initializer {
     }
 
     public static void saveScripts(Context context) {
+        Script.setScriptCounter(Scripts.getAllScripts().size());
         SharedPreferences sharedPreferences = getSharedPref(context);
         Editor prefsEditor = sharedPreferences.edit();
         Gson gson = new Gson();

@@ -35,4 +35,22 @@ public class Scripts {
     public static void addScript(Script script) {
         allScripts.add(script);
     }
+
+    public static void deleteScript(Script script) {
+        /* Delete from list and update indices */
+        int IDOfScriptToDelete = script.getID();
+        List<Script> scripts = Scripts.getAllScripts();
+
+        if (IDOfScriptToDelete != scripts.size() - 1) {
+            for (int i = IDOfScriptToDelete + 1; i < scripts.size(); i++) {
+                /* for each we want to decrement counter */
+                Script currScript = scripts.get(i);
+                int oldID = currScript.getID();
+                currScript.setID(oldID - 1);
+            }
+        }
+        scripts.remove(IDOfScriptToDelete);
+        Script.setScriptCounter(Script.getScriptCounter() - 1);
+        assert Scripts.getAllScripts().size() == Script.getScriptCounter();
+    }
 }
