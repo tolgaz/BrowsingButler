@@ -72,7 +72,7 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
     public void onBindViewHolder(ListRecycleViewHolder holder, int position) {
         ListItem listItem = this.listDataset.get(position);
         holder.firstLine.setText(listItem.getTitle());
-        if (listItem.getDescription().isEmpty()) {
+        if (listItem.getDescription() == null || listItem.getDescription().isEmpty()) {
             holder.secondLine.setVisibility(View.GONE);
 
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) holder.firstLine.getLayoutParams();

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Scripts {
 
-    private static List<Script> allScripts = null;
+    private static List<Script> allScripts = new ArrayList<>();
 
     public static void initScripts(Context context) {
         List<Script> allScripts = new ArrayList<>();
@@ -50,7 +50,6 @@ public class Scripts {
             }
         }
         scripts.remove(IDOfScriptToDelete);
-        Script.setScriptCounter(Script.getScriptCounter() - 1);
-        assert Scripts.getAllScripts().size() == Script.getScriptCounter();
+        assert Scripts.getAllScripts().size() == Scripts.getAllScripts().get(Scripts.getAllScripts().size() - 1).getID();
     }
 }

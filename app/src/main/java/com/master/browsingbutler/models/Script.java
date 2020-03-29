@@ -2,6 +2,8 @@ package com.master.browsingbutler.models;
 
 import androidx.annotation.NonNull;
 
+import com.master.browsingbutler.components.Scripts;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,6 @@ public class Script {
         ACTION, SELECTION
     }
 
-    private static int scriptCounter = 0;
-
     private String title;
     private String description;
     private boolean isPremade;
@@ -28,7 +28,7 @@ public class Script {
         this.title = title;
         this.description = description;
         this.isPremade = isPremade;
-        this.ID = scriptCounter++;
+        this.ID = Scripts.getAllScripts().size();
     }
 
     public Script(String title, String description) {
@@ -81,14 +81,6 @@ public class Script {
 
     public void setSelections(List<ScriptSelection> selections) {
         this.selections = selections;
-    }
-
-    public static int getScriptCounter() {
-        return scriptCounter;
-    }
-
-    public static void setScriptCounter(int newScriptCounter) {
-        scriptCounter = newScriptCounter;
     }
 
     @NonNull
