@@ -9,9 +9,9 @@
         android:background="@color/colorPrimaryDark"
         android:textAlignment="center"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:title="Browsing Butler"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:titleTextColor="@android:color/black" />
 
     <View

@@ -36,6 +36,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     Script script;
     boolean newScript;
     boolean hasChangeBeenMade = false;
+    private boolean hasCancelButtonBeenClicked = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,9 +69,14 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         this.configureOptionTextView(this.script.getActions(), scriptActions);
         this.configureOptionTextView(this.script.getSelections(), scriptSelections);
 
-        /* createScriptButton and delete button */
+        /* createScriptButton, delete and cancel button */
         Button createScriptButton = this.findViewById(R.id.create_script_button);
         Button deleteScriptButton = this.findViewById(R.id.delete_script_button);
+        ImageButton cancelScriptButton = this.findViewById(R.id.cancel_script_button);
+        cancelScriptButton.setOnClickListener(v -> {
+            this.hasCancelButtonBeenClicked = true;
+            this.onBackPressed();
+        });
 
         /* spinner actions and selection config */
         MultiSpinner<ScriptAction> actionSpinner = this.findViewById(R.id.script_action_spinner);
@@ -93,7 +99,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
                 deleteScriptButton.setOnClickListener(v -> {
                     Scripts.deleteScript(this.script);
                     //toast script deleted
-                    ActivityUtils.displayToastSuccessful(this, getString(R.string.toast_script_deleted));
+                    ActivityUtils.displayToastSuccessful(this, this.getString(R.string.toast_script_deleted));
                     this.onBackPressed();
                 });
             } else {
@@ -108,14 +114,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     private void initActionsAndSelections() {
         if (ScriptAction.getScriptActions() == null) this.initScriptActions();
         if (ScriptSelection.getScriptSelections() == null) this.initScriptSelections();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(this.getClass(), "onPause!!");
-        /* Save new script info */
-        Initializer.saveScripts(this.getApplicationContext());
     }
 
     private boolean validateInput(EditText title, TextView scriptActions, TextView scriptSelections) {
@@ -226,21 +224,30 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
     @Override
     public void onBackPressed() {
-        if (this.hasChangeBeenMade) {
+        if (!this.hasCancelButtonBeenClicked && this.hasChangeBeenMade) {
             EditText title = this.findViewById(R.id.input_script_name);
             TextView scriptActions = this.findViewById(R.id.script_actions);
             TextView scriptSelections = this.findViewById(R.id.script_selections);
             if (!this.validateInput(title, scriptActions, scriptSelections)) return;
             if (this.newScript) {
                 Scripts.addScript(this.script);
-                ActivityUtils.displayToastSuccessful(this, getString(R.string.toast_script_created));
+                ActivityUtils.displayToastSuccessful(this, this.getString(R.string.toast_script_created));
             } else {
-                ActivityUtils.displayToastSuccessful(this, getString(R.string.toast_script_saved));
+                ActivityUtils.displayToastSuccessful(this, this.getString(R.string.toast_script_saved));
             }
         }
 
         super.onBackPressed();
         ActivityUtils.transitionBack(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(this.getClass(), "onPause!!");
+        /* Save new script info */
+        if (!this.hasCancelButtonBeenClicked || this.hasChangeBeenMade)
+            Initializer.saveScripts(this.getApplicationContext());
     }
 
     @Override
