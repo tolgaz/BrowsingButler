@@ -2,14 +2,12 @@ package com.master.browsingbutler.models.scripts.actions;
 
 import androidx.annotation.NonNull;
 
-import com.master.browsingbutler.activities.SaveActivity;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
-import com.master.browsingbutler.utils.Log;
 
 import java.util.List;
 
-public class ScriptAction implements ScriptOption {
+public abstract class ScriptAction implements ScriptOption {
     private static int actionCounter = 0;
     private int ID;
     private static List<ScriptAction> scriptActions;
@@ -68,8 +66,5 @@ public class ScriptAction implements ScriptOption {
         return "Title: " + this.title + "\n Desc: " + this.description;
     }
 
-    public void execute() {
-        Log.d(this, "Executing script! " + this.getClass().getName() + " - " + this.toString());
-        SaveActivity.downloadAllElements();
-    }
+    public abstract void execute();
 }
