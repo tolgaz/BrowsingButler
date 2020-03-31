@@ -1,4 +1,6 @@
-package com.master.browsingbutler.models;
+package com.master.browsingbutler.models.scripts;
+
+import com.master.browsingbutler.models.ListItem;
 
 public class ScriptItem extends ListItem {
 

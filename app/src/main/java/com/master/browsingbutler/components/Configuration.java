@@ -19,8 +19,8 @@ import com.master.browsingbutler.adapters.ListRecycleViewAdapter;
 import com.master.browsingbutler.adapters.ListRecycleViewAdapter.ItemClickListener;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.models.ListItem;
-import com.master.browsingbutler.models.Script;
-import com.master.browsingbutler.models.ScriptItem;
+import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.ScriptItem;
 import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;

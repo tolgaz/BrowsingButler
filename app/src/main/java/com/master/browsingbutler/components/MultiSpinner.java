@@ -11,10 +11,10 @@ import android.widget.ArrayAdapter;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 
-import com.master.browsingbutler.models.Script;
-import com.master.browsingbutler.models.ScriptAction;
-import com.master.browsingbutler.models.ScriptOption;
-import com.master.browsingbutler.models.ScriptSelection;
+import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -11,6 +11,7 @@
     <string name="toolbar_media_picker_screen">Save and compress</string>
     <string name="toolbar_compress_resize_screen">Save and compress</string>
     <string name="toolbar_script_screen">Script settings</string>
+    <string name="toolbar_script_exec_screen">Scripts</string>
 
     <!-- Operation screen, user chooses what operation -->
     <string name="operations_save_title">Save..</string>

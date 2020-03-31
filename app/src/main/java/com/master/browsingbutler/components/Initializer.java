@@ -7,7 +7,7 @@ import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.master.browsingbutler.R;
-import com.master.browsingbutler.models.Script;
+import com.master.browsingbutler.models.scripts.Script;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class Initializer {
 
     /* DEV TOOL */
-    private static boolean overWriteSharedPref = false;
+    private static boolean overWriteSharedPref = true;
 
     public static void initApplication(Context context) {
         /* If scripts doesn't exist - create and save them */
@@ -26,7 +26,7 @@ public class Initializer {
 
         /* only tempoararry this shoudl bne in the activity first launched */
         if (overWriteSharedPref || json == null) {
-            Scripts.initScripts(context);
+            Scripts.initScripts();
             saveScripts(context);
         } else {
             Type listOfScriptsType = new TypeToken<List<Script>>() {

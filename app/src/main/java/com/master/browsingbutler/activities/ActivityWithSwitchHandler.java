@@ -24,7 +24,9 @@ public abstract class ActivityWithSwitchHandler extends AppCompatActivity {
                 return true;
             case R.id.menu_script_settings:
                 Log.d("onOptionsItemSelected", "script!");
-                this.startActivity(new Intent(this, ScriptActivity.class));
+                Intent intent = new Intent(this, ScriptActivity.class);
+                intent.putExtra("EXECUTION", false);
+                this.startActivity(intent);
                 return true;
             case R.id.menu_FAQ:
                 Log.d("onOptionsItemSelected", "faq!");

@@ -40,10 +40,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-
     }
-
 
     @Override
     protected void onResume() {
@@ -74,10 +71,12 @@ public class OperationActivity extends ActivityWithSwitchHandler {
                 ShareViaOpenWithHandler.onlyShare(this);
                 break;
             case 2:
-                /* Share via */
-            case 3:
                 /* Apply script */
-            case 4:
+                Log.d(this, "Swith 2 - apply script");
+                Intent intent = new Intent(this, ScriptActivity.class);
+                intent.putExtra("EXECUTION", true);
+                this.startActivity(intent);
+            case 3:
                 /* Search on Google */
             default:
                 Log.d(this, "Swith default");

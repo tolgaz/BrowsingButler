@@ -1,9 +1,13 @@
 package com.master.browsingbutler.components;
 
-import android.content.Context;
-
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
-import com.master.browsingbutler.models.Script;
+import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.actions.ActionCompress;
+import com.master.browsingbutler.models.scripts.actions.ActionDownload;
+import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
+import com.master.browsingbutler.models.scripts.selections.SelectionAllElements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +16,35 @@ public class Scripts {
 
     private static List<Script> allScripts = new ArrayList<>();
 
-    public static void initScripts(Context context) {
+    public static void initScripts() {
         List<Script> allScripts = new ArrayList<>();
-        /* Compress all elements to 50% */
-        Script compressTo50 = new Script(context.getString(R.string.compresTo50_title), context.getString(R.string.compresTo50_desc), true);
-        /* Download and send elements */
-        Script downloadAndSend = new Script(context.getString(R.string.downloadAndSend_title), context.getString(R.string.downloadAndSend_desc), true);
 
-        allScripts.add(compressTo50);
-        allScripts.add(downloadAndSend);
+        allScripts.add(getCompressTo50());
+        allScripts.add(getDownloadAndSendScript());
+        allScripts.add(getSaveAndCompressScript());
         setAllScripts(allScripts);
+    }
+
+    private static Script getCompressTo50() {
+        /* Compress all elements to 50% */
+        return new Script(App.getResourses().getString(R.string.compresTo50_title), App.getResourses().getString(R.string.compresTo50_desc), true);
+    }
+
+    private static Script getDownloadAndSendScript() {
+        /* Download and send elements */
+        return new Script(App.getResourses().getString(R.string.downloadAndSend_title), App.getResourses().getString(R.string.downloadAndSend_desc), true);
+    }
+
+    private static Script getSaveAndCompressScript() {
+        List<ScriptAction> saveAndCompressActions = new ArrayList<>();
+        List<ScriptSelection> saveAndCompressSelections = new ArrayList<>();
+
+        saveAndCompressActions.add(new ActionDownload());
+        saveAndCompressActions.add(new ActionCompress());
+
+        saveAndCompressSelections.add(new SelectionAllElements());
+
+        return new Script("Save and compress all elements", "title hoe", true, saveAndCompressActions, saveAndCompressSelections);
     }
 
     public static List<Script> getAllScripts() {

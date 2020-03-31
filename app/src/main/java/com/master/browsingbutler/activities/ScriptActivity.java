@@ -11,11 +11,13 @@ import androidx.annotation.Nullable;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.Configuration;
-import com.master.browsingbutler.models.ScriptItem;
+import com.master.browsingbutler.models.scripts.ScriptItem;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
 
 public class ScriptActivity extends ActivityWithSwitchHandler {
+
+    private boolean isExecution = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,14 +27,20 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         Button newScript = this.findViewById(R.id.new_script_button);
-        newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
+        if (this.getIntent().getBooleanExtra("EXECUTION", false)) {
+            this.isExecution = true;
+            newScript.setVisibility(View.GONE);
+        } else {
+            this.isExecution = false;
+            newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(this, "onResume");
-        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_script_screen);
+        WebpageRetrieverActivity.configuration.configureToolbar(this, this.isExecution ? R.string.toolbar_script_exec_screen : R.string.toolbar_script_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Scripts");
     }
 
@@ -51,7 +59,17 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
 
     @Override
     public void switchHandler(View view, int position) {
-        this.startActivity(this.configureScriptOptionIntent(view, position, false));
+        if (this.isExecution) {
+            this.startScriptExecution(view, position);
+        } else {
+            this.startActivity(this.configureScriptOptionIntent(view, position, false));
+        }
+    }
+
+    private void startScriptExecution(View view, int position) {
+        boolean premade = ((View) view.getParent().getParent()).getId() == R.id.premade_script_layout;
+        ScriptItem script = (ScriptItem) (premade ? Configuration.premadeListDataset.get(position) : Configuration.customListDataset.get(position));
+        script.getScript().startExecution();
     }
 
     private Intent configureScriptOptionIntent(View view, int position, boolean newScript) {

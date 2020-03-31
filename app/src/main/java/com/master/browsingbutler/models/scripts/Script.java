@@ -1,21 +1,16 @@
-package com.master.browsingbutler.models;
+package com.master.browsingbutler.models.scripts;
 
 import androidx.annotation.NonNull;
 
 import com.master.browsingbutler.components.Scripts;
+import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
+import com.master.browsingbutler.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Script {
-
-    public enum Type {
-        PREMADE, CUSTOM
-    }
-
-    public enum Option {
-        ACTION, SELECTION
-    }
 
     private String title;
     private String description;
@@ -37,6 +32,19 @@ public class Script {
 
     public Script() {
         this(null, null);
+    }
+
+    public Script(String title, String description, boolean isPremade, List<ScriptAction> actions, List<ScriptSelection> selections) {
+        this(title, description, isPremade);
+        this.actions = actions;
+        this.selections = selections;
+    }
+
+    public void startExecution() {
+        Log.d(this, "Executing script: " + this.toString());
+
+
+        this.actions.forEach(ScriptAction::execute);
     }
 
     public String getTitle() {
@@ -81,6 +89,14 @@ public class Script {
 
     public void setSelections(List<ScriptSelection> selections) {
         this.selections = selections;
+    }
+
+    public enum Type {
+        PREMADE, CUSTOM
+    }
+
+    public enum Option {
+        ACTION, SELECTION
     }
 
     @NonNull

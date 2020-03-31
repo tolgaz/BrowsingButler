@@ -41,15 +41,20 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
+    
+    public void downloadAllElements() throws MalformedURLException {
+        /* Save */
+        Log.d(this, "pos 0 ");
+        ElementGrabber.grabElements();
+        ActivityUtils.engageActivityComplete(this, "Media has been successfully saved!");
+    }
 
     @Override
     public void switchHandler(View view, int position) throws MalformedURLException {
         switch (position) {
             case 0:
                 /* Save */
-                Log.d(this, "pos 0 ");
-                ElementGrabber.grabElements();
-                ActivityUtils.engageActivityComplete(this, "Media has been successfully saved!");
+                downloadAllElements();
                 break;
             case 1:
                 /* Save and compress */

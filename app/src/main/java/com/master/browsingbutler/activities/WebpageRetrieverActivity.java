@@ -51,7 +51,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         configuration.configureToolbar(this, R.string.toolbar_main);
-        Scripts.initScripts(this);
+        Scripts.initScripts();
         this.loadWebpage();
     }
 

@@ -20,10 +20,21 @@ import com.master.browsingbutler.components.Initializer;
 import com.master.browsingbutler.components.MultiSpinner;
 import com.master.browsingbutler.components.MultiSpinner.MultiSpinnerListener;
 import com.master.browsingbutler.components.Scripts;
-import com.master.browsingbutler.models.Script;
-import com.master.browsingbutler.models.ScriptAction;
-import com.master.browsingbutler.models.ScriptOption;
-import com.master.browsingbutler.models.ScriptSelection;
+import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.models.scripts.actions.ActionCompress;
+import com.master.browsingbutler.models.scripts.actions.ActionDownload;
+import com.master.browsingbutler.models.scripts.actions.ActionFileCreator;
+import com.master.browsingbutler.models.scripts.actions.ActionShare;
+import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
+import com.master.browsingbutler.models.scripts.selections.SelectionAllElements;
+import com.master.browsingbutler.models.scripts.selections.SelectionAllPictures;
+import com.master.browsingbutler.models.scripts.selections.SelectionAllText;
+import com.master.browsingbutler.models.scripts.selections.SelectionFirstElement;
+import com.master.browsingbutler.models.scripts.selections.SelectionFirstXElements;
+import com.master.browsingbutler.models.scripts.selections.SelectionLastElement;
+import com.master.browsingbutler.models.scripts.selections.SelectionLastXElements;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
 
@@ -278,22 +289,22 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
     private void initScriptActions() {
         ArrayList<ScriptAction> scriptActions = new ArrayList<>();
-        scriptActions.add(new ScriptAction(this.getString(R.string.script_action_download_title), this.getString(R.string.script_action_download_desc)));
-        scriptActions.add(new ScriptAction(this.getString(R.string.script_action_compress_title), this.getString(R.string.script_action_compress_desc)));
-        scriptActions.add(new ScriptAction(this.getString(R.string.script_action_file_creator_title), this.getString(R.string.script_action_file_creator_desc)));
-        scriptActions.add(new ScriptAction(this.getString(R.string.script_action_share_title), this.getString(R.string.script_action_share_desc)));
+        scriptActions.add(new ActionDownload());
+        scriptActions.add(new ActionCompress());
+        scriptActions.add(new ActionFileCreator());
+        scriptActions.add(new ActionShare());
         ScriptAction.setScriptActions(scriptActions);
     }
 
     private void initScriptSelections() {
         ArrayList<ScriptSelection> scriptSelections = new ArrayList<>();
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_all_elements_title)));
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_first_elements_title)));
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_last_elements_title)));
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_first_x_elements_title)));
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_last_x_elements_title)));
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_all_pictures_title)));
-        scriptSelections.add(new ScriptSelection(this.getString(R.string.script_selection_all_text_title)));
+        scriptSelections.add(new SelectionAllElements());
+        scriptSelections.add(new SelectionFirstElement());
+        scriptSelections.add(new SelectionLastElement());
+        scriptSelections.add(new SelectionFirstXElements());
+        scriptSelections.add(new SelectionLastXElements());
+        scriptSelections.add(new SelectionAllPictures());
+        scriptSelections.add(new SelectionAllText());
         ScriptSelection.setScriptSelections(scriptSelections);
     }
 

@@ -1,4 +1,4 @@
-package com.master.browsingbutler.models;
+package com.master.browsingbutler.models.scripts;
 
 public interface ScriptOption {
     Script.Option getOptionType();

@@ -1,4 +1,10 @@
-package com.master.browsingbutler.models;
+package com.master.browsingbutler.models.scripts.actions;
+
+import androidx.annotation.NonNull;
+
+import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.utils.Log;
 
 import java.util.List;
 
@@ -46,11 +52,22 @@ public class ScriptAction implements ScriptOption {
         return Script.Option.ACTION;
     }
 
+    @Override
     public int getID() {
         return this.ID;
     }
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Title: " + this.title + "\n Desc: " + this.description;
+    }
+
+    public void execute() {
+        Log.d(this, "Executing script! " + this.getClass().getName() + " - " + this.toString());
     }
 }
