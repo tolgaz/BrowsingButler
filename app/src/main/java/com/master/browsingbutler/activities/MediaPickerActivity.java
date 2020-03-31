@@ -70,4 +70,15 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
         this.startActivity(new Intent(this, CompressResizeActivity.class));
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
 }

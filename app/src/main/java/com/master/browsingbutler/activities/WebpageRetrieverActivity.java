@@ -111,6 +111,18 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         this.runOnUiThread(() -> this.findViewById(R.id.magic_button).setVisibility(View.INVISIBLE));
     }
     /* Button opeartions */
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
 }
 
 

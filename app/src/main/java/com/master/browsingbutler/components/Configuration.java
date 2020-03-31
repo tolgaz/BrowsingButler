@@ -12,6 +12,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.activities.ActivityWithSwitchHandler;
 import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter;
@@ -63,10 +64,10 @@ public class Configuration implements ItemClickListener {
 
     private void configureOperations() {
         ArrayList<ListItem> listDataset = new ArrayList<>();
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.operations_save_title), getText(this.currActivity, R.string.operations_save_desc)));
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.operations_share_title), getText(this.currActivity, R.string.operations_share_desc)));
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.operations_script_title), getText(this.currActivity, R.string.operations_script_desc)));
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.operations_google_title), getText(this.currActivity, R.string.operations_google_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_save_title), getText(R.string.operations_save_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_share_title), getText(R.string.operations_share_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_script_title), getText(R.string.operations_script_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_google_title), getText(R.string.operations_google_desc)));
 
         RecyclerView recyclerView = this.currActivity.findViewById(R.id.operation_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.currActivity));
@@ -77,11 +78,11 @@ public class Configuration implements ItemClickListener {
 
     private void configureSave() {
         ArrayList<ListItem> listDataset = new ArrayList<>();
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.save_save_title), getText(this.currActivity, R.string.save_save_desc)));
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.save_compress_title), getText(this.currActivity, R.string.save_compress_desc)));
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.save_share_title), getText(this.currActivity, R.string.save_share_desc)));
-        //listDataset.add(new ListItem(getText(this.currActivity, R.string.save_script_title), getText(this.currActivity, R.string.save_script_desc)));
-        listDataset.add(new ListItem(getText(this.currActivity, R.string.save_google_title), getText(this.currActivity, R.string.save_google_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_save_title), getText(R.string.save_save_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_compress_title), getText(R.string.save_compress_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_share_title), getText(R.string.save_share_desc)));
+        //listDataset.add(new ListItem(getText(R.string.save_script_title), getText(R.string.save_script_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_google_title), getText(R.string.save_google_desc)));
 
         RecyclerView recyclerView = this.currActivity.findViewById(R.id.save_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.currActivity));
@@ -132,8 +133,8 @@ public class Configuration implements ItemClickListener {
         recyclerView.setAdapter(imagePickerRecycleViewAdapter);
     }
 
-    private static String getText(AppCompatActivity activity, int id) {
-        return activity.getResources().getString(id);
+    private static String getText(int id) {
+        return App.getResourses().getString(id);
     }
 
     public ImagePickerRecycleViewAdapter getImagePickerRecycleViewAdapter() {

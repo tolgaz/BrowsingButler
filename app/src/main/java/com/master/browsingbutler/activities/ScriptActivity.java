@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.Configuration;
 import com.master.browsingbutler.models.scripts.ScriptItem;
-import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
 
 public class ScriptActivity extends ActivityWithSwitchHandler {
@@ -52,12 +51,6 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        ActivityUtils.transitionBack(this);
-    }
-
-    @Override
     public void switchHandler(View view, int position) {
         if (this.isExecution) {
             this.startScriptExecution(view, position);
@@ -81,5 +74,17 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         }
         intent.putExtra("NEW_SCRIPT", newScript);
         return intent;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

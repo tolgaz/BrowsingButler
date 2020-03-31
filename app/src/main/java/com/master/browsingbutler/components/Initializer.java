@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.scripts.Script;
 
@@ -17,17 +18,17 @@ public class Initializer {
     /* DEV TOOL */
     private static boolean overWriteSharedPref = true;
 
-    public static void initApplication(Context context) {
+    public static void initApplication() {
         /* If scripts doesn't exist - create and save them */
         /* or retrieve them */
         Gson gson = new Gson();
-        SharedPreferences sharedPreferences = getSharedPref(context);
-        String json = sharedPreferences.getString(context.getString(R.string.scripts_save_key), null);
+        SharedPreferences sharedPreferences = getSharedPref();
+        String json = sharedPreferences.getString(App.getResourses().getString(R.string.scripts_save_key), null);
 
         /* only tempoararry this shoudl bne in the activity first launched */
         if (overWriteSharedPref || json == null) {
             Scripts.initScripts();
-            saveScripts(context);
+            saveScripts();
         } else {
             Type listOfScriptsType = new TypeToken<List<Script>>() {
             }.getType();
@@ -36,16 +37,16 @@ public class Initializer {
         }
     }
 
-    public static void saveScripts(Context context) {
-        SharedPreferences sharedPreferences = getSharedPref(context);
+    public static void saveScripts() {
+        SharedPreferences sharedPreferences = getSharedPref();
         Editor prefsEditor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(Scripts.getAllScripts());
-        prefsEditor.putString(context.getString(R.string.scripts_save_key), json);
+        prefsEditor.putString(App.getResourses().getString(R.string.scripts_save_key), json);
         prefsEditor.apply();
     }
 
-    private static SharedPreferences getSharedPref(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.application_shared_pref_name), Context.MODE_PRIVATE);
+    private static SharedPreferences getSharedPref() {
+        return App.getInstance().getSharedPreferences(App.getResourses().getString(R.string.application_shared_pref_name), Context.MODE_PRIVATE);
     }
 }

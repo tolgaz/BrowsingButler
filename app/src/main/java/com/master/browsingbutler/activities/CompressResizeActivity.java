@@ -1,5 +1,6 @@
 package com.master.browsingbutler.activities;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -179,7 +180,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
             Log.d(this, e.getMessage());
         }
         Log.d(this, "applyCompressResize done");
-        ActivityUtils.engageActivityComplete(this, "Media has been successfully compressed/resized and saved!");
+        ActivityUtils.engageActivityComplete("Media has been successfully compressed/resized and saved!");
     }
 
     private void moveAndOverwriteFile(Path source, Path target) {
@@ -219,14 +220,20 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        ActivityUtils.transitionBack(this);
-    }
-
-    @Override
     public void switchHandler(View view, int position) {
         Log.d(this, "switchHandler");
         Log.d(this, "switchHandler done");
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

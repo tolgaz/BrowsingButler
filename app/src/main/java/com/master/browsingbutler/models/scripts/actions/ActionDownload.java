@@ -2,6 +2,7 @@ package com.master.browsingbutler.models.scripts.actions;
 
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.utils.Log;
 
 public class ActionDownload extends ScriptAction {
 
@@ -10,5 +11,12 @@ public class ActionDownload extends ScriptAction {
 
     public ActionDownload() {
         super(title, description);
+    }
+
+    @Override
+    public void execute() {
+        Log.d(this, "ACTIONDOWNLOAD EXECUTING! DOWNLOADING ELEMENTS");
+        
+
     }
 }

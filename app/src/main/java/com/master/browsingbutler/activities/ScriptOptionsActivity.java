@@ -1,5 +1,6 @@
 package com.master.browsingbutler.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -110,7 +111,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
                 deleteScriptButton.setOnClickListener(v -> {
                     Scripts.deleteScript(this.script);
                     //toast script deleted
-                    ActivityUtils.displayToastSuccessful(this, this.getString(R.string.toast_script_deleted));
+                    ActivityUtils.displayToastSuccessful(this.getString(R.string.toast_script_deleted));
                     this.onBackPressed();
                 });
             } else {
@@ -242,14 +243,12 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             if (!this.validateInput(title, scriptActions, scriptSelections)) return;
             if (this.newScript) {
                 Scripts.addScript(this.script);
-                ActivityUtils.displayToastSuccessful(this, this.getString(R.string.toast_script_created));
+                ActivityUtils.displayToastSuccessful(this.getString(R.string.toast_script_created));
             } else {
-                ActivityUtils.displayToastSuccessful(this, this.getString(R.string.toast_script_saved));
+                ActivityUtils.displayToastSuccessful(this.getString(R.string.toast_script_saved));
             }
         }
-
         super.onBackPressed();
-        ActivityUtils.transitionBack(this);
     }
 
     @Override
@@ -257,8 +256,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         super.onPause();
         Log.d(this.getClass(), "onPause!!");
         /* Save new script info */
-        if (!this.hasCancelButtonBeenClicked || this.hasChangeBeenMade)
-            Initializer.saveScripts(this.getApplicationContext());
+        if (!this.hasCancelButtonBeenClicked || this.hasChangeBeenMade) Initializer.saveScripts();
     }
 
     @Override
@@ -311,5 +309,17 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     @Override
     public void switchHandler(View view, int position) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

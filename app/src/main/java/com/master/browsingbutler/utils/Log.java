@@ -26,6 +26,10 @@ public class Log {
         return TAG + "|" + className;
     }
 
+    private static String appendTag() {
+        return TAG + "|";
+    }
+
     public static void d(Activity caller, String message) {
         String tag = appendTagWithClass(getClassName(caller));
         android.util.Log.d(tag, message);
@@ -39,6 +43,10 @@ public class Log {
     public static void d(Object caller) {
         String tag = appendTagWithClass(getClassName(caller));
         android.util.Log.d(tag, getMethodName());
+    }
+
+    public static void d(String text) {
+        android.util.Log.d(appendTag(), text);
     }
 
     public static void e(Activity caller) {

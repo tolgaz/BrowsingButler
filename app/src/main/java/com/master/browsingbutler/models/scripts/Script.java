@@ -42,8 +42,6 @@ public class Script {
 
     public void startExecution() {
         Log.d(this, "Executing script: " + this.toString());
-
-
         this.actions.forEach(ScriptAction::execute);
     }
 

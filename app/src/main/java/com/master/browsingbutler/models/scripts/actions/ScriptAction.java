@@ -2,6 +2,7 @@ package com.master.browsingbutler.models.scripts.actions;
 
 import androidx.annotation.NonNull;
 
+import com.master.browsingbutler.activities.SaveActivity;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
@@ -69,5 +70,6 @@ public class ScriptAction implements ScriptOption {
 
     public void execute() {
         Log.d(this, "Executing script! " + this.getClass().getName() + " - " + this.toString());
+        SaveActivity.downloadAllElements();
     }
 }

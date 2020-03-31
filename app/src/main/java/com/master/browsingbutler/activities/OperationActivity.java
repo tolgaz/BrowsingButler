@@ -24,7 +24,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Initializer.initApplication(this);
+        Initializer.initApplication();
 
         Log.d(this);
         this.setContentView(R.layout.activity_operation);
@@ -82,5 +82,17 @@ public class OperationActivity extends ActivityWithSwitchHandler {
                 Log.d(this, "Swith default");
                 break;
         }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
     }
 }

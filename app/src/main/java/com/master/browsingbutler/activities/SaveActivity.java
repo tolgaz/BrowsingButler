@@ -15,8 +15,11 @@ import com.master.browsingbutler.utils.ElementGrabber;
 import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
+import java.util.Arrays;
 
 public class SaveActivity extends ActivityWithSwitchHandler {
+
+    private static String TAG = "SaveActivity";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +44,16 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
-    
-    public void downloadAllElements() throws MalformedURLException {
-        /* Save */
-        Log.d(this, "pos 0 ");
-        ElementGrabber.grabElements();
-        ActivityUtils.engageActivityComplete(this, "Media has been successfully saved!");
+
+    public static void downloadAllElements() {
+        try {
+            /* Save */
+            Log.d(TAG, "pos 0 ");
+            ElementGrabber.grabElements();
+            ActivityUtils.engageActivityComplete("Media has been successfully saved!");
+        } catch (MalformedURLException e) {
+            Log.d(".", "caught eception: " + Arrays.toString(e.getStackTrace()));
+        }
     }
 
     @Override
@@ -83,8 +90,14 @@ public class SaveActivity extends ActivityWithSwitchHandler {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        ActivityUtils.transitionBack(this);
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }
