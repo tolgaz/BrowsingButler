@@ -2,13 +2,14 @@ package com.master.browsingbutler.models.scripts.selections;
 
 import androidx.annotation.NonNull;
 
+import com.master.browsingbutler.models.scripts.Executable;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
 import java.util.List;
 
-public class ScriptSelection implements ScriptOption {
+public class ScriptSelection implements ScriptOption, Executable {
     private static int selectionCounter = 0;
     private int ID;
     private static List<ScriptSelection> scriptSelections;
@@ -72,8 +73,10 @@ public class ScriptSelection implements ScriptOption {
         return "Title: " + this.title + "\n Desc: " + this.description;
     }
 
+    @Override
     public void execute() {
         Log.d(this, "Executing script! " + this.toString());
+        throw new UnsupportedOperationException();
     }
 }
 

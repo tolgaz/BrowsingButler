@@ -9,4 +9,9 @@ public class SelectionAllText extends ScriptSelection {
     public SelectionAllText() {
         super(title, null);
     }
+
+    @Override
+    public void execute() {
+        super.execute();
+    }
 }

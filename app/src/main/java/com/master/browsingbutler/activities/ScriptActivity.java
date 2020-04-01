@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
@@ -28,10 +29,12 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         Button newScript = this.findViewById(R.id.new_script_button);
         if (this.getIntent().getBooleanExtra("EXECUTION", false)) {
             this.isExecution = true;
-            newScript.setVisibility(View.GONE);
+            LinearLayout linearLayout = this.findViewById(R.id.new_script_button_layout);
+            linearLayout.setVisibility(View.GONE);
         } else {
             this.isExecution = false;
             newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
+
         }
     }
 

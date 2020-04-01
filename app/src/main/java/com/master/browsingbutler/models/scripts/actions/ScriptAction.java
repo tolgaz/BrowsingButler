@@ -2,12 +2,13 @@ package com.master.browsingbutler.models.scripts.actions;
 
 import androidx.annotation.NonNull;
 
+import com.master.browsingbutler.models.scripts.Executable;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 
 import java.util.List;
 
-public abstract class ScriptAction implements ScriptOption {
+public class ScriptAction implements ScriptOption, Executable {
     private static int actionCounter = 0;
     private int ID;
     private static List<ScriptAction> scriptActions;
@@ -66,5 +67,8 @@ public abstract class ScriptAction implements ScriptOption {
         return "Title: " + this.title + "\n Desc: " + this.description;
     }
 
-    public abstract void execute();
+    @Override
+    public void execute() {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -9,4 +9,9 @@ public class SelectionLastXElements extends ScriptSelection {
     public SelectionLastXElements() {
         super(title, null);
     }
+
+    @Override
+    public void execute() {
+        super.execute();
+    }
 }

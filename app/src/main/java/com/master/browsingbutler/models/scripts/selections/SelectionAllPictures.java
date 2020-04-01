@@ -10,4 +10,9 @@ public class SelectionAllPictures extends ScriptSelection {
     public SelectionAllPictures() {
         super(title, null);
     }
+
+    @Override
+    public void execute() {
+        super.execute();
+    }
 }

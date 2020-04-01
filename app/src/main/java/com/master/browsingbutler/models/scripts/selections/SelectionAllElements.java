@@ -10,4 +10,9 @@ public class SelectionAllElements extends ScriptSelection {
     public SelectionAllElements() {
         super(title, null);
     }
+
+    @Override
+    public void execute() {
+        super.execute();
+    }
 }

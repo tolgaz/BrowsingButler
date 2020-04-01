@@ -21,6 +21,10 @@ public class ActivityUtils {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         App.getInstance().startActivity(intent);
     }
+
+    public static int dpToPx(float dp) {
+        return (int) (dp * (((float) App.getResourses().getDisplayMetrics().densityDpi) / 160.0f));
+    }
 }
 
 

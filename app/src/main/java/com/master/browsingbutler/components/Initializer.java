@@ -16,7 +16,7 @@ import java.util.List;
 public class Initializer {
 
     /* DEV TOOL */
-    private static boolean overWriteSharedPref = true;
+    private static boolean overWriteSharedPref = false;
 
     public static void initApplication() {
         /* If scripts doesn't exist - create and save them */

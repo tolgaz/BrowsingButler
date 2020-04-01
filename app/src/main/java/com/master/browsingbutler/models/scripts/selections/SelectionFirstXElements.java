@@ -9,4 +9,9 @@ public class SelectionFirstXElements extends ScriptSelection {
     public SelectionFirstXElements() {
         super(title, null);
     }
+
+    @Override
+    public void execute() {
+        super.execute();
+    }
 }
