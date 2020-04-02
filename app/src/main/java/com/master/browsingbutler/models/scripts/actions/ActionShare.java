@@ -2,6 +2,7 @@ package com.master.browsingbutler.models.scripts.actions;
 
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
 public class ActionShare extends ScriptAction {
@@ -19,8 +20,12 @@ public class ActionShare extends ScriptAction {
     }
 
     @Override
+    public ScriptOption clone(ScriptOption scriptOption) {
+        return new ActionShare();
+    }
+
+    @Override
     public void execute() {
         Log.d(this, "ActionShare EXECUTING! ");
-
     }
 }

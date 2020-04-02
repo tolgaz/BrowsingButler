@@ -50,8 +50,6 @@ public class Scripts {
     }
 
     static void setAllScripts(List<Script> allScripts) {
-
-
         /*decode actions and selections*/
         allScripts.forEach(script -> {
             /* loop actions */

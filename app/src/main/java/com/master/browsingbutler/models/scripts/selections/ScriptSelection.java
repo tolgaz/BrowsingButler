@@ -60,6 +60,11 @@ public class ScriptSelection implements ScriptOption, Executable {
     }
 
     @Override
+    public ScriptOption clone(ScriptOption scriptOption) {
+        return null;
+    }
+
+    @Override
     public int getID() {
         return this.ID;
     }
@@ -83,7 +88,7 @@ public class ScriptSelection implements ScriptOption, Executable {
     @NonNull
     @Override
     public String toString() {
-        return "Title: " + this.title + "\n Desc: " + this.description;
+        return "Title: " + this.title + "\nDesc: " + this.description;
     }
 
     @Override

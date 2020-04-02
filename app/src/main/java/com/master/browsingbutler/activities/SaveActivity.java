@@ -45,16 +45,20 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         return true;
     }
 
-    public static void downloadAllElements(boolean returnToOperationScreen) {
+    public static void downloadAllElements(String mode) {
         try {
             /* Save */
             Log.d(TAG, "pos 0 ");
             ElementGrabber.grabElements();
-            if (returnToOperationScreen) {
-                ActivityUtils.engageActivityComplete("Media has been successfully saved!");
-            } else {
-                ActivityUtils.displayToast("Media has been successfully saved!");
-
+            switch (mode) {
+                case "NORMAL":
+                    ActivityUtils.engageActivityComplete("Media has been successfully saved!");
+                    break;
+                case "MULTIPLE_OPERATIONS":
+                    ActivityUtils.displayToast("Media has been successfully saved!");
+                    break;
+                case "SCRIPT":
+                    break;
             }
         } catch (MalformedURLException e) {
             Log.d(".", "caught eception: " + Arrays.toString(e.getStackTrace()));
@@ -66,12 +70,12 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         switch (position) {
             case 0:
                 /* Save */
-                downloadAllElements(true);
+                downloadAllElements("NORMAL");
                 break;
             case 1:
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
-                downloadAllElements(false);
+                downloadAllElements("MULTIPLE_OPERATIONS");
                 this.startActivity(new Intent(this, MediaPickerActivity.class));
                 break;
             case 2:

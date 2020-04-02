@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
 public class ActionCompress extends ScriptAction {
@@ -29,9 +30,15 @@ public class ActionCompress extends ScriptAction {
         return ID;
     }
 
+    @Override
+    public ScriptOption clone(ScriptOption scriptOption) {
+        ActionCompress castedOption = (ActionCompress) scriptOption;
+        return new ActionCompress(castedOption.getQuality(), castedOption.getWidth(), castedOption.getHeight());
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "ActionCompress! Height: " + this.getHeight() + ", width: " + this.getWidth() + ", quality: " + this.getQuality() + ". " + super.toString();
+        return "ActionCompress. Width: " + this.getWidth() + ", height: " + this.getHeight() + ", quality: " + this.getQuality() + ". \n" + super.toString();
     }
 }

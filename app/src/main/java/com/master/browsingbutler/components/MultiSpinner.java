@@ -13,6 +13,8 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.models.scripts.actions.ActionCompress;
+import com.master.browsingbutler.models.scripts.actions.ActionDownload;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 
@@ -26,6 +28,8 @@ public class MultiSpinner<T> extends AppCompatSpinner implements OnMultiChoiceCl
     private MultiSpinnerListener listener;
     private Script.Option optionType;
     private String title;
+    private int checkedCounter;
+    private int[] order;
 
     public MultiSpinner(Context context) {
         super(context);
@@ -41,12 +45,28 @@ public class MultiSpinner<T> extends AppCompatSpinner implements OnMultiChoiceCl
 
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        if (isChecked && this.optionType == Script.Option.ACTION && which == ActionCompress.getStaticID()) {
+            /* if compression is slsected check download aswell */
+            ((AlertDialog) dialog).getListView().setItemChecked(ActionDownload.getStaticID(), true);
+            this.selected[ActionDownload.getStaticID()] = true;
+            this.order[ActionDownload.getStaticID()] = this.checkedCounter++;
+        }
+        if (isChecked) {
+            this.order[which] = this.checkedCounter;
+        } else {
+            int orderValue = this.order[which];
+            for (int i = 0; i < this.order.length; i++) {
+                if (this.order[i] > orderValue) this.order[i] -= 1;
+            }
+            this.order[which] = -1;
+        }
+        this.checkedCounter = Math.max(isChecked ? this.checkedCounter + 1 : this.checkedCounter - 1, 0);
         this.selected[which] = isChecked;
     }
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        this.listener.onItemsSelected(this.selected, this.optionType);
+        this.listener.onItemsSelected(this.selected, this.optionType, this.order);
     }
 
     @Override
@@ -82,18 +102,23 @@ public class MultiSpinner<T> extends AppCompatSpinner implements OnMultiChoiceCl
         this.optionType = optionType;
         this.title = title;
         this.listener = listener;
+        this.checkedCounter = scriptElement.size();
+        this.order = new int[items.size()];
 
         // can this be done better??
         this.selected = new boolean[items.size()];
         for (int i = 0; i < items.size(); i++) {
             boolean match = false;
-            for (int j = 0; j < scriptElement.size(); j++) {
-                if (((ScriptOption) items.get(i)).getID() == ((ScriptOption) scriptElement.get(j)).getID()) {
+            ScriptOption currScriptOption = (ScriptOption) items.get(i);
+            int j;
+            for (j = 0; j < scriptElement.size(); j++) {
+                if (currScriptOption.getID() == ((ScriptOption) scriptElement.get(j)).getID()) {
                     match = true;
                     break;
                 }
             }
             this.selected[i] = match;
+            this.order[i] = match ? j : -1;
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item);
@@ -101,6 +126,6 @@ public class MultiSpinner<T> extends AppCompatSpinner implements OnMultiChoiceCl
     }
 
     public interface MultiSpinnerListener {
-        void onItemsSelected(boolean[] selected, Script.Option optionType);
+        void onItemsSelected(boolean[] selected, Script.Option optionType, int[] order);
     }
 }

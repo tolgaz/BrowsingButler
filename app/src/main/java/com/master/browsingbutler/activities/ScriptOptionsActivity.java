@@ -37,6 +37,7 @@ import com.warkiz.widget.SeekParams;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements MultiSpinnerListener {
 
@@ -97,7 +98,10 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
         /* resize chekcbox */
         CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
-        resizeCheckbox.setOnClickListener(v -> CompressResizeActivity.flipVisibilityResizeContainer(this));
+        resizeCheckbox.setOnClickListener(v -> {
+            this.hasChangeBeenMade = true;
+            CompressResizeActivity.flipVisibilityResizeContainer(this);
+        });
 
         if (this.script.isPremade()) {
             this.disableAllInputFields();
@@ -292,14 +296,14 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
                         ScriptOptionsActivity.this.script.setDescription(s.toString());
                         break;
                     case "WIDTH":
-                        if (!s.toString().isEmpty()) {
+                        if (s.toString().isEmpty()) {
                             ScriptOptionsActivity.this.actionCompress.setWidth(0);
                         } else {
                             ScriptOptionsActivity.this.actionCompress.setWidth(Integer.parseInt(s.toString()));
                         }
                         break;
                     case "HEIGHT":
-                        if (!s.toString().isEmpty()) {
+                        if (s.toString().isEmpty()) {
                             ScriptOptionsActivity.this.actionCompress.setHeight(0);
                         } else {
                             ScriptOptionsActivity.this.actionCompress.setHeight(Integer.parseInt(s.toString()));
@@ -327,8 +331,8 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     @Override
     public void onBackPressed() {
         if (!this.hasCancelButtonBeenClicked && this.hasChangeBeenMade) {
-
             if (!this.validateInput()) return;
+            Log.d("ScriptOptionsActivity", this.script.toString());
             if (this.newScript) {
                 Scripts.addScript(this.script);
                 ActivityUtils.displayToast(this.getString(R.string.toast_script_created));
@@ -337,7 +341,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             }
         } else {
             ActivityUtils.displayToast("No changes made!");
-
         }
         super.onBackPressed();
     }
@@ -351,18 +354,24 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     }
 
     @Override
-    public void onItemsSelected(boolean[] selected, Script.Option optionType) {
+    public void onItemsSelected(boolean[] selected, Script.Option optionType, int[] order) {
         Log.d("spinner onitemselectd", Arrays.toString(selected));
         this.hasChangeBeenMade = true;
         /* ugly */
         if (optionType == Script.Option.ACTION) {
             ArrayList<ScriptAction> actuallySelectedOptions = new ArrayList<>();
+            this.populateList(actuallySelectedOptions, selected.length);
             for (int i = 0; i < selected.length; i++) {
-                if (selected[i])
-                    actuallySelectedOptions.add(ScriptAction.getScriptActions().get(i));
+                ScriptAction currentScriptAction = ScriptAction.getScriptActions().get(i);
+                if (selected[i]) {
+                    ScriptAction clonedAction = (ScriptAction) currentScriptAction.clone(currentScriptAction);
+//                    actuallySelectedOptions.add((ScriptAction) currentScriptAction.clone(currentScriptAction, actuallySelectedOptions.size()));
+                    actuallySelectedOptions.add(order[i], clonedAction);
+                }
             }
-
+            actuallySelectedOptions.removeIf(Objects::isNull);
             this.script.setActions(actuallySelectedOptions);
+            this.script.getActions().forEach(action -> Log.d(this, action.toString()));
             this.configureOptionTextView(this.script.getActions(), this.findViewById(R.id.script_actions));
             this.setScriptResizeLayoutVisibility();
         } else {
@@ -377,10 +386,20 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         }
     }
 
+    private void populateList(ArrayList<ScriptAction> actuallySelectedOptions, int size) {
+        for (int i = 0; i < size; i++) actuallySelectedOptions.add(null);
+    }
+
     private void setScriptResizeLayoutVisibility() {
         ConstraintLayout scriptResizeLayout = this.findViewById(R.id.script_resize_quality_layout);
         this.actionCompress = (ActionCompress) this.checkIfActionIsPresent(ActionCompress.class);
-        scriptResizeLayout.setVisibility(this.actionCompress != null ? View.VISIBLE : View.GONE);
+        if (this.actionCompress != null) {
+            IndicatorSeekBar indicatorSeekBar = this.findViewById(R.id.seekBar);
+            this.actionCompress.setQuality(indicatorSeekBar.getProgress());
+            scriptResizeLayout.setVisibility(View.VISIBLE);
+        } else {
+            scriptResizeLayout.setVisibility(View.GONE);
+        }
     }
 
     private ScriptAction checkIfActionIsPresent(Class<?> action) {

@@ -100,6 +100,13 @@ public class Script {
     @NonNull
     @Override
     public String toString() {
-        return "SCRIPT. ID: " + this.ID + ". Title: " + this.title + ", description: " + this.description + ". actions: " + this.actions.size() + ". selections: " + this.selections.size();
+        StringBuilder builder = new StringBuilder();
+        builder.append("SCRIPT. ID: ").append(this.ID).append(". Title: ").append(this.title).append(", description: ").append(this.description)
+                .append(". actions: ").append(this.actions.size()).append(". selections: ").append(this.selections.size());
+        builder.append("\nAction info: \n");
+        this.getActions().forEach(action -> builder.append(action.toString()).append("\n"));
+        builder.append("\nSelection info: \n");
+        this.getSelections().forEach(selection -> builder.append(selection.toString()).append("\n"));
+        return String.valueOf(builder);
     }
 }

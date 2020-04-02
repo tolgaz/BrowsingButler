@@ -70,6 +70,11 @@ public class ScriptAction implements ScriptOption, Executable {
         return Script.Option.ACTION;
     }
 
+    @Override
+    public ScriptOption clone(ScriptOption scriptOption) {
+        throw new UnsupportedOperationException();
+    }
+
     public static void initScriptActions() {
         ArrayList<ScriptAction> actions = new ArrayList<>();
         actions.add(new ActionDownload());
@@ -82,7 +87,7 @@ public class ScriptAction implements ScriptOption, Executable {
     @NonNull
     @Override
     public String toString() {
-        return "Title: " + this.title + "\n Desc: " + this.description;
+        return "Title: " + this.title + " - Desc: " + this.description;
     }
 
     @Override

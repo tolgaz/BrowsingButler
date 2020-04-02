@@ -62,7 +62,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
     }
 
     private void startScriptExecution(View view, int position) {
-        boolean premade = ((View) view.getParent().getParent()).getId() == R.id.premade_script_layout;
+        boolean premade = ((View) view.getParent().getParent().getParent()).getId() == R.id.premade_script_layout;
         ScriptItem script = (ScriptItem) (premade ? Configuration.premadeListDataset.get(position) : Configuration.customListDataset.get(position));
         script.getScript().startExecution();
     }
