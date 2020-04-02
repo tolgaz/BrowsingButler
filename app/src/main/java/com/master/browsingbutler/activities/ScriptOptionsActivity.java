@@ -126,8 +126,8 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
             createScriptButton.setOnClickListener(v -> this.onBackPressed());
             this.createAndSetSeekChangeListener(indicatorSeekBar);
-            this.createAndAddTextWatchers(widthInput, true);
-            this.createAndAddTextWatchers(heightInput, false);
+            this.createAndAddTextWatcher(widthInput, "WIDTH");
+            this.createAndAddTextWatcher(heightInput, "HEIGHT");
         }
     }
 
@@ -267,11 +267,12 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
             return;
         }
-        this.createAndAddTextWatchers(title, desc);
+        this.createAndAddTextWatcher(title, "TITLE");
+        this.createAndAddTextWatcher(desc, "DESCRIPTION");
     }
 
-    private void createAndAddTextWatchers(TextView title, TextView desc) {
-        TextWatcher titleTextWatcher = new TextWatcher() {
+    private void createAndAddTextWatcher(TextView textView, String type) {
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -283,60 +284,31 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             @Override
             public void afterTextChanged(Editable s) {
                 ScriptOptionsActivity.this.hasChangeBeenMade = true;
-                ScriptOptionsActivity.this.script.setTitle(s.toString());
-            }
-        };
-
-        TextWatcher descriptionTextWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                ScriptOptionsActivity.this.hasChangeBeenMade = true;
-                ScriptOptionsActivity.this.script.setDescription(s.toString());
-            }
-        };
-
-        title.addTextChangedListener(titleTextWatcher);
-        desc.addTextChangedListener(descriptionTextWatcher);
-    }
-
-    private void createAndAddTextWatchers(EditText compressDimensions, boolean width) {
-        TextWatcher titleTextWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                ScriptOptionsActivity.this.hasChangeBeenMade = true;
-                if (!s.toString().isEmpty()) {
-                    if (width) {
-                        ScriptOptionsActivity.this.actionCompress.setWidth(Integer.parseInt(s.toString()));
-                    } else {
-                        ScriptOptionsActivity.this.actionCompress.setHeight(Integer.parseInt(s.toString()));
-                    }
-                } else {
-                    if (width) {
-                        ScriptOptionsActivity.this.actionCompress.setWidth(0);
-                    } else {
-                        ScriptOptionsActivity.this.actionCompress.setHeight(0);
-                    }
+                switch (type) {
+                    case "TITLE":
+                        ScriptOptionsActivity.this.script.setTitle(s.toString());
+                        break;
+                    case "DESCRIPTION":
+                        ScriptOptionsActivity.this.script.setDescription(s.toString());
+                        break;
+                    case "WIDTH":
+                        if (!s.toString().isEmpty()) {
+                            ScriptOptionsActivity.this.actionCompress.setWidth(0);
+                        } else {
+                            ScriptOptionsActivity.this.actionCompress.setWidth(Integer.parseInt(s.toString()));
+                        }
+                        break;
+                    case "HEIGHT":
+                        if (!s.toString().isEmpty()) {
+                            ScriptOptionsActivity.this.actionCompress.setHeight(0);
+                        } else {
+                            ScriptOptionsActivity.this.actionCompress.setHeight(Integer.parseInt(s.toString()));
+                        }
+                        break;
                 }
             }
         };
-
-        compressDimensions.addTextChangedListener(titleTextWatcher);
+        textView.addTextChangedListener(textWatcher);
     }
 
     @Override
