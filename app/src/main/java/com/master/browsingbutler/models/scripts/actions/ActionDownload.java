@@ -9,9 +9,14 @@ public class ActionDownload extends ScriptAction {
 
     private static String title = App.getResourses().getString(R.string.script_action_download_title);
     private static String description = App.getResourses().getString(R.string.script_action_download_desc);
+    private static int ID = 0;
 
     public ActionDownload() {
-        super(title, description);
+        super(title, description, ID);
+    }
+
+    public static int getStaticID() {
+        return ID;
     }
 
     @Override

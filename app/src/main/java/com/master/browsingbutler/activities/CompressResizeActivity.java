@@ -22,6 +22,7 @@ import androidx.core.view.ViewCompat;
 
 import com.arthenica.mobileffmpeg.Config;
 import com.arthenica.mobileffmpeg.FFmpeg;
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.utils.ActivityUtils;
@@ -65,7 +66,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                 }).collect(Collectors.toList());
         /* if no video ew dont show quality - show resize */
         if (nonVideoElementWrappers.isEmpty()) {
-            CheckBox checkBox = this.findViewById(R.id.resize_chooser_button);
+            CheckBox checkBox = this.findViewById(R.id.resize_chooser_checkbox);
             this.findViewById(R.id.quality_wrapper).setVisibility(View.GONE);
             checkBox.callOnClick();
             checkBox.setChecked(true);
@@ -81,8 +82,8 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         Button applyButton = this.findViewById(R.id.apply_compress_resize_button);
         applyButton.setOnClickListener(v -> this.applyCompressResize());
 
-        CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_button);
-        resizeCheckbox.setOnClickListener(v -> this.flipVisibilityResizeContainer(applyButton));
+        CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
+        resizeCheckbox.setOnClickListener(v -> changeApplyButtonApperance(applyButton, flipVisibilityResizeContainer(this)));
 
         EditText widthEditText = this.findViewById(R.id.resize_width_input);
         EditText heightEditText = this.findViewById(R.id.resize_height_input);
@@ -121,20 +122,28 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         return true;
     }
 
-    private void flipVisibilityResizeContainer(Button applyButton) {
-        Log.d(this, "flipVisibilityResizeContainer clicked");
-        ConstraintLayout constraintLayout = this.findViewById(R.id.container_resize);
-        int visibility = constraintLayout.getVisibility();
-        if (visibility == View.VISIBLE) {
-            ((TextView) this.findViewById(R.id.resize_width_input)).setText(null);
-            ((TextView) this.findViewById(R.id.resize_height_input)).setText(null);
+    public static boolean flipVisibilityResizeContainer(ActivityWithSwitchHandler activity) {
+        Log.d(activity, "flipVisibilityResizeContainer clicked");
+        ConstraintLayout constraintLayout = activity.findViewById(R.id.container_resize);
+        if (constraintLayout.getVisibility() == View.VISIBLE) {
+            ((TextView) activity.findViewById(R.id.resize_width_input)).setText(null);
+            ((TextView) activity.findViewById(R.id.resize_height_input)).setText(null);
+            constraintLayout.setVisibility(View.GONE);
+            return true;
+        } else {
+            constraintLayout.setVisibility(View.VISIBLE);
+            return false;
+        }
+    }
+
+    private static void changeApplyButtonApperance(Button applyButton, boolean shouldBeClickable) {
+        if (shouldBeClickable) {
             ViewCompat.setBackgroundTintList(applyButton, null);
             applyButton.setClickable(true);
         } else {
-            ViewCompat.setBackgroundTintList(applyButton, ColorStateList.valueOf(this.getColor(R.color.DarkGray)));
+            ViewCompat.setBackgroundTintList(applyButton, ColorStateList.valueOf(App.getResourses().getColor(R.color.DarkGray, null)));
             applyButton.setClickable(false);
         }
-        constraintLayout.setVisibility(visibility == View.GONE ? View.VISIBLE : View.GONE);
     }
 
     private void applyCompressResize() {

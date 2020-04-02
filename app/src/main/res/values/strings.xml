@@ -52,7 +52,7 @@
     <string name="script_action_file_creator_title">Create a file with chosen elements</string>
     <string name="script_action_file_creator_desc">Choose between JPG, PNG and PDF.</string>
     <string name="script_action_share_title">Share</string>
-    <string name="script_action_share_desc">Share to a prespecified application</string>
+    <string name="script_action_share_desc">Open the share dialog automatically</string>
 
     <!-- Script selection -->
     <string name="script_selection_all_elements_title">All elements</string>

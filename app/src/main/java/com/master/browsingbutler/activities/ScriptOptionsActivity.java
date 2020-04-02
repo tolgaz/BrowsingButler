@@ -10,11 +10,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.Initializer;
@@ -24,20 +26,13 @@ import com.master.browsingbutler.components.Scripts;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.models.scripts.actions.ActionCompress;
-import com.master.browsingbutler.models.scripts.actions.ActionDownload;
-import com.master.browsingbutler.models.scripts.actions.ActionFileCreator;
-import com.master.browsingbutler.models.scripts.actions.ActionShare;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
-import com.master.browsingbutler.models.scripts.selections.SelectionAllElements;
-import com.master.browsingbutler.models.scripts.selections.SelectionAllPictures;
-import com.master.browsingbutler.models.scripts.selections.SelectionAllText;
-import com.master.browsingbutler.models.scripts.selections.SelectionFirstElement;
-import com.master.browsingbutler.models.scripts.selections.SelectionFirstXElements;
-import com.master.browsingbutler.models.scripts.selections.SelectionLastElement;
-import com.master.browsingbutler.models.scripts.selections.SelectionLastXElements;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +44,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     boolean newScript;
     boolean hasChangeBeenMade = false;
     private boolean hasCancelButtonBeenClicked = false;
+    private ActionCompress actionCompress = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,17 +69,19 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         EditText desc = this.findViewById(R.id.input_script_desc);
         this.fillAllScriptFields(title, desc);
 
-        this.initActionsAndSelections();
-
         /* text view config */
         TextView scriptActions = this.findViewById(R.id.script_actions);
         TextView scriptSelections = this.findViewById(R.id.script_selections);
         this.configureOptionTextView(this.script.getActions(), scriptActions);
+        /* this also sets action is available */
+        this.setScriptResizeLayoutVisibility();
         this.configureOptionTextView(this.script.getSelections(), scriptSelections);
 
-        /* createScriptButton, delete and cancel button */
-        Button createScriptButton = this.findViewById(R.id.create_script_button);
-        Button deleteScriptButton = this.findViewById(R.id.delete_script_button);
+        /* Fill action fields */
+        this.actionCompress = (ActionCompress) this.checkIfActionIsPresent(ActionCompress.class);
+        this.fillAllActionFields();
+
+        /* cancel button */
         ImageButton cancelScriptButton = this.findViewById(R.id.cancel_script_button);
         cancelScriptButton.setOnClickListener(v -> {
             this.hasCancelButtonBeenClicked = true;
@@ -97,54 +95,143 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         MultiSpinner<ScriptSelection> selectionSpinner = this.findViewById(R.id.script_selection_spinner);
         selectionSpinner.setItems(ScriptSelection.getScriptSelections(), this.script.getSelections(), Script.Option.SELECTION, this.getString(R.string.selection_spinner_text), this);
 
-        ImageButton scriptActionButton = this.findViewById(R.id.script_action_button);
-        ImageButton scriptSelectionButton = this.findViewById(R.id.script_selection_button);
+        /* resize chekcbox */
+        CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
+        resizeCheckbox.setOnClickListener(v -> CompressResizeActivity.flipVisibilityResizeContainer(this));
 
         if (this.script.isPremade()) {
-            scriptActionButton.setVisibility(View.GONE);
-            scriptSelectionButton.setVisibility(View.GONE);
-            createScriptButton.setVisibility(View.GONE);
-            deleteScriptButton.setVisibility(View.GONE);
+            this.disableAllInputFields();
         } else {
+            ImageButton scriptActionButton = this.findViewById(R.id.script_action_button);
+            ImageButton scriptSelectionButton = this.findViewById(R.id.script_selection_button);
+            Button createScriptButton = this.findViewById(R.id.create_script_button);
+            Button deleteScriptButton = this.findViewById(R.id.delete_script_button);
+            IndicatorSeekBar indicatorSeekBar = this.findViewById(R.id.seekBar);
+            EditText widthInput = this.findViewById(R.id.resize_width_input);
+            EditText heightInput = this.findViewById(R.id.resize_height_input);
+
             if (!this.newScript) {
                 createScriptButton.setText("Save changes");
                 deleteScriptButton.setOnClickListener(v -> {
                     Scripts.deleteScript(this.script);
                     //toast script deleted
-                    ActivityUtils.displayToastSuccessful(this.getString(R.string.toast_script_deleted));
+                    ActivityUtils.displayToast(this.getString(R.string.toast_script_deleted));
                     this.onBackPressed();
                 });
             } else {
                 deleteScriptButton.setVisibility(View.GONE);
             }
+
             scriptActionButton.setOnClickListener(v -> actionSpinner.performClick());
             scriptSelectionButton.setOnClickListener(v -> selectionSpinner.performClick());
             createScriptButton.setOnClickListener(v -> this.onBackPressed());
+            this.createAndSetSeekChangeListener(indicatorSeekBar);
+            this.createAndAddTextWatchers(widthInput, true);
+            this.createAndAddTextWatchers(heightInput, false);
         }
     }
 
-    private void initActionsAndSelections() {
-        if (ScriptAction.getScriptActions() == null) this.initScriptActions();
-        if (ScriptSelection.getScriptSelections() == null) this.initScriptSelections();
+    private void createAndSetSeekChangeListener(IndicatorSeekBar indicatorSeekBar) {
+        indicatorSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                ScriptOptionsActivity.this.actionCompress.setQuality(seekBar.getProgress());
+            }
+        });
     }
 
-    private boolean validateInput(EditText title, TextView scriptActions, TextView scriptSelections) {
+    private void disableAllInputFields() {
+        ImageButton scriptActionButton = this.findViewById(R.id.script_action_button);
+        ImageButton scriptSelectionButton = this.findViewById(R.id.script_selection_button);
+        Button createScriptButton = this.findViewById(R.id.create_script_button);
+        Button deleteScriptButton = this.findViewById(R.id.delete_script_button);
+
+        scriptActionButton.setVisibility(View.GONE);
+        scriptSelectionButton.setVisibility(View.GONE);
+        createScriptButton.setVisibility(View.GONE);
+        deleteScriptButton.setVisibility(View.GONE);
+
+        /* TODO only disable here. text should bes et soimewhere else */
+        if (this.actionCompress != null) {
+            CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
+            /* compress action settings */
+            IndicatorSeekBar indicatorSeekBar = this.findViewById(R.id.seekBar);
+            indicatorSeekBar.setUserSeekAble(false);
+            resizeCheckbox.setEnabled(false);
+        }
+    }
+
+    private void fillAllActionFields() {
+        if (this.actionCompress != null) {
+            /* compress action settings */
+            IndicatorSeekBar indicatorSeekBar = this.findViewById(R.id.seekBar);
+            indicatorSeekBar.setProgress(this.actionCompress.getQuality());
+
+            if (this.actionCompress.getWidth() > 0 && this.actionCompress.getHeight() > 0) {
+                CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
+                resizeCheckbox.setChecked(true);
+                ConstraintLayout resizeContainer = this.findViewById(R.id.container_resize);
+                resizeContainer.setVisibility(View.VISIBLE);
+                EditText widthInput = this.findViewById(R.id.resize_width_input);
+                EditText heightInput = this.findViewById(R.id.resize_height_input);
+
+                widthInput.setText(String.valueOf(this.actionCompress.getWidth()));
+                heightInput.setText(String.valueOf(this.actionCompress.getHeight()));
+            }
+        }
+    }
+
+
+    private boolean validateInput() {
         boolean validationSuccessful = true;
+        TextView scriptSelections = this.findViewById(R.id.script_selections);
         if (scriptSelections.getText().toString().isEmpty()) {
             scriptSelections.requestFocus();
             scriptSelections.setError("You must choose some selection(s) for the script!");
             validationSuccessful = false;
         }
+
+        TextView scriptActions = this.findViewById(R.id.script_actions);
         if (scriptActions.getText().toString().isEmpty()) {
             scriptActions.requestFocus();
             scriptActions.setError("You must choose some action(s) for the script!");
             validationSuccessful = false;
         }
+
+        EditText title = this.findViewById(R.id.input_script_name);
         if (title.getText().toString().isEmpty()) {
             title.requestFocus();
             title.setError("You must give the script a name!");
             validationSuccessful = false;
         }
+
+        if (this.actionCompress != null) {
+            /* Don't have to validate seekBar */
+            CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
+            if (resizeCheckbox.isChecked()) {
+                EditText heightInput = this.findViewById(R.id.resize_height_input);
+                if (heightInput.getText().toString().isEmpty()) {
+                    heightInput.requestFocus();
+                    heightInput.setError("You must give a value for height!");
+                    validationSuccessful = false;
+                }
+                EditText widthInput = this.findViewById(R.id.resize_width_input);
+                if (widthInput.getText().toString().isEmpty()) {
+                    widthInput.requestFocus();
+                    widthInput.setError("You must give a value for width!");
+                    validationSuccessful = false;
+                }
+            }
+        }
+
         return validationSuccessful;
     }
 
@@ -165,7 +252,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             textView.setEnabled(false);
         }
     }
-
 
     private void fillAllScriptFields(EditText title, EditText desc) {
         /* Name and desc */
@@ -221,6 +307,38 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         desc.addTextChangedListener(descriptionTextWatcher);
     }
 
+    private void createAndAddTextWatchers(EditText compressDimensions, boolean width) {
+        TextWatcher titleTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ScriptOptionsActivity.this.hasChangeBeenMade = true;
+                if (!s.toString().isEmpty()) {
+                    if (width) {
+                        ScriptOptionsActivity.this.actionCompress.setWidth(Integer.parseInt(s.toString()));
+                    } else {
+                        ScriptOptionsActivity.this.actionCompress.setHeight(Integer.parseInt(s.toString()));
+                    }
+                } else {
+                    if (width) {
+                        ScriptOptionsActivity.this.actionCompress.setWidth(0);
+                    } else {
+                        ScriptOptionsActivity.this.actionCompress.setHeight(0);
+                    }
+                }
+            }
+        };
+
+        compressDimensions.addTextChangedListener(titleTextWatcher);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -237,16 +355,17 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     @Override
     public void onBackPressed() {
         if (!this.hasCancelButtonBeenClicked && this.hasChangeBeenMade) {
-            EditText title = this.findViewById(R.id.input_script_name);
-            TextView scriptActions = this.findViewById(R.id.script_actions);
-            TextView scriptSelections = this.findViewById(R.id.script_selections);
-            if (!this.validateInput(title, scriptActions, scriptSelections)) return;
+
+            if (!this.validateInput()) return;
             if (this.newScript) {
                 Scripts.addScript(this.script);
-                ActivityUtils.displayToastSuccessful(this.getString(R.string.toast_script_created));
+                ActivityUtils.displayToast(this.getString(R.string.toast_script_created));
             } else {
-                ActivityUtils.displayToastSuccessful(this.getString(R.string.toast_script_saved));
+                ActivityUtils.displayToast(this.getString(R.string.toast_script_saved));
             }
+        } else {
+            ActivityUtils.displayToast("No changes made!");
+
         }
         super.onBackPressed();
     }
@@ -273,6 +392,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
             this.script.setActions(actuallySelectedOptions);
             this.configureOptionTextView(this.script.getActions(), this.findViewById(R.id.script_actions));
+            this.setScriptResizeLayoutVisibility();
         } else {
             ArrayList<ScriptSelection> actuallySelectedOptions = new ArrayList<>();
             for (int i = 0; i < selected.length; i++) {
@@ -285,25 +405,14 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         }
     }
 
-    private void initScriptActions() {
-        ArrayList<ScriptAction> scriptActions = new ArrayList<>();
-        scriptActions.add(new ActionDownload());
-        scriptActions.add(new ActionCompress());
-        scriptActions.add(new ActionFileCreator());
-        scriptActions.add(new ActionShare());
-        ScriptAction.setScriptActions(scriptActions);
+    private void setScriptResizeLayoutVisibility() {
+        ConstraintLayout scriptResizeLayout = this.findViewById(R.id.script_resize_quality_layout);
+        this.actionCompress = (ActionCompress) this.checkIfActionIsPresent(ActionCompress.class);
+        scriptResizeLayout.setVisibility(this.actionCompress != null ? View.VISIBLE : View.GONE);
     }
 
-    private void initScriptSelections() {
-        ArrayList<ScriptSelection> scriptSelections = new ArrayList<>();
-        scriptSelections.add(new SelectionAllElements());
-        scriptSelections.add(new SelectionFirstElement());
-        scriptSelections.add(new SelectionLastElement());
-        scriptSelections.add(new SelectionFirstXElements());
-        scriptSelections.add(new SelectionLastXElements());
-        scriptSelections.add(new SelectionAllPictures());
-        scriptSelections.add(new SelectionAllText());
-        ScriptSelection.setScriptSelections(scriptSelections);
+    private ScriptAction checkIfActionIsPresent(Class<?> action) {
+        return this.script.getActions().stream().filter(scriptAction -> scriptAction.getClass() == action).findFirst().orElse(null);
     }
 
     @Override

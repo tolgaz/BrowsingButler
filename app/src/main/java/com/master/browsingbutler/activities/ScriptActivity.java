@@ -34,7 +34,6 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
         } else {
             this.isExecution = false;
             newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
-
         }
     }
 
@@ -71,7 +70,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
     private Intent configureScriptOptionIntent(View view, int position, boolean newScript) {
         Intent intent = new Intent(this, ScriptOptionsActivity.class);
         if (!newScript) {
-            boolean premade = ((View) view.getParent().getParent()).getId() == R.id.premade_script_layout;
+            boolean premade = ((View) view.getParent().getParent().getParent()).getId() == R.id.premade_script_layout;
             ScriptItem script = (ScriptItem) (premade ? Configuration.premadeListDataset.get(position) : Configuration.customListDataset.get(position));
             intent.putExtra("SCRIPT-ID", script.getScript().getID());
         }

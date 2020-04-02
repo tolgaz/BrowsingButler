@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.master.browsingbutler.R;
-import com.master.browsingbutler.components.Initializer;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
 import com.master.browsingbutler.utils.Log;
 
@@ -23,9 +22,6 @@ public class OperationActivity extends ActivityWithSwitchHandler {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Initializer.initApplication();
-
         Log.d(this);
         this.setContentView(R.layout.activity_operation);
         if (firstRun) {

@@ -53,7 +53,7 @@ public class SaveActivity extends ActivityWithSwitchHandler {
             if (returnToOperationScreen) {
                 ActivityUtils.engageActivityComplete("Media has been successfully saved!");
             } else {
-                ActivityUtils.displayToastSuccessful("Media has been successfully saved!");
+                ActivityUtils.displayToast("Media has been successfully saved!");
 
             }
         } catch (MalformedURLException e) {

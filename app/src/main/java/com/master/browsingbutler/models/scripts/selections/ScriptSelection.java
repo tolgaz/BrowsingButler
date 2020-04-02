@@ -7,23 +7,24 @@ import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScriptSelection implements ScriptOption, Executable {
-    private static int selectionCounter = 0;
-    private int ID;
+
     private static List<ScriptSelection> scriptSelections;
     private String title;
     private String description;
+    private int ID;
 
-    public ScriptSelection(String title) {
+    public ScriptSelection(String title, int ID) {
         this.title = title;
         this.description = null;
-        this.ID = selectionCounter++;
+        this.ID = ID;
     }
 
-    public ScriptSelection(String title, String description) {
-        this(title);
+    public ScriptSelection(String title, String description, int ID) {
+        this(title, ID);
         this.description = description;
     }
 
@@ -65,6 +66,18 @@ public class ScriptSelection implements ScriptOption, Executable {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public static void initScriptSelections() {
+        ArrayList<ScriptSelection> selections = new ArrayList<>();
+        selections.add(new SelectionAllElements());
+        selections.add(new SelectionFirstElement());
+        selections.add(new SelectionLastElement());
+        selections.add(new SelectionFirstXElements());
+        selections.add(new SelectionLastXElements());
+        selections.add(new SelectionAllPictures());
+        selections.add(new SelectionAllText());
+        ScriptSelection.setScriptSelections(selections);
     }
 
     @NonNull

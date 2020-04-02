@@ -6,26 +6,39 @@ import com.master.browsingbutler.models.scripts.Executable;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScriptAction implements ScriptOption, Executable {
-    private static int actionCounter = 0;
-    private int ID;
+
     private static List<ScriptAction> scriptActions;
     private String title;
     private String description;
+    private int ID;
 
-    public ScriptAction(String title, String description) {
+    /* compression settings */
+    private int quality;
+    private int width;
+    private int height;
+
+    public ScriptAction(String title, String description, int ID) {
         this.title = title;
         this.description = description;
-        this.ID = actionCounter++;
+        this.ID = ID;
+    }
+
+    public ScriptAction(String title, String description, int ID, int quality, int width, int height) {
+        this(title, description, ID);
+        this.quality = quality;
+        this.width = width;
+        this.height = height;
     }
 
     public static List<ScriptAction> getScriptActions() {
         return scriptActions;
     }
 
-    public static void setScriptActions(List<ScriptAction> scriptActions) {
+    private static void setScriptActions(List<ScriptAction> scriptActions) {
         ScriptAction.scriptActions = scriptActions;
     }
 
@@ -43,6 +56,11 @@ public class ScriptAction implements ScriptOption, Executable {
         return this.description;
     }
 
+    @Override
+    public int getID() {
+        return this.ID;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -52,13 +70,13 @@ public class ScriptAction implements ScriptOption, Executable {
         return Script.Option.ACTION;
     }
 
-    @Override
-    public int getID() {
-        return this.ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
+    public static void initScriptActions() {
+        ArrayList<ScriptAction> actions = new ArrayList<>();
+        actions.add(new ActionDownload());
+        actions.add(new ActionCompress());
+        actions.add(new ActionFileCreator());
+        actions.add(new ActionShare());
+        ScriptAction.setScriptActions(actions);
     }
 
     @NonNull
@@ -70,5 +88,29 @@ public class ScriptAction implements ScriptOption, Executable {
     @Override
     public void execute() {
         throw new UnsupportedOperationException();
+    }
+
+    public int getQuality() {
+        return this.quality;
+    }
+
+    public void setQuality(int quality) {
+        this.quality = quality;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

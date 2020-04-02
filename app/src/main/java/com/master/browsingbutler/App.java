@@ -3,6 +3,7 @@ package com.master.browsingbutler;
 import android.app.Application;
 import android.content.res.Resources;
 
+import com.master.browsingbutler.components.Initializer;
 import com.master.browsingbutler.utils.Log;
 
 public class App extends Application {
@@ -16,6 +17,7 @@ public class App extends Application {
         Log.d(this, "im in app.jva oncreate");
         instance = this;
         resources = this.getResources();
+        Initializer.initApplication();
     }
 
     public static App getInstance() {

@@ -7,13 +7,13 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
+    <!-- cant have marginbottom because cancel imagebutton goes over the margin... wtf -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="8dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -164,7 +164,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -221,25 +221,25 @@
                                 android:id="@+id/seekBar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:baselineAligned="false"
                                 app:isb_indicator_color="@color/buttonColor"
                                 app:isb_indicator_text_color="@color/white"
                                 app:isb_indicator_text_size="14sp"
                                 app:isb_max="100"
                                 app:isb_min="0"
-                                app:isb_only_thumb_draggable="false"
                                 app:isb_progress="50"
-                                app:isb_show_indicator="circular_bubble"
+                                app:isb_show_tick_marks_type="none"
                                 app:isb_thumb_color="@color/buttonColor"
                                 app:isb_thumb_size="12dp"
                                 app:isb_track_background_color="@color/gray"
                                 app:isb_track_background_size="2dp"
                                 app:isb_track_progress_color="@color/buttonColor"
                                 app:isb_track_progress_size="4dp"
+                                app:isb_track_rounded_corners="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:isb_show_indicator="circular_bubble" />
                         </com.warkiz.widget.IndicatorStayLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -267,7 +267,7 @@
                             app:layout_constraintVertical_bias="0.0" />
 
                         <CheckBox
-                            android:id="@+id/resize_chooser_button"
+                            android:id="@+id/resize_chooser_checkbox"
                             android:layout_width="40dp"
                             android:layout_height="36dp"
                             android:layout_marginBottom="8dp"
@@ -276,63 +276,63 @@
                             android:gravity="center"
                             app:layout_constraintBottom_toTopOf="@+id/container_resize"
                             app:layout_constraintStart_toEndOf="@+id/textView8"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/container_resize"
-                            android:layout_width="190dp"
-                            android:layout_height="54dp"
-                            android:layout_marginTop="8dp"
-                            android:visibility="visible"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="11dp"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_bias="0.25"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView8"
-                            app:layout_constraintVertical_bias="0.0">
+                            app:layout_constraintTop_toBottomOf="@+id/textView8">
 
                             <EditText
                                 android:id="@+id/resize_width_input"
                                 android:layout_width="55dp"
                                 android:layout_height="50dp"
-                                android:layout_marginStart="32dp"
+                                android:layout_marginEnd="8dp"
                                 android:ems="4"
                                 android:foregroundGravity="center"
                                 android:gravity="center"
                                 android:hint="Width"
-                                android:inputType="number"
+                                android:inputType="numberSigned"
                                 android:maxLength="4"
                                 android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/textView10"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginEnd="8dp"
+                                android:gravity="center"
+                                android:text="X"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/resize_height_input"
+                                app:layout_constraintStart_toEndOf="@+id/resize_width_input"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <EditText
                                 android:id="@+id/resize_height_input"
                                 android:layout_width="55dp"
                                 android:layout_height="50dp"
-                                android:layout_marginEnd="32dp"
+                                android:layout_marginStart="8dp"
                                 android:ems="4"
                                 android:foregroundGravity="center"
                                 android:gravity="center"
                                 android:hint="Height"
-                                android:inputType="number"
+                                android:inputType="numberSigned"
                                 android:maxLength="4"
                                 android:textSize="16sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/textView10"
-                                android:layout_width="0dp"
-                                android:layout_height="50dp"
-                                android:gravity="center"
-                                android:text="X"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/resize_height_input"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/resize_width_input"
+                                app:layout_constraintStart_toEndOf="@+id/textView10"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -409,7 +409,7 @@
                     android:id="@+id/delete_script_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
+                    android:layout_gravity="bottom"
                     android:layout_marginEnd="25dp"
                     android:background="@drawable/button_outline_red"
                     android:clickable="true"
@@ -422,7 +422,7 @@
                     android:id="@+id/create_script_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
+                    android:layout_gravity="bottom"
                     android:layout_marginEnd="25dp"
                     android:background="@drawable/button_outline_green"
                     android:clickable="true"
@@ -435,7 +435,7 @@
                     android:id="@+id/cancel_script_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
+                    android:layout_gravity="bottom"
                     android:layout_marginBottom="6dp"
                     android:background="@drawable/button_outline"
                     android:backgroundTint="@color/gray"

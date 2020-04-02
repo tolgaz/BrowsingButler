@@ -8,9 +8,14 @@ public class ActionShare extends ScriptAction {
 
     private static String title = App.getResourses().getString(R.string.script_action_share_title);
     private static String description = App.getResourses().getString(R.string.script_action_share_desc);
+    private static int ID = 3;
 
-    public ActionShare() {
-        super(title, description);
+    ActionShare() {
+        super(title, description, ID);
+    }
+
+    public static int getStaticID() {
+        return ID;
     }
 
     @Override

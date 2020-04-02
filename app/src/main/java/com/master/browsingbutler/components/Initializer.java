@@ -9,6 +9,8 @@ import com.google.gson.reflect.TypeToken;
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -19,6 +21,8 @@ public class Initializer {
     private static boolean overWriteSharedPref = false;
 
     public static void initApplication() {
+        if (ScriptAction.getScriptActions() == null) ScriptAction.initScriptActions();
+        if (ScriptSelection.getScriptSelections() == null) ScriptSelection.initScriptSelections();
         /* If scripts doesn't exist - create and save them */
         /* or retrieve them */
         Gson gson = new Gson();

@@ -17,8 +17,6 @@ public class Scripts {
     private static List<Script> allScripts = new ArrayList<>();
 
     public static void initScripts() {
-        List<Script> allScripts = new ArrayList<>();
-
         allScripts.add(getCompressTo50());
         allScripts.add(getDownloadAndSendScript());
         allScripts.add(getSaveAndCompressScript());
@@ -40,7 +38,7 @@ public class Scripts {
         List<ScriptSelection> saveAndCompressSelections = new ArrayList<>();
 
         saveAndCompressActions.add(new ActionDownload());
-        saveAndCompressActions.add(new ActionCompress());
+        saveAndCompressActions.add(new ActionCompress(85, 133, 337));
 
         saveAndCompressSelections.add(new SelectionAllElements());
 
@@ -51,8 +49,29 @@ public class Scripts {
         return allScripts;
     }
 
-    public static void setAllScripts(List<Script> allScripts) {
+    static void setAllScripts(List<Script> allScripts) {
+
+
+        /*decode actions and selections*/
+        allScripts.forEach(script -> {
+            /* loop actions */
+            List<ScriptAction> decodedActions = new ArrayList<>();
+            script.getActions().forEach(scriptAction -> {
+                /* Compress, maybe create switch if necessary */
+                ScriptAction action = ScriptAction.getScriptActions().get(scriptAction.getID());
+                if (scriptAction.getID() == ActionCompress.getStaticID()) {
+                    action = new ActionCompress(scriptAction.getQuality(), scriptAction.getWidth(), scriptAction.getHeight());
+                }
+                decodedActions.add(action);
+            });
+            script.setActions(decodedActions);
+            /* loop selections*/
+            List<ScriptSelection> decodedSelections = new ArrayList<>();
+            script.getSelections().forEach(scriptSelection -> decodedSelections.add(ScriptSelection.getScriptSelections().get(scriptSelection.getID())));
+            script.setSelections(decodedSelections);
+        });
         Scripts.allScripts = allScripts;
+
     }
 
     public static void addScript(Script script) {

@@ -8,4 +8,5 @@ public interface ScriptOption {
     String getDescription();
 
     int getID();
+
 }

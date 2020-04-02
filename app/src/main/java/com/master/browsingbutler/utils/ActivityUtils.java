@@ -8,11 +8,11 @@ import com.master.browsingbutler.activities.OperationActivity;
 
 public class ActivityUtils {
     public static void engageActivityComplete(String text) {
-        displayToastSuccessful(text);
+        displayToast(text);
         returnBackToOperationScreen();
     }
 
-    public static void displayToastSuccessful(String text) {
+    public static void displayToast(String text) {
         Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG).show();
     }
 

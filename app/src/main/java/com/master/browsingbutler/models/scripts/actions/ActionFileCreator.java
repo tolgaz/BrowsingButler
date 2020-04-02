@@ -8,9 +8,14 @@ public class ActionFileCreator extends ScriptAction {
 
     private static String title = App.getResourses().getString(R.string.script_action_file_creator_title);
     private static String description = App.getResourses().getString(R.string.script_action_file_creator_desc);
+    private static int ID = 2;
 
     public ActionFileCreator() {
-        super(title, description);
+        super(title, description, ID);
+    }
+
+    public static int getStaticID() {
+        return ID;
     }
 
     @Override
