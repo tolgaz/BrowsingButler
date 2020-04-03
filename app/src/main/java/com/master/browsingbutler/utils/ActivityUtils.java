@@ -1,5 +1,6 @@
 package com.master.browsingbutler.utils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
@@ -7,19 +8,19 @@ import com.master.browsingbutler.App;
 import com.master.browsingbutler.activities.OperationActivity;
 
 public class ActivityUtils {
-    public static void engageActivityComplete(String text) {
+    public static void engageActivityComplete(Activity activity, String text) {
         displayToast(text);
-        returnBackToOperationScreen();
+        returnBackToOperationScreen(activity);
     }
 
     public static void displayToast(String text) {
         Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG).show();
     }
 
-    private static void returnBackToOperationScreen() {
-        Intent intent = new Intent(App.getInstance(), OperationActivity.class);
+    private static void returnBackToOperationScreen(Activity activity) {
+        Intent intent = new Intent(activity, OperationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        App.getInstance().startActivity(intent);
+        activity.startActivity(intent);
     }
 
     public static int dpToPx(float dp) {

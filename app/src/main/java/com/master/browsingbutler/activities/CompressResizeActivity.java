@@ -3,6 +3,7 @@ package com.master.browsingbutler.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import com.arthenica.mobileffmpeg.Config;
 import com.arthenica.mobileffmpeg.FFmpeg;
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.components.JavaScriptInterface;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.FileUtils;
@@ -34,8 +36,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import id.zelory.compressor.Compressor;
@@ -45,6 +49,8 @@ import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class CompressResizeActivity extends ActivityWithSwitchHandler {
+
+    private static final String TAG = "CompressResizeActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,14 +85,18 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
 
-        Button applyButton = this.findViewById(R.id.apply_compress_resize_button);
-        applyButton.setOnClickListener(v -> this.applyCompressResize());
-
-        CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
-        resizeCheckbox.setOnClickListener(v -> changeApplyButtonApperance(applyButton, flipVisibilityResizeContainer(this)));
-
         EditText widthEditText = this.findViewById(R.id.resize_width_input);
         EditText heightEditText = this.findViewById(R.id.resize_height_input);
+
+        Button applyButton = this.findViewById(R.id.apply_compress_resize_button);
+        IndicatorSeekBar indicatorSeekBar = this.findViewById(R.id.seekBar);
+        applyButton.setOnClickListener(v -> {
+            applyCompressResize(indicatorSeekBar.getProgress(), widthEditText.getText().toString(), heightEditText.getText().toString(), false);
+            ActivityUtils.engageActivityComplete(this, "Media has been successfully compressed/resized and saved!");
+        });
+
+        CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
+        resizeCheckbox.setOnClickListener(v -> changeApplyButtonAppearance(applyButton, flipVisibilityResizeContainer(this)));
 
         TextWatcher myTextWatcher = new TextWatcher() {
             @Override
@@ -136,7 +146,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         }
     }
 
-    private static void changeApplyButtonApperance(Button applyButton, boolean shouldBeClickable) {
+    private static void changeApplyButtonAppearance(Button applyButton, boolean shouldBeClickable) {
         if (shouldBeClickable) {
             ViewCompat.setBackgroundTintList(applyButton, null);
             applyButton.setClickable(true);
@@ -146,78 +156,84 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         }
     }
 
-    private void applyCompressResize() {
-        Log.d(this, "applyCompressResize");
-        IndicatorSeekBar seekBar = this.findViewById(R.id.seekBar);
-        int progressBarValue = seekBar.getProgress();
-
-        EditText resizeWidthEditText = this.findViewById(R.id.resize_width_input);
-        EditText resizeHeightEditText = this.findViewById(R.id.resize_height_input);
-        Log.d(this, "compressQuality: " + progressBarValue);
+    public static void applyCompressResize(int quality, String width, String height, boolean script) {
+        Log.d(TAG, "applyCompressResize");
         try {
             // Try to grab int values
-            int resizeWidth = Integer.parseInt(resizeWidthEditText.getText().toString());
-            int resizeHeight = Integer.parseInt(resizeHeightEditText.getText().toString());
-            Log.d(this, "compressQuality: " + progressBarValue + ", resizwidth: " + resizeWidth + ", resizehieght: " + resizeHeight);
+            AtomicInteger resizeWidth = new AtomicInteger(Integer.parseInt(width));
+            AtomicInteger resizeHeight = new AtomicInteger(Integer.parseInt(height));
+            Log.d(TAG, "compressQuality: " + quality + ", resizwidth: " + resizeWidth + ", resizehieght: " + resizeHeight);
             /* Compress and stuff */
-            WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter()
-                    .getFileDataset()
-                    .stream()
-                    .filter(ElementWrapper::getChosen)
+            ArrayList<ElementWrapper> elements;
+            elements = getElements(script);
+            elements.stream()
+                    /* if script say all match predicate */
+                    .filter(elementWrapper -> script ? true : elementWrapper.getChosen())
                     .forEach(elementWrapper -> {
                         File file = elementWrapper.getFile();
                         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
                         /* TODO: support for viddeos */
-                        Log.d(this, "old size:" + Integer.parseInt(String.valueOf(file.length() / 1024)));
+                        Log.d(TAG, "old size:" + Integer.parseInt(String.valueOf(file.length() / 1024)));
                         if (type == null) {
-                            Log.d(this, "ERROR: type is null!! " + file.toString());
+                            Log.d(TAG, "ERROR: type is null!! " + file.toString());
                             return;
                         }
                         if (type.contains("video")) {
-                            String extension = FileUtils.getExtensionFromSrc(file.getName());
-                            String outputFileName = file.getParent() + "/" + FileUtils.getFilenameFromSrc(file.getName()) + "_compressed" + extension;
-                            String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth, resizeHeight, outputFileName);
-                            this.evaluateFFmpegReturnValue(FFmpeg.execute(cmd));
+                            if (resizeWidth.get() != 0 && resizeHeight.get() != 0) {
+                                String extension = FileUtils.getExtensionFromSrc(file.getName());
+                                String outputFileName = String.format("%s/%s_compressed%s", file.getParent(), FileUtils.getFilenameFromSrc(file.getName()), extension);
+                                String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth.get(), resizeHeight.get(), outputFileName);
+                                evaluateFFmpegReturnValue(FFmpeg.execute(cmd));
+                            }
                         } else {
-                            File compressedFile = this.compressFile(resizeWidth, resizeHeight, progressBarValue, file);
+                            if (resizeWidth.get() == 0 || resizeHeight.get() == 0) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                resizeWidth.set(bitmap.getWidth());
+                                resizeHeight.set(bitmap.getHeight());
+                            }
+                            File compressedFile = compressFile(resizeWidth.get(), resizeHeight.get(), quality, file);
                             /* Move and overwrite original image */
-                            if (compressedFile != null)
-                                this.moveAndOverwriteFile(compressedFile.toPath(), file.toPath());
+                            if (compressedFile != null) {
+                                moveAndOverwriteFile(compressedFile.toPath(), file.toPath());
+                            }
                         }
                     });
         } catch (Exception e) {
-            Log.d(this, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
-        Log.d(this, "applyCompressResize done");
-        ActivityUtils.engageActivityComplete("Media has been successfully compressed/resized and saved!");
+        Log.d(TAG, "applyCompressResize done");
     }
 
-    private void moveAndOverwriteFile(Path source, Path target) {
+    private static ArrayList<ElementWrapper> getElements(boolean script) {
+        return script ? JavaScriptInterface.getSelectedElements() : WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter().getFileDataset();
+    }
+
+    private static void moveAndOverwriteFile(Path source, Path target) {
         try {
             Files.move(source, target, REPLACE_EXISTING);
         } catch (IOException e) {
-            Log.d(this, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
     }
 
-    private File compressFile(int resizeWidth, int resizeHeight, int progressBarValue, File file) {
+    private static File compressFile(int resizeWidth, int resizeHeight, int progressBarValue, File file) {
         /* Compress and resize image, save in tmp cache */
         try {
-            return new Compressor(this)
+            return new Compressor(App.getInstance())
                     .setMaxWidth(resizeWidth)
                     .setMaxHeight(resizeHeight)
                     .setQuality(progressBarValue)
-                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                    .setCompressFormat(Bitmap.CompressFormat.PNG)
                     .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_PICTURES).getAbsolutePath())
                     .compressToFile(file);
         } catch (Exception e) {
-            Log.d(this, e.getMessage());
+            Log.d(TAG, e.getMessage());
             return null;
         }
     }
 
-    private void evaluateFFmpegReturnValue(int rc) {
+    private static void evaluateFFmpegReturnValue(int rc) {
         if (rc == RETURN_CODE_SUCCESS) {
             Log.d(Config.TAG, "Command exeecution completed successfully.");
         } else if (rc == RETURN_CODE_CANCEL) {

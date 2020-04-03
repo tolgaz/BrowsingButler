@@ -1,10 +1,13 @@
 package com.master.browsingbutler.models.scripts;
 
+import android.app.Activity;
+
 import androidx.annotation.NonNull;
 
 import com.master.browsingbutler.components.Scripts;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
+import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
 
 import java.util.ArrayList;
@@ -40,9 +43,10 @@ public class Script {
         this.selections = selections;
     }
 
-    public void startExecution() {
+    public void startExecution(Activity activity) {
         Log.d(this, "Executing script: " + this.toString());
         this.actions.forEach(ScriptAction::execute);
+        ActivityUtils.engageActivityComplete(activity, "Script applied successfully");
     }
 
     public String getTitle() {

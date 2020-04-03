@@ -340,7 +340,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
                 ActivityUtils.displayToast(this.getString(R.string.toast_script_saved));
             }
         } else {
-            ActivityUtils.displayToast("No changes made!");
+            if (!this.script.isPremade()) ActivityUtils.displayToast("No changes made!");
         }
         super.onBackPressed();
     }
