@@ -1,5 +1,5 @@
 package com.master.browsingbutler.models.scripts;
 
 public interface Executable {
-    void execute();
+    void execute(Script script);
 }

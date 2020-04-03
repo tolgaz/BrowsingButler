@@ -2,6 +2,7 @@ package com.master.browsingbutler.models.scripts.selections;
 
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.models.scripts.Script;
 
 public class SelectionLastXElements extends ScriptSelection {
 
@@ -13,7 +14,7 @@ public class SelectionLastXElements extends ScriptSelection {
     }
 
     @Override
-    public void execute() {
-        super.execute();
+    public void execute(Script script) {
+        super.execute(script);
     }
 }

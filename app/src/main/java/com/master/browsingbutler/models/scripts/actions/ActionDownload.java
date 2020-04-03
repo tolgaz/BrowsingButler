@@ -3,6 +3,7 @@ package com.master.browsingbutler.models.scripts.actions;
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.activities.SaveActivity;
+import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
@@ -26,7 +27,7 @@ public class ActionDownload extends ScriptAction {
     }
 
     @Override
-    public void execute() {
+    public void execute(Script script) {
         Log.d(this, "ACTIONDOWNLOAD EXECUTING! DOWNLOADING (all) ELEMENTS");
         SaveActivity.downloadAllElements(false);
     }

@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.activities.CompressResizeActivity;
+import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
@@ -23,7 +24,7 @@ public class ActionCompress extends ScriptAction {
     }
 
     @Override
-    public void execute() {
+    public void execute(Script script) {
         Log.d(this, "ActionCompress EXECUTING! ");
         CompressResizeActivity.applyCompressResize(this.getQuality(), String.valueOf(this.getWidth()), String.valueOf(this.getHeight()), true);
     }

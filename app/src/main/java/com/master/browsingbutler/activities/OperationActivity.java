@@ -64,7 +64,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
             case 1:
                 /* Share via */
                 Log.d(this, "Swith 1");
-                ShareViaOpenWithHandler.onlyShare(this);
+                ShareViaOpenWithHandler.share(this);
                 break;
             case 2:
                 /* Apply script */

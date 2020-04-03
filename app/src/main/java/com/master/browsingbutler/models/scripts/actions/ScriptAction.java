@@ -91,7 +91,7 @@ public class ScriptAction implements ScriptOption, Executable {
     }
 
     @Override
-    public void execute() {
+    public void execute(Script script) {
         throw new UnsupportedOperationException();
     }
 

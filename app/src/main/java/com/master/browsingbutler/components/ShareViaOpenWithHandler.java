@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class ShareViaOpenWithHandler {
-    public static void onlyShare(AppCompatActivity callingActivity) {
+    public static void share(AppCompatActivity activity) {
         ArrayList<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -29,27 +29,27 @@ public class ShareViaOpenWithHandler {
         });
         intent.putExtra(Intent.EXTRA_TEXT, allValues.toString());
         Intent chooser = Intent.createChooser(intent, title);
-        if (intent.resolveActivity(callingActivity.getPackageManager()) != null) {
-            callingActivity.startActivity(chooser);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(chooser);
         }
     }
 
-    public static void saveAndShare(AppCompatActivity callingActivity) {
+    public static void shareSavedElements(AppCompatActivity activity) {
         ArrayList<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
         Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         intent.setType("image/*");
         String title = "Share these media elements with";
         ArrayList<Uri> allValues = new ArrayList<>();
         elements.stream().map(ElementWrapper::getFile).forEach(file -> {
-            Uri mediaUri = FileProvider.getUriForFile(callingActivity, "com.master.browsingbutler.provider", file);
+            Uri mediaUri = FileProvider.getUriForFile(activity, "com.master.browsingbutler.provider", file);
             allValues.add(mediaUri);
         });
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, allValues);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         Intent chooser = Intent.createChooser(intent, title);
-        if (intent.resolveActivity(callingActivity.getPackageManager()) != null) {
-            callingActivity.startActivity(chooser);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(chooser);
         }
     }
 }

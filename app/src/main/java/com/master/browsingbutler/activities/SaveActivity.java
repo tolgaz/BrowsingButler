@@ -76,7 +76,7 @@ public class SaveActivity extends ActivityWithSwitchHandler {
                 /* Save and share */
                 Log.d(this, "pos 2 ");
                 ElementGrabber.grabElements();
-                ShareViaOpenWithHandler.saveAndShare(this);
+                ShareViaOpenWithHandler.shareSavedElements(this);
                 break;
             case 3:
                 /* Save and apply script */

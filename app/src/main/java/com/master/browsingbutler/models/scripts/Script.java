@@ -1,10 +1,10 @@
 package com.master.browsingbutler.models.scripts;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.master.browsingbutler.components.Scripts;
+import com.master.browsingbutler.models.scripts.actions.ActionDownload;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 import com.master.browsingbutler.utils.ActivityUtils;
@@ -21,6 +21,9 @@ public class Script {
     private int ID;
     private List<ScriptAction> actions = new ArrayList<>();
     private List<ScriptSelection> selections = new ArrayList<>();
+
+    private boolean saved = false;
+    private transient AppCompatActivity activity = null;
 
     public Script(String title, String description, boolean isPremade) {
         this.title = title;
@@ -43,10 +46,17 @@ public class Script {
         this.selections = selections;
     }
 
-    public void startExecution(Activity activity) {
+    public void startExecution(AppCompatActivity activity) {
         Log.d(this, "Executing script: " + this.toString());
-        this.actions.forEach(ScriptAction::execute);
-        ActivityUtils.engageActivityComplete(activity, "Script applied successfully");
+        this.saved = false;
+        this.activity = activity;
+        this.actions.forEach(action -> {
+            if (action.getID() == ActionDownload.getStaticID()) {
+                this.saved = true;
+            }
+            action.execute(this);
+        });
+        ActivityUtils.displayToast("Script applied successfully");
     }
 
     public String getTitle() {
@@ -91,6 +101,14 @@ public class Script {
 
     public void setSelections(List<ScriptSelection> selections) {
         this.selections = selections;
+    }
+
+    public AppCompatActivity getActivity() {
+        return this.activity;
+    }
+
+    public boolean isSaved() {
+        return this.saved;
     }
 
     public enum Type {

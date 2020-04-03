@@ -92,7 +92,7 @@ public class ScriptSelection implements ScriptOption, Executable {
     }
 
     @Override
-    public void execute() {
+    public void execute(Script script) {
         Log.d(this, "Executing script! " + this.toString());
         throw new UnsupportedOperationException();
     }
