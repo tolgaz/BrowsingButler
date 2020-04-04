@@ -36,7 +36,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -164,11 +163,10 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
             AtomicInteger resizeHeight = new AtomicInteger(Integer.parseInt(height));
             Log.d(TAG, "compressQuality: " + quality + ", resizwidth: " + resizeWidth + ", resizehieght: " + resizeHeight);
             /* Compress and stuff */
-            ArrayList<ElementWrapper> elements;
-            elements = getElements(script);
-            elements.stream()
+            getElements(script)
+                    .stream()
                     /* if script say all match predicate */
-                    .filter(elementWrapper -> script ? true : elementWrapper.getChosen())
+                    .filter(elementWrapper -> script ? elementWrapper.getSatisfiesSelection() : elementWrapper.getChosen())
                     .forEach(elementWrapper -> {
                         File file = elementWrapper.getFile();
                         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
@@ -204,7 +202,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         Log.d(TAG, "applyCompressResize done");
     }
 
-    private static ArrayList<ElementWrapper> getElements(boolean script) {
+    private static List<ElementWrapper> getElements(boolean script) {
         return script ? JavaScriptInterface.getSelectedElements() : WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter().getFileDataset();
     }
 

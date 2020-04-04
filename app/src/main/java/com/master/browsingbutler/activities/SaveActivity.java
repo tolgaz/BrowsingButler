@@ -45,11 +45,11 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         return true;
     }
 
-    public static void downloadAllElements(boolean printToast) {
+    public static void downloadAllElements(boolean printToast, boolean script) {
         try {
             /* Save */
             Log.d(TAG, "pos 0 ");
-            ElementGrabber.grabElements();
+            ElementGrabber.grabElements(script);
             if (printToast) {
                 ActivityUtils.displayToast("Media has been successfully saved!");
             }
@@ -63,20 +63,20 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         switch (position) {
             case 0:
                 /* Save */
-                downloadAllElements(false);
+                downloadAllElements(false, false);
                 ActivityUtils.engageActivityComplete(this, "Media has been successfully saved!");
                 break;
             case 1:
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
-                downloadAllElements(true);
+                downloadAllElements(true, false);
                 this.startActivity(new Intent(this, MediaPickerActivity.class));
                 break;
             case 2:
                 /* Save and share */
                 Log.d(this, "pos 2 ");
-                ElementGrabber.grabElements();
-                ShareViaOpenWithHandler.shareSavedElements(this);
+                ElementGrabber.grabElements(false);
+                ShareViaOpenWithHandler.shareSavedElements(this, false);
                 break;
             case 3:
                 /* Save and apply script */

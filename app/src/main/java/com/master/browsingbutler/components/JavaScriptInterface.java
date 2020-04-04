@@ -10,13 +10,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JavaScriptInterface {
-    private static ArrayList<ElementWrapper> selectedElements = generateTestData();
+    private static List<ElementWrapper> selectedElements = generateTestData();
     private String[] validHTMLTags = {"img", "video"};
     WebpageRetrieverActivity webpageRetrieverActivity;
 
@@ -73,12 +73,12 @@ public class JavaScriptInterface {
         return null;
     }
 
-    public static ArrayList<ElementWrapper> getSelectedElements() {
+    public static List<ElementWrapper> getSelectedElements() {
         return selectedElements;
     }
 
-    private static ArrayList<ElementWrapper> generateTestData() {
-        return (ArrayList<ElementWrapper>) Stream.of(
+    private static List<ElementWrapper> generateTestData() {
+        return Stream.of(
                 new ElementWrapper(Jsoup.parse("<video id=\"video-G2UMu6l\" class=\"Video-element\" poster=\"https://i.imgur.com/G2UMu6l_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" src=\"https://i.imgur.com/G2UMu6l.mp4\" type=\"video/mp4\" loop=\"\" playsinline=\"\" x-webkit-airplay=\"deny\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\"></video>")),
                 new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/spu7fxm_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),
                 new ElementWrapper(Jsoup.parse("<img class=\"Image\" src=\"https://i.imgur.com/MHhF1n9_d.jpg?maxwidth=640&amp;shape=thumb&amp;fidelity=medium\" style=\"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\">")),

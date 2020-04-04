@@ -30,9 +30,9 @@ public class ActionShare extends ScriptAction {
     public void execute(Script script) {
         Log.d(this, "ActionShare EXECUTING! ");
         if (script.isSaved()) {
-            ShareViaOpenWithHandler.shareSavedElements(script.getActivity());
+            ShareViaOpenWithHandler.shareSavedElements(script.getActivity(), true);
         } else {
-            ShareViaOpenWithHandler.share(script.getActivity());
+            ShareViaOpenWithHandler.share(script.getActivity(), true);
         }
     }
 }

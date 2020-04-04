@@ -17,6 +17,7 @@ import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.utils.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MediaPickerActivity extends ActivityWithSwitchHandler {
 
@@ -31,7 +32,7 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
         selectAll.setOnClickListener(v -> {
             Log.d(this, "selectAll clicked");
             ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter = WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter();
-            ArrayList<ElementWrapper> elementWrappers = imagePickerRecycleViewAdapter.getFileDataset();
+            List<ElementWrapper> elementWrappers = imagePickerRecycleViewAdapter.getFileDataset();
             ArrayList<ImagePickerRecycleViewHolder> viewHolders = imagePickerRecycleViewAdapter.getViewHolders();
             viewHolders.forEach(ImagePickerRecycleViewHolder::select);
             elementWrappers.forEach(eW -> eW.setChosen(true));

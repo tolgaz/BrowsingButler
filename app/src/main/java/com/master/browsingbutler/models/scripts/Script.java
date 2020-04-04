@@ -3,9 +3,12 @@ package com.master.browsingbutler.models.scripts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.master.browsingbutler.components.JavaScriptInterface;
 import com.master.browsingbutler.components.Scripts;
+import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.models.scripts.actions.ActionDownload;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.interfaces.Selectable;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
@@ -50,13 +53,39 @@ public class Script {
         Log.d(this, "Executing script: " + this.toString());
         this.saved = false;
         this.activity = activity;
+        /* Apply selections on the elementwrappers and set a boolean to their satisfaction of selection, then the list can just loop through these */
+        List<ElementWrapper> elementWrappers = JavaScriptInterface.getSelectedElements();
+
+        this.setSatisifiesSelection(elementWrappers);
+        this.applyActions();
+        this.resetSatisifiesSelection(elementWrappers);
+
+        ActivityUtils.displayToast("Script applied successfully");
+    }
+
+    private void setSatisifiesSelection(List<ElementWrapper> elementWrappers) {
+        for (int i = 0; i < elementWrappers.size(); i++) {
+            ElementWrapper elementWrapper = elementWrappers.get(i);
+            int finalI = i;
+            boolean satisfiesSelection = this.selections.stream()
+                    .allMatch(selection -> (selection.getType() == Selectable.Type.FILETYPES) ?
+                            selection.getSelection(elementWrapper) :
+                            selection.getSelection(finalI, elementWrappers.size()));
+            elementWrapper.setSatisfiesSelection(satisfiesSelection);
+        }
+    }
+
+    private void applyActions() {
         this.actions.forEach(action -> {
             if (action.getID() == ActionDownload.getStaticID()) {
                 this.saved = true;
             }
             action.execute(this);
         });
-        ActivityUtils.displayToast("Script applied successfully");
+    }
+
+    private void resetSatisifiesSelection(List<ElementWrapper> elementWrappers) {
+        elementWrappers.forEach(elementWrapper -> elementWrapper.setSatisfiesSelection(null));
     }
 
     public String getTitle() {

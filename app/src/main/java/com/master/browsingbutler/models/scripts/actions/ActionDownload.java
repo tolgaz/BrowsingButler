@@ -29,6 +29,6 @@ public class ActionDownload extends ScriptAction {
     @Override
     public void execute(Script script) {
         Log.d(this, "ACTIONDOWNLOAD EXECUTING! DOWNLOADING (all) ELEMENTS");
-        SaveActivity.downloadAllElements(false);
+        SaveActivity.downloadAllElements(false, true);
     }
 }

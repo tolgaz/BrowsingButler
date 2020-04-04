@@ -95,7 +95,7 @@ public class ScriptSelection implements ScriptOption, Selectable {
     }
 
     @Override
-    public List<Integer> getSelection(int length) {
+    public boolean getSelection(int index, int size) {
         Log.d(this, "Getting selection! " + this.toString());
         throw new UnsupportedOperationException();
     }
@@ -103,6 +103,11 @@ public class ScriptSelection implements ScriptOption, Selectable {
     @Override
     public boolean getSelection(ElementWrapper elementWrapper) {
         Log.d(this, "Getting boolean-selection! " + this.toString());
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Type getType() {
         throw new UnsupportedOperationException();
     }
 

@@ -26,6 +26,7 @@ import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Configuration implements ItemClickListener {
     private ActivityWithSwitchHandler currActivity;
@@ -118,7 +119,7 @@ public class Configuration implements ItemClickListener {
 
 
     private void configureMediaPicker() {
-        ArrayList<ElementWrapper> fileDataset = JavaScriptInterface.getSelectedElements();
+        List<ElementWrapper> fileDataset = JavaScriptInterface.getSelectedElements();
         RecyclerView recyclerView = this.currActivity.findViewById(R.id.image_picker_recycle_view);
 
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this.currActivity, FlexDirection.ROW);
