@@ -49,8 +49,8 @@
     <string name="script_action_download_desc">Downloads element to the specified path.</string>
     <string name="script_action_compress_title">Compress</string>
     <string name="script_action_compress_desc">Compresses downloaded elements. </string>
-    <string name="script_action_file_creator_title">Create a file with chosen elements</string>
-    <string name="script_action_file_creator_desc">Choose between JPG, PNG and PDF.</string>
+    <string name="script_action_file_creator_title">Create a ZIP file with chosen elements</string>
+    <string name="script_action_file_creator_desc">A ZIP file is easily shareable.</string>
     <string name="script_action_share_title">Share</string>
     <string name="script_action_share_desc">Open the share dialog automatically</string>
 
@@ -59,6 +59,7 @@
     <string name="script_selection_first_elements_title">First element</string>
     <string name="script_selection_last_elements_title">Last element</string>
     <string name="script_selection_all_pictures_title">All pictures</string>
+    <string name="script_selection_all_videos_title">All videos</string>
     <string name="script_selection_all_text_title">All text</string>
 
     <!-- Shared pref -->

@@ -12,10 +12,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.master.browsingbutler.models.scripts.Script;
-import com.master.browsingbutler.models.scripts.ScriptOption;
 import com.master.browsingbutler.models.scripts.actions.ActionCompress;
 import com.master.browsingbutler.models.scripts.actions.ActionDownload;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
+import com.master.browsingbutler.models.scripts.interfaces.ScriptOption;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 
 import java.util.List;

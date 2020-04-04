@@ -2,7 +2,11 @@ package com.master.browsingbutler.models.scripts.selections;
 
 import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
-import com.master.browsingbutler.models.scripts.Script;
+
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 public class SelectionAllElements extends ScriptSelection {
 
@@ -13,12 +17,8 @@ public class SelectionAllElements extends ScriptSelection {
         super(title, null, ID);
     }
 
-    public int[] getSelection() {
-        return new int[]{0};
-    }
-
     @Override
-    public void execute(Script script) {
-        super.execute(script);
+    public List<Integer> getSelection(int length) {
+        return IntStream.range(0, length).boxed().collect(toList());
     }
 }

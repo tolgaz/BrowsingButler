@@ -4,7 +4,7 @@ import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.activities.SaveActivity;
 import com.master.browsingbutler.models.scripts.Script;
-import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.models.scripts.interfaces.ScriptOption;
 import com.master.browsingbutler.utils.Log;
 
 public class ActionDownload extends ScriptAction {

@@ -4,15 +4,14 @@ import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.ElementWrapper;
 
-public class SelectionAllPictures extends ScriptSelection {
+public class SelectionAllVideos extends ScriptSelection {
 
-    private static String title = App.getResourses().getString(R.string.script_selection_all_pictures_title);
-    private static int ID = 3;
-    private static String MimeType = "image";
-    //  HTML TAG for images
-    private static String HTMLType = "img";
+    private static String title = App.getResourses().getString(R.string.script_selection_all_videos_title);
+    private static int ID = 4;
+    private static String MimeType = "video";
+    private static String HTMLType = "video";
 
-    public SelectionAllPictures() {
+    public SelectionAllVideos() {
         super(title, null, ID);
     }
 

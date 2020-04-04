@@ -2,9 +2,9 @@ package com.master.browsingbutler.models.scripts.actions;
 
 import androidx.annotation.NonNull;
 
-import com.master.browsingbutler.models.scripts.Executable;
 import com.master.browsingbutler.models.scripts.Script;
-import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.models.scripts.interfaces.Executable;
+import com.master.browsingbutler.models.scripts.interfaces.ScriptOption;
 
 import java.util.ArrayList;
 import java.util.List;

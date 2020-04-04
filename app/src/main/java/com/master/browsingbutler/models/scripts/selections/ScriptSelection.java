@@ -1,16 +1,20 @@
 package com.master.browsingbutler.models.scripts.selections;
 
+import android.webkit.MimeTypeMap;
+
 import androidx.annotation.NonNull;
 
-import com.master.browsingbutler.models.scripts.Executable;
+import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.models.scripts.Script;
-import com.master.browsingbutler.models.scripts.ScriptOption;
+import com.master.browsingbutler.models.scripts.interfaces.ScriptOption;
+import com.master.browsingbutler.models.scripts.interfaces.Selectable;
 import com.master.browsingbutler.utils.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptSelection implements ScriptOption, Executable {
+public class ScriptSelection implements ScriptOption, Selectable {
 
     private static List<ScriptSelection> scriptSelections;
     private String title;
@@ -79,6 +83,7 @@ public class ScriptSelection implements ScriptOption, Executable {
         selections.add(new SelectionFirstElement());
         selections.add(new SelectionLastElement());
         selections.add(new SelectionAllPictures());
+        selections.add(new SelectionAllVideos());
         selections.add(new SelectionAllText());
         ScriptSelection.setScriptSelections(selections);
     }
@@ -90,9 +95,25 @@ public class ScriptSelection implements ScriptOption, Executable {
     }
 
     @Override
-    public void execute(Script script) {
-        Log.d(this, "Executing script! " + this.toString());
+    public List<Integer> getSelection(int length) {
+        Log.d(this, "Getting selection! " + this.toString());
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean getSelection(ElementWrapper elementWrapper) {
+        Log.d(this, "Getting boolean-selection! " + this.toString());
+        throw new UnsupportedOperationException();
+    }
+
+    protected boolean getSelection(ElementWrapper elementWrapper, String mimeType, String htmlType) {
+        File file = elementWrapper.getFile();
+        if (file != null) {
+            String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
+            return type != null && type.contains(mimeType);
+        } else {
+            return elementWrapper.getNormalName().equals(htmlType);
+        }
     }
 }
 
