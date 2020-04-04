@@ -13,6 +13,10 @@ public class SelectionAllPictures extends ScriptSelection {
         super(title, null, ID);
     }
 
+    public int[] getSelection() {
+        return new int[]{0};
+    }
+
     @Override
     public void execute(Script script) {
         super.execute(script);

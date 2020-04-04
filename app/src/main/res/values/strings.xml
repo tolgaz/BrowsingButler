@@ -58,8 +58,6 @@
     <string name="script_selection_all_elements_title">All elements</string>
     <string name="script_selection_first_elements_title">First element</string>
     <string name="script_selection_last_elements_title">Last element</string>
-    <string name="script_selection_first_x_elements_title">First x elements</string>
-    <string name="script_selection_last_x_elements_title">Last x elements</string>
     <string name="script_selection_all_pictures_title">All pictures</string>
     <string name="script_selection_all_text_title">All text</string>
 

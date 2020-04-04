@@ -78,8 +78,6 @@ public class ScriptSelection implements ScriptOption, Executable {
         selections.add(new SelectionAllElements());
         selections.add(new SelectionFirstElement());
         selections.add(new SelectionLastElement());
-        selections.add(new SelectionFirstXElements());
-        selections.add(new SelectionLastXElements());
         selections.add(new SelectionAllPictures());
         selections.add(new SelectionAllText());
         ScriptSelection.setScriptSelections(selections);
