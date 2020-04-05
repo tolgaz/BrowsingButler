@@ -1,6 +1,8 @@
 package com.master.browsingbutler.components;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,9 +52,15 @@ public class ShareViaOpenWithHandler {
             allValues.add(mediaUri);
         });
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, allValues);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
         Intent chooser = Intent.createChooser(intent, title);
+
+        List<ResolveInfo> resInfoList = activity.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            allValues.forEach(uri -> activity.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION));
+        }
+
         if (intent.resolveActivity(activity.getPackageManager()) != null) {
             activity.startActivity(chooser);
         }

@@ -79,7 +79,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         this.configureOptionTextView(this.script.getSelections(), scriptSelections);
 
         /* Fill action fields */
-        this.actionCompress = (ActionCompress) this.checkIfActionIsPresent(ActionCompress.class);
         this.fillAllActionFields();
 
         /* cancel button */
@@ -147,6 +146,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
             @Override
             public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                ScriptOptionsActivity.this.hasChangeBeenMade = true;
                 ScriptOptionsActivity.this.actionCompress.setQuality(seekBar.getProgress());
             }
         });
@@ -163,7 +163,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         createScriptButton.setVisibility(View.GONE);
         deleteScriptButton.setVisibility(View.GONE);
 
-        /* TODO only disable here. text should bes et soimewhere else */
         if (this.actionCompress != null) {
             CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
             /* compress action settings */
@@ -394,8 +393,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         ConstraintLayout scriptResizeLayout = this.findViewById(R.id.script_resize_quality_layout);
         this.actionCompress = (ActionCompress) this.checkIfActionIsPresent(ActionCompress.class);
         if (this.actionCompress != null) {
-            IndicatorSeekBar indicatorSeekBar = this.findViewById(R.id.seekBar);
-            this.actionCompress.setQuality(indicatorSeekBar.getProgress());
             scriptResizeLayout.setVisibility(View.VISIBLE);
         } else {
             scriptResizeLayout.setVisibility(View.GONE);
