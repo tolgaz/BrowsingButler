@@ -27,16 +27,10 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         this.setContentView(R.layout.activity_save);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_save_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Save");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

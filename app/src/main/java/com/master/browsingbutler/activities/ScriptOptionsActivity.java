@@ -315,12 +315,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);

@@ -35,12 +35,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
             this.isExecution = false;
             newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, this.isExecution ? R.string.toolbar_script_exec_screen : R.string.toolbar_script_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Scripts");
     }

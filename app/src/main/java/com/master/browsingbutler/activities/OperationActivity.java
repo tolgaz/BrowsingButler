@@ -36,12 +36,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_operation_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Operations");
     }

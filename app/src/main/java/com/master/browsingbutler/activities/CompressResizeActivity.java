@@ -57,31 +57,8 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         this.setContentView(R.layout.activity_compressresize);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-    }
 
-    private void handleOnlyVideoElementWrappers() {
-        List<ElementWrapper> nonVideoElementWrappers = WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter()
-                .getFileDataset()
-                .stream()
-                .filter(ElementWrapper::getChosen)
-                .filter(eW -> {
-                    File file = eW.getFile();
-                    String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
-                    return !type.contains("video");
-                }).collect(Collectors.toList());
-        /* if no video ew dont show quality - show resize */
-        if (nonVideoElementWrappers.isEmpty()) {
-            CheckBox checkBox = this.findViewById(R.id.resize_chooser_checkbox);
-            this.findViewById(R.id.quality_wrapper).setVisibility(View.GONE);
-            checkBox.callOnClick();
-            checkBox.setChecked(true);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
+        Log.d(this, "onCreate");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
 
         EditText widthEditText = this.findViewById(R.id.resize_width_input);
@@ -97,6 +74,12 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         CheckBox resizeCheckbox = this.findViewById(R.id.resize_chooser_checkbox);
         resizeCheckbox.setOnClickListener(v -> changeApplyButtonAppearance(applyButton, flipVisibilityResizeContainer(this)));
 
+        this.addTextWatcherForHeightAndWidth(widthEditText, heightEditText, applyButton);
+
+        this.handleOnlyVideoElementWrappers();
+    }
+
+    private void addTextWatcherForHeightAndWidth(EditText widthEditText, EditText heightEditText, Button applyButton) {
         TextWatcher myTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -120,8 +103,25 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
 
         widthEditText.addTextChangedListener(myTextWatcher);
         heightEditText.addTextChangedListener(myTextWatcher);
+    }
 
-        this.handleOnlyVideoElementWrappers();
+    private void handleOnlyVideoElementWrappers() {
+        List<ElementWrapper> nonVideoElementWrappers = WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter()
+                .getFileDataset()
+                .stream()
+                .filter(ElementWrapper::getChosen)
+                .filter(eW -> {
+                    File file = eW.getFile();
+                    String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
+                    return !type.contains("video");
+                }).collect(Collectors.toList());
+        /* if no video ew dont show quality - show resize */
+        if (nonVideoElementWrappers.isEmpty()) {
+            CheckBox checkBox = this.findViewById(R.id.resize_chooser_checkbox);
+            this.findViewById(R.id.quality_wrapper).setVisibility(View.GONE);
+            checkBox.callOnClick();
+            checkBox.setChecked(true);
+        }
     }
 
     @Override

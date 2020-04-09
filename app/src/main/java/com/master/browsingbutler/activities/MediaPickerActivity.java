@@ -27,6 +27,8 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         this.setContentView(R.layout.activity_mediapicker);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_media_picker_screen);
+        WebpageRetrieverActivity.configuration.configureList(this, "MediaPicker");
 
         Button selectAll = this.findViewById(R.id.select_all);
         selectAll.setOnClickListener(v -> {
@@ -40,14 +42,6 @@ public class MediaPickerActivity extends ActivityWithSwitchHandler {
 
         Button continueCompress = this.findViewById(R.id.continue_compress);
         continueCompress.setOnClickListener(v -> this.startCompressResizeActivity());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
-        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_media_picker_screen);
-        WebpageRetrieverActivity.configuration.configureList(this, "MediaPicker");
     }
 
     @Override
