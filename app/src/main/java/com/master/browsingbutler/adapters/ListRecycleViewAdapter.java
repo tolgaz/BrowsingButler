@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,13 +30,11 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
         // each data item is just a string in this case
         TextView firstLine;
         TextView secondLine;
-        ImageButton wrenchButton;
 
         ListRecycleViewHolder(View itemView) {
             super(itemView);
             this.firstLine = itemView.findViewById(R.id.first_line);
             this.secondLine = itemView.findViewById(R.id.second_line);
-            this.wrenchButton = itemView.findViewById(R.id.wrench_button);
             itemView.setOnClickListener(this);
         }
 
@@ -72,9 +69,15 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
     public void onBindViewHolder(ListRecycleViewHolder holder, int position) {
         ListItem listItem = this.listDataset.get(position);
         holder.firstLine.setText(listItem.getTitle());
-        holder.secondLine.setText(listItem.getDescription());
-        if (listItem.getTitle().contains("Apply script"))
-            holder.wrenchButton.setVisibility(View.VISIBLE);
+        if (listItem.getDescription() == null || listItem.getDescription().isEmpty()) {
+            holder.secondLine.setVisibility(View.GONE);
+
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) holder.firstLine.getLayoutParams();
+            marginLayoutParams.bottomMargin = 5;
+            holder.firstLine.setLayoutParams(marginLayoutParams);
+        } else {
+            holder.secondLine.setText(listItem.getDescription());
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

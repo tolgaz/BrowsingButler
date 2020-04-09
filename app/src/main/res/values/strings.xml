@@ -10,6 +10,8 @@
     <string name="toolbar_save_screen">Choose a save operation</string>
     <string name="toolbar_media_picker_screen">Save and compress</string>
     <string name="toolbar_compress_resize_screen">Save and compress</string>
+    <string name="toolbar_script_screen">Script settings</string>
+    <string name="toolbar_script_exec_screen">Scripts</string>
 
     <!-- Operation screen, user chooses what operation -->
     <string name="operations_save_title">Save..</string>
@@ -17,7 +19,7 @@
     <string name="operations_share_title">Share via/Open with..</string>
     <string name="operations_share_desc">Opens a window where you can share the chosen elements with other people or applications!</string>
     <string name="operations_script_title">Apply script</string>
-    <string name="operations_script_desc">Here you can apply premade or custom scripts to elements! (Scripts configuration is found in Options or by pressing the wrench)</string>
+    <string name="operations_script_desc">Here you can apply premade or custom scripts to elements! (Scripts configuration is found in Options)</string>
     <string name="operations_google_title">Search on Google..</string>
     <string name="operations_google_desc">Here you can use the elements you chose to create a search query on Google!</string>
 
@@ -33,4 +35,39 @@
     <string name="save_google_title">Save and search on Google</string>
     <string name="save_google_desc">Choose elements to create a search query on Google.</string>
 
+
+    <!-- Premade script info -->
+    <string name="compresTo50_title">Compress all elements to 50%</string>
+    <string name="compresTo50_desc">Downloads all elements and compresses themto half their quality.</string>
+    <string name="downloadAndSend_title">Download all elements and send them through email</string>
+    <string name="downloadAndSend_desc">Firstly downloads all elements and then opens a new mail with the elements as attachments.</string>
+    <string name="action_spinner_text">Choose action(s) for script!</string>
+    <string name="selection_spinner_text">Choose selection(s) for script!</string>
+
+    <!-- Script actions -->
+    <string name="script_action_download_title">Download</string>
+    <string name="script_action_download_desc">Downloads element to the specified path.</string>
+    <string name="script_action_compress_title">Compress</string>
+    <string name="script_action_compress_desc">Compresses downloaded elements. </string>
+    <string name="script_action_file_creator_title">Create a ZIP file with chosen elements</string>
+    <string name="script_action_file_creator_desc">A ZIP file is easily shareable.</string>
+    <string name="script_action_share_title">Share</string>
+    <string name="script_action_share_desc">Open the share dialog automatically</string>
+
+    <!-- Script selection -->
+    <string name="script_selection_all_elements_title">All elements</string>
+    <string name="script_selection_first_elements_title">First element</string>
+    <string name="script_selection_last_elements_title">Last element</string>
+    <string name="script_selection_all_pictures_title">All pictures</string>
+    <string name="script_selection_all_videos_title">All videos</string>
+    <string name="script_selection_all_text_title">All text</string>
+
+    <!-- Shared pref -->
+    <string name="application_shared_pref_name">BROWSINGBUTLER_SHARED_PREFERENCES</string>
+    <string name="scripts_save_key">SCRIPTS</string>
+
+    <!-- Script toasts -->
+    <string name="toast_script_created">Script has sucessfully been created!</string>
+    <string name="toast_script_saved">Script has sucessfully been saved!</string>
+    <string name="toast_script_deleted">Script has sucessfully been deleted!</string>
 </resources>

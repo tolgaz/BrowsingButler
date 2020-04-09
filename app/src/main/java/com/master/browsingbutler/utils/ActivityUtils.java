@@ -4,35 +4,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.master.browsingbutler.R;
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.activities.OperationActivity;
 
 public class ActivityUtils {
-
-    private Activity activity;
-
-    public ActivityUtils(Activity activity) {
-        this.activity = activity;
+    public static void engageActivityComplete(Activity activity, String text) {
+        displayToast(text);
+        returnBackToOperationScreen(activity);
     }
 
-    public void engageActivityComplete(String text) {
-        this.displayToastSuccessful(text);
-        this.returnBackToOperationScreen();
+    public static void displayToast(String text) {
+        Toast.makeText(App.getInstance(), text, Toast.LENGTH_LONG).show();
     }
 
-    private void displayToastSuccessful(String text) {
-        Toast.makeText(this.activity, text, Toast.LENGTH_LONG).show();
-    }
-
-    private void returnBackToOperationScreen() {
-        Intent intent = new Intent(this.activity, OperationActivity.class);
+    private static void returnBackToOperationScreen(Activity activity) {
+        Intent intent = new Intent(activity, OperationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        this.activity.startActivity(intent);
-        this.transitionBack();
+        activity.startActivity(intent);
     }
 
-    public void transitionBack() {
-        this.activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    public static int dpToPx(float dp) {
+        return (int) (dp * (((float) App.getResourses().getDisplayMetrics().densityDpi) / 160.0f));
     }
-
 }
+
+

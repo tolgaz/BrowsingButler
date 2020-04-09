@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,9 +34,11 @@
                 <data android:mimeType="application/*" />
             </intent-filter>
         </activity>
-        <activity android:name="com.master.browsingbutler.activities.SaveActivity" />
-        <activity android:name="com.master.browsingbutler.activities.MediaPickerActivity" />
-        <activity android:name="com.master.browsingbutler.activities.CompressResizeActivity" />
+        <activity android:name=".activities.SaveActivity" />
+        <activity android:name=".activities.MediaPickerActivity" />
+        <activity android:name=".activities.CompressResizeActivity" />
+        <activity android:name=".activities.ScriptActivity" />
+        <activity android:name=".activities.ScriptOptionsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

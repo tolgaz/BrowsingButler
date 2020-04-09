@@ -10,16 +10,16 @@ import androidx.annotation.Nullable;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.ElementGrabber;
 import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
+import java.util.Arrays;
 
 public class SaveActivity extends ActivityWithSwitchHandler {
 
-    private ActivityUtils activityUtils;
+    private static String TAG = "SaveActivity";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,17 +27,10 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         this.setContentView(R.layout.activity_save);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-        this.activityUtils = new ActivityUtils(this);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_save_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Save");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,26 +39,38 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         return true;
     }
 
+    public static void downloadAllElements(boolean printToast, boolean script) {
+        try {
+            /* Save */
+            Log.d(TAG, "pos 0 ");
+            ElementGrabber.grabElements(script);
+            if (printToast) {
+                ActivityUtils.displayToast("Media has been successfully saved!");
+            }
+        } catch (MalformedURLException e) {
+            Log.d(".", "caught eception: " + Arrays.toString(e.getStackTrace()));
+        }
+    }
+
     @Override
     public void switchHandler(View view, int position) throws MalformedURLException {
         switch (position) {
             case 0:
                 /* Save */
-                Log.d(this, "pos 0 ");
-                ElementGrabber.grabElements();
-                this.activityUtils.engageActivityComplete("Media has been successfully saved!");
+                downloadAllElements(false, false);
+                ActivityUtils.engageActivityComplete(this, "Media has been successfully saved!");
                 break;
             case 1:
                 /* Save and compress */
                 Log.d(this, "pos 1 ");
-                ElementGrabber.grabElements();
+                downloadAllElements(true, false);
                 this.startActivity(new Intent(this, MediaPickerActivity.class));
                 break;
             case 2:
                 /* Save and share */
                 Log.d(this, "pos 2 ");
-                ElementGrabber.grabElements();
-                ShareViaOpenWithHandler.saveAndShare(this);
+                ElementGrabber.grabElements(false);
+                ShareViaOpenWithHandler.shareSavedElements(this, false);
                 break;
             case 3:
                 /* Save and apply script */
@@ -82,8 +87,14 @@ public class SaveActivity extends ActivityWithSwitchHandler {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        this.activityUtils.transitionBack();
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

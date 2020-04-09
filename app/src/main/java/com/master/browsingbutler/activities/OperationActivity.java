@@ -13,7 +13,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.utils.Log;
 
 public class OperationActivity extends ActivityWithSwitchHandler {
@@ -23,7 +22,6 @@ public class OperationActivity extends ActivityWithSwitchHandler {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Log.d(this);
         this.setContentView(R.layout.activity_operation);
         if (firstRun) {
@@ -38,12 +36,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(this, "onResume");
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_operation_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Operations");
     }
@@ -66,17 +59,31 @@ public class OperationActivity extends ActivityWithSwitchHandler {
             case 1:
                 /* Share via */
                 Log.d(this, "Swith 1");
-                ShareViaOpenWithHandler.onlyShare(this);
+                ShareViaOpenWithHandler.share(this, false);
                 break;
             case 2:
-                /* Share via */
-            case 3:
                 /* Apply script */
-            case 4:
+                Log.d(this, "Swith 2 - apply script");
+                Intent intent = new Intent(this, ScriptActivity.class);
+                intent.putExtra("EXECUTION", true);
+                this.startActivity(intent);
+            case 3:
                 /* Search on Google */
             default:
                 Log.d(this, "Swith default");
                 break;
         }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
     }
 }

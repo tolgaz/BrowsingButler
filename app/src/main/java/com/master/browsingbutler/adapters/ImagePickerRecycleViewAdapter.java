@@ -23,9 +23,10 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder> {
-    private ArrayList<ElementWrapper> fileDataset;
+    private List<ElementWrapper> fileDataset;
     private LayoutInflater mInflater;
     private ListRecycleViewAdapter.ItemClickListener mClickListener;
     private ArrayList<ImagePickerRecycleViewHolder> viewHolders = new ArrayList<>();
@@ -69,7 +70,7 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ImagePickerRecycleViewAdapter(Context context, ArrayList<ElementWrapper> fileDataset) {
+    public ImagePickerRecycleViewAdapter(Context context, List<ElementWrapper> fileDataset) {
         this.mInflater = LayoutInflater.from(context);
         this.fileDataset = fileDataset;
     }
@@ -107,7 +108,7 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         return this.fileDataset.size();
     }
 
-    public ArrayList<ElementWrapper> getFileDataset() {
+    public List<ElementWrapper> getFileDataset() {
         return this.fileDataset;
     }
 

@@ -18,16 +18,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
 
-    public static void grabElements() throws MalformedURLException {
-        ArrayList<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
+    public static void grabElements(boolean script) throws MalformedURLException {
+        List<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
+        if (script) {
+            elements = elements.stream().filter(ElementWrapper::getSatisfiesSelection).collect(Collectors.toList());
+        }
         getImages(elements);
     }
 
-    private static void getImages(ArrayList<ElementWrapper> elements) throws MalformedURLException {
+    private static void getImages(List<ElementWrapper> elements) throws MalformedURLException {
         Log.d(TAG, "getImages");
         File folder = createDirectory();
 

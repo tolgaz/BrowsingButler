@@ -11,7 +11,8 @@ public class ElementWrapper implements Comparable {
     private Document document;
     private Element mediaElement;
     private File file;
-    private Boolean chosen;
+    private boolean chosen;
+    private Boolean satisfiesSelection = null;
 
     public ElementWrapper(Document document) {
         this.document = document;
@@ -61,12 +62,20 @@ public class ElementWrapper implements Comparable {
         return this.file;
     }
 
-    public Boolean getChosen() {
+    public boolean getChosen() {
         return this.chosen;
     }
 
-    public void setChosen(Boolean chosen) {
+    public void setChosen(boolean chosen) {
         this.chosen = chosen;
+    }
+
+    public Boolean getSatisfiesSelection() {
+        return this.satisfiesSelection;
+    }
+
+    public void setSatisfiesSelection(Boolean satisfiesSelection) {
+        this.satisfiesSelection = satisfiesSelection;
     }
 }
 

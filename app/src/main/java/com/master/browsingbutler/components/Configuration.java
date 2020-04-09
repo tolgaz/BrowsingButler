@@ -12,22 +12,26 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.R;
+import com.master.browsingbutler.activities.ActivityWithSwitchHandler;
 import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter;
 import com.master.browsingbutler.adapters.ListRecycleViewAdapter;
 import com.master.browsingbutler.adapters.ListRecycleViewAdapter.ItemClickListener;
-import com.master.browsingbutler.interfaces.ActivityWithSwitchHandler;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.models.ListItem;
+import com.master.browsingbutler.models.scripts.Script;
+import com.master.browsingbutler.models.scripts.ScriptItem;
 import com.master.browsingbutler.utils.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Configuration implements ItemClickListener {
-    private ListRecycleViewAdapter listRecycleViewAdapater;
-    private ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter;
     private ActivityWithSwitchHandler currActivity;
+    public static ArrayList<ListItem> premadeListDataset;
+    public static ArrayList<ListItem> customListDataset;
 
     public void configureToolbar(AppCompatActivity activity, int subtitleId) {
         Log.d("ToolbarConfiguration", "configureToolbar");
@@ -41,16 +45,16 @@ public class Configuration implements ItemClickListener {
         this.currActivity = activity;
         switch (activityName) {
             case "Operations":
-                this.configureOperations(this.currActivity);
+                this.configureOperations();
                 break;
             case "Save":
-                this.configureSave(this.currActivity);
+                this.configureSave();
                 break;
             case "MediaPicker":
-                this.configureMediaPicker(this.currActivity);
+                this.configureMediaPicker();
                 break;
-            case "CompressResize":
-                // configureMediaPicker(currActivity);
+            case "Scripts":
+                this.configureScripts();
                 break;
             default:
                 Log.d("ListConfiguration", "switch EndedInDefault");
@@ -59,63 +63,89 @@ public class Configuration implements ItemClickListener {
     }
 
 
-    private void configureOperations(ActivityWithSwitchHandler activity) {
+    private void configureOperations() {
         ArrayList<ListItem> listDataset = new ArrayList<>();
-        listDataset.add(new ListItem(getText(activity, R.string.operations_save_title), getText(activity, R.string.operations_save_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.operations_share_title), getText(activity, R.string.operations_share_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.operations_script_title), getText(activity, R.string.operations_script_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.operations_google_title), getText(activity, R.string.operations_google_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_save_title), getText(R.string.operations_save_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_share_title), getText(R.string.operations_share_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_script_title), getText(R.string.operations_script_desc)));
+        listDataset.add(new ListItem(getText(R.string.operations_google_title), getText(R.string.operations_google_desc)));
 
-        RecyclerView recyclerView = activity.findViewById(R.id.operation_recycle_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        this.listRecycleViewAdapater = new ListRecycleViewAdapter(activity, listDataset);
-        this.listRecycleViewAdapater.setClickListener(this);
-        recyclerView.setAdapter(this.listRecycleViewAdapater);
+        RecyclerView recyclerView = this.currActivity.findViewById(R.id.operation_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.currActivity));
+        ListRecycleViewAdapter listRecycleViewAdapater = new ListRecycleViewAdapter(this.currActivity, listDataset);
+        listRecycleViewAdapater.setClickListener(this);
+        recyclerView.setAdapter(listRecycleViewAdapater);
     }
 
-    private void configureSave(ActivityWithSwitchHandler activity) {
+    private void configureSave() {
         ArrayList<ListItem> listDataset = new ArrayList<>();
-        listDataset.add(new ListItem(getText(activity, R.string.save_save_title), getText(activity, R.string.save_save_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.save_compress_title), getText(activity, R.string.save_compress_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.save_share_title), getText(activity, R.string.save_share_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.save_script_title), getText(activity, R.string.save_script_desc)));
-        listDataset.add(new ListItem(getText(activity, R.string.save_google_title), getText(activity, R.string.save_google_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_save_title), getText(R.string.save_save_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_compress_title), getText(R.string.save_compress_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_share_title), getText(R.string.save_share_desc)));
+        //listDataset.add(new ListItem(getText(R.string.save_script_title), getText(R.string.save_script_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_google_title), getText(R.string.save_google_desc)));
 
-        RecyclerView recyclerView = activity.findViewById(R.id.save_recycle_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        this.listRecycleViewAdapater = new ListRecycleViewAdapter(activity, listDataset);
-        this.listRecycleViewAdapater.setClickListener(this);
-        recyclerView.setAdapter(this.listRecycleViewAdapater);
+        RecyclerView recyclerView = this.currActivity.findViewById(R.id.save_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.currActivity));
+        ListRecycleViewAdapter listRecycleViewAdapater = new ListRecycleViewAdapter(this.currActivity, listDataset);
+        listRecycleViewAdapater.setClickListener(this);
+        recyclerView.setAdapter(listRecycleViewAdapater);
+    }
+
+    private void configureScripts() {
+        premadeListDataset = new ArrayList<>();
+        customListDataset = new ArrayList<>();
+
+        /* Get the scripts array - fill the list dataset with info */
+        Scripts.getAllScripts().forEach(script -> {
+            ListItem listItem = new ScriptItem(script.getTitle(), script.getDescription(), script);
+            if (script.isPremade()) {
+                premadeListDataset.add(listItem);
+            } else {
+                customListDataset.add(listItem);
+            }
+        });
+        this.createScriptRecyclerViews(Script.Type.PREMADE, premadeListDataset);
+        this.createScriptRecyclerViews(Script.Type.CUSTOM, customListDataset);
+    }
+
+    private void createScriptRecyclerViews(Script.Type type, ArrayList<ListItem> dataset) {
+        RecyclerView recyclerView = this.currActivity.findViewById(type == Script.Type.PREMADE ? R.id.premade_script_recycle_view : R.id.custom_script_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.currActivity));
+        ListRecycleViewAdapter recyclerViewAdapter = new ListRecycleViewAdapter(this.currActivity, dataset);
+        recyclerViewAdapter.setClickListener(this);
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
 
-    private void configureMediaPicker(ActivityWithSwitchHandler activity) {
-        ArrayList<ElementWrapper> fileDataset = JavaScriptInterface.getSelectedElements();
-        RecyclerView recyclerView = activity.findViewById(R.id.image_picker_recycle_view);
+    private void configureMediaPicker() {
+        List<ElementWrapper> fileDataset = JavaScriptInterface.getSelectedElements();
+        RecyclerView recyclerView = this.currActivity.findViewById(R.id.image_picker_recycle_view);
 
-        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(activity, FlexDirection.ROW);
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this.currActivity, FlexDirection.ROW);
         flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
         flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
         flexboxLayoutManager.setJustifyContent(JustifyContent.SPACE_EVENLY);
         flexboxLayoutManager.setMaxLine(5);
         recyclerView.setLayoutManager(flexboxLayoutManager);
 
-        this.imagePickerRecycleViewAdapter = new ImagePickerRecycleViewAdapter(activity, fileDataset);
-        this.imagePickerRecycleViewAdapter.setClickListener(this);
-        recyclerView.setAdapter(this.imagePickerRecycleViewAdapter);
+        ImagePickerRecycleViewAdapter imagePickerRecycleViewAdapter = new ImagePickerRecycleViewAdapter(this.currActivity, fileDataset);
+        imagePickerRecycleViewAdapter.setClickListener(this);
+        recyclerView.setAdapter(imagePickerRecycleViewAdapter);
     }
 
-    private static String getText(AppCompatActivity activity, int id) {
-        return activity.getResources().getString(id);
+    private static String getText(int id) {
+        return App.getResourses().getString(id);
     }
 
     public ImagePickerRecycleViewAdapter getImagePickerRecycleViewAdapter() {
-        return this.imagePickerRecycleViewAdapter;
+        RecyclerView recyclerView = this.currActivity.findViewById(R.id.image_picker_recycle_view);
+        return (ImagePickerRecycleViewAdapter) recyclerView.getAdapter();
     }
 
     @Override
     public void onItemClick(View view, int position) throws MalformedURLException {
-        Log.d(this, "You clicked " + this.listRecycleViewAdapater.getItem(position) + " on row number " + position);
+        Log.d(this, "You clicked " + view.toString() + " on row number " + position);
         this.currActivity.switchHandler(view, position);
     }
 }

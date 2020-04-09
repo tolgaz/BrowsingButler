@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -10,14 +9,13 @@
         android:background="@color/colorPrimaryDark"
         android:textAlignment="center"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:title="Browsing Butler"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large"
         app:titleTextColor="@android:color/black" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@drawable/toolbar_dropshadow" />
-
 </merge>

@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.Configuration;
 import com.master.browsingbutler.components.JavaScriptInterface;
+import com.master.browsingbutler.components.Scripts;
 import com.master.browsingbutler.components.WebViewClient;
 import com.master.browsingbutler.utils.Log;
 
@@ -50,6 +51,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         configuration.configureToolbar(this, R.string.toolbar_main);
+        Scripts.initScripts();
         this.loadWebpage();
     }
 
@@ -109,6 +111,18 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         this.runOnUiThread(() -> this.findViewById(R.id.magic_button).setVisibility(View.INVISIBLE));
     }
     /* Button opeartions */
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
 }
 
 
