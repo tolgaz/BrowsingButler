@@ -50,9 +50,15 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        configuration.configureToolbar(this, R.string.toolbar_main);
         Scripts.initScripts();
         this.loadWebpage();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this);
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_main);
     }
 
     @Override

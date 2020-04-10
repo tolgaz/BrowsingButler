@@ -35,7 +35,12 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
             this.isExecution = false;
             newScript.setOnClickListener(v -> this.startActivity(this.configureScriptOptionIntent(v, -1, true)));
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this);
         WebpageRetrieverActivity.configuration.configureToolbar(this, this.isExecution ? R.string.toolbar_script_exec_screen : R.string.toolbar_script_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Scripts");
     }
@@ -81,6 +86,7 @@ public class ScriptActivity extends ActivityWithSwitchHandler {
 
     @Override
     public void finish() {
+        Log.d(this, "finish()");
         super.finish();
         this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }

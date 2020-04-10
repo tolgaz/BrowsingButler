@@ -17,17 +17,12 @@ import com.master.browsingbutler.utils.Log;
 
 public class OperationActivity extends ActivityWithSwitchHandler {
 
-    private static boolean firstRun = true;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
         this.setContentView(R.layout.activity_operation);
-        if (firstRun) {
-            firstRun = false;
-            this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-        }
+        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         /* Only for when WebPageRetriver is not used - TESTING */
         //WebpageRetrieverActivity.URL = this.getResources().getString(R.string.main_url);
         ActivityCompat.requestPermissions(this,
@@ -36,7 +31,12 @@ public class OperationActivity extends ActivityWithSwitchHandler {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this);
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_operation_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Operations");
     }
@@ -70,6 +70,9 @@ public class OperationActivity extends ActivityWithSwitchHandler {
                 break;
             case 3:
                 /* Search on Google */
+                Log.d(this, "Swith 3 - search on Google");
+                this.startActivity(new Intent(this, SearchQueryBuilderActivity.class));
+
             default:
                 Log.d(this, "Swith default");
                 break;
@@ -85,6 +88,6 @@ public class OperationActivity extends ActivityWithSwitchHandler {
     @Override
     public void finish() {
         super.finish();
-        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

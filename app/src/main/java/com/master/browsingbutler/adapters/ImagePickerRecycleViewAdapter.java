@@ -16,13 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.ElementWrapper;
-import com.master.browsingbutler.utils.Log;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePickerRecycleViewAdapter.ImagePickerRecycleViewHolder> {
@@ -51,12 +48,8 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         @Override
         public void onClick(View view) {
             if (ImagePickerRecycleViewAdapter.this.mClickListener != null) {
-                try {
-                    ImagePickerRecycleViewAdapter.this.mClickListener.onItemClick(view, this.getAdapterPosition());
-                    this.flipVisibility();
-                } catch (MalformedURLException e) {
-                    Log.d(this, "Wrong URL. " + Arrays.toString(e.getStackTrace()));
-                }
+                ImagePickerRecycleViewAdapter.this.mClickListener.onItemClick(view, this.getAdapterPosition());
+                this.flipVisibility();
             }
         }
 
@@ -116,14 +109,8 @@ public class ImagePickerRecycleViewAdapter extends RecyclerView.Adapter<ImagePic
         return this.viewHolders;
     }
 
-    // convenience method for getting data at click position
-    File getItem(int id) {
-        return this.fileDataset.get(id).getFile();
-    }
-
     // allows clicks events to be caught
     public void setClickListener(ListRecycleViewAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
-
 }

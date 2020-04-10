@@ -18,18 +18,19 @@ import com.master.browsingbutler.activities.ActivityWithSwitchHandler;
 import com.master.browsingbutler.adapters.ImagePickerRecycleViewAdapter;
 import com.master.browsingbutler.adapters.ListRecycleViewAdapter;
 import com.master.browsingbutler.adapters.ListRecycleViewAdapter.ItemClickListener;
+import com.master.browsingbutler.adapters.SearchQueryRecycleViewAdapter;
 import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.models.ListItem;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.ScriptItem;
 import com.master.browsingbutler.utils.Log;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Configuration implements ItemClickListener {
+    private static final String TAG = "Configuration";
     private ActivityWithSwitchHandler currActivity;
     public static ArrayList<ListItem> premadeListDataset;
     public static ArrayList<ListItem> customListDataset;
@@ -57,10 +58,25 @@ public class Configuration implements ItemClickListener {
             case "Scripts":
                 this.configureScripts();
                 break;
+            case "SearchQuery":
+                this.configureSearchQuery();
+                break;
             default:
                 Log.d("ListConfiguration", "switch EndedInDefault");
         }
         Log.d("ListConfiguration", "ending configureList");
+    }
+
+    private void configureSearchQuery() {
+        Log.d(TAG, "configureSearchQuery");
+        List<ElementWrapper> dataset = JavaScriptInterface.getSelectedElements().stream().filter(ElementWrapper::isText).collect(Collectors.toList());
+        // dataset.forEach(elementWrapper -> elementWrapper.setChosen(false));
+
+        RecyclerView recyclerView = this.currActivity.findViewById(R.id.search_query_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.currActivity));
+        SearchQueryRecycleViewAdapter searchQueryRecycleViewAdapter = new SearchQueryRecycleViewAdapter(this.currActivity, dataset);
+        searchQueryRecycleViewAdapter.setClickListener(this);
+        recyclerView.setAdapter(searchQueryRecycleViewAdapter);
     }
 
 
@@ -145,8 +161,13 @@ public class Configuration implements ItemClickListener {
         return (ImagePickerRecycleViewAdapter) recyclerView.getAdapter();
     }
 
+    public SearchQueryRecycleViewAdapter getSearchQueryRecycleViewAdapater() {
+        RecyclerView recyclerView = this.currActivity.findViewById(R.id.search_query_recycle_view);
+        return (SearchQueryRecycleViewAdapter) recyclerView.getAdapter();
+    }
+
     @Override
-    public void onItemClick(View view, int position) throws MalformedURLException {
+    public void onItemClick(View view, int position) {
         Log.d(this, "You clicked " + view.toString() + " on row number " + position);
         this.currActivity.switchHandler(view, position);
     }

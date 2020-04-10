@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.utils.Log;
 
-import java.net.MalformedURLException;
-
 public abstract class ActivityWithSwitchHandler extends AppCompatActivity {
-    public abstract void switchHandler(View view, int position) throws MalformedURLException;
+    public abstract void switchHandler(View view, int position);
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

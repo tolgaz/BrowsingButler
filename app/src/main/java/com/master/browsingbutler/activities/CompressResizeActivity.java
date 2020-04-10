@@ -58,7 +58,6 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         Log.d(this, "onCreate");
-        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
 
         EditText widthEditText = this.findViewById(R.id.resize_width_input);
         EditText heightEditText = this.findViewById(R.id.resize_height_input);
@@ -76,6 +75,13 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         this.addTextWatcherForHeightAndWidth(widthEditText, heightEditText, applyButton);
 
         this.handleOnlyVideoElementWrappers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this);
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_compress_resize_screen);
     }
 
     private void addTextWatcherForHeightAndWidth(EditText widthEditText, EditText heightEditText, Button applyButton) {
@@ -258,6 +264,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
 
     @Override
     public void finish() {
+        Log.d(this, "finish()");
         super.finish();
         this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }

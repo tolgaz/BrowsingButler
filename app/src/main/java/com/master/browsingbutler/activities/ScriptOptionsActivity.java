@@ -53,7 +53,6 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
         Log.d(this);
         this.setContentView(R.layout.activity_script_settings);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_script_screen);
 
         if (this.getIntent().getExtras() != null) {
             this.newScript = (boolean) this.getIntent().getExtras().get("NEW_SCRIPT");
@@ -132,6 +131,13 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
             this.createAndAddTextWatcher(widthInput, "WIDTH");
             this.createAndAddTextWatcher(heightInput, "HEIGHT");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this);
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_script_screen);
     }
 
     private void createAndSetSeekChangeListener(IndicatorSeekBar indicatorSeekBar) {
@@ -410,6 +416,7 @@ public class ScriptOptionsActivity extends ActivityWithSwitchHandler implements 
 
     @Override
     public void finish() {
+        Log.d(this, "finish()");
         super.finish();
         this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }

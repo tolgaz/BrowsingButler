@@ -22,12 +22,16 @@ import java.util.stream.Collectors;
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
 
-    public static void grabElements(boolean script) throws MalformedURLException {
+    public static void grabElements(boolean script) {
         List<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
         if (script) {
             elements = elements.stream().filter(ElementWrapper::getSatisfiesSelection).collect(Collectors.toList());
         }
-        getElements(elements);
+        try {
+            getElements(elements);
+        } catch (MalformedURLException e) {
+            Log.d(TAG, Arrays.toString(e.getStackTrace()));
+        }
     }
 
     private static void getElements(List<ElementWrapper> elements) throws MalformedURLException {

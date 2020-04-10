@@ -14,9 +14,6 @@ import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.ElementGrabber;
 import com.master.browsingbutler.utils.Log;
 
-import java.net.MalformedURLException;
-import java.util.Arrays;
-
 public class SaveActivity extends ActivityWithSwitchHandler {
 
     private static String TAG = "SaveActivity";
@@ -27,7 +24,12 @@ public class SaveActivity extends ActivityWithSwitchHandler {
         Log.d(this);
         this.setContentView(R.layout.activity_save);
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(this);
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_save_screen);
         WebpageRetrieverActivity.configuration.configureList(this, "Save");
     }
@@ -40,20 +42,16 @@ public class SaveActivity extends ActivityWithSwitchHandler {
     }
 
     public static void downloadAllElements(boolean printToast, boolean script) {
-        try {
-            /* Save */
-            Log.d(TAG, "pos 0 ");
-            ElementGrabber.grabElements(script);
-            if (printToast) {
-                ActivityUtils.displayToast("Media has been successfully saved!");
-            }
-        } catch (MalformedURLException e) {
-            Log.d(".", "caught eception: " + Arrays.toString(e.getStackTrace()));
+        /* Save */
+        Log.d(TAG, "pos 0 ");
+        ElementGrabber.grabElements(script);
+        if (printToast) {
+            ActivityUtils.displayToast("Media has been successfully saved!");
         }
     }
 
     @Override
-    public void switchHandler(View view, int position) throws MalformedURLException {
+    public void switchHandler(View view, int position) {
         switch (position) {
             case 0:
                 /* Save */
@@ -73,12 +71,10 @@ public class SaveActivity extends ActivityWithSwitchHandler {
                 ShareViaOpenWithHandler.shareSavedElements(this, false);
                 break;
             case 3:
-                /* Save and apply script */
-                Log.d(this, "pos 3 ");
-                break;
-            case 4:
                 /* Save and search on google */
-                Log.d(this, "pos 4 ");
+                Log.d(this, "pos 3 ");
+                downloadAllElements(true, false);
+                this.startActivity(new Intent(this, SearchQueryBuilderActivity.class));
                 break;
             default:
                 Log.d(this, "Swith default");
@@ -94,6 +90,7 @@ public class SaveActivity extends ActivityWithSwitchHandler {
 
     @Override
     public void finish() {
+        Log.d(this, "finish()");
         super.finish();
         this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }

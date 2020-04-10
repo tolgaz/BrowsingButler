@@ -1,15 +1,16 @@
 <resources>
     <string name="main_url">http://10.0.2.2:8080/</string>
+    <string name="google_query_url">https://www.google.com/search?q=</string>
 
     <string name="app_name">BrowsingButler</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
     <!-- Toolbar -->
-    <string name="toolbar_main">Click on a element to start!</string>
+    <string name="toolbar_main">Click on a element to start</string>
     <string name="toolbar_operation_screen">Choose operation</string>
     <string name="toolbar_save_screen">Choose a save operation</string>
     <string name="toolbar_media_picker_screen">Save and compress</string>
     <string name="toolbar_compress_resize_screen">Save and compress</string>
+    <string name="toolbar_searchquerybuilder">Choose text to build query</string>
     <string name="toolbar_script_screen">Script settings</string>
     <string name="toolbar_script_exec_screen">Scripts</string>
 

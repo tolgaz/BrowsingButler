@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.master.browsingbutler.R;
 import com.master.browsingbutler.models.ListItem;
-import com.master.browsingbutler.utils.Log;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleViewAdapter.ListRecycleViewHolder> {
-    private ArrayList<ListItem> listDataset;
+    private List<ListItem> listDataset;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
@@ -41,17 +38,13 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
         @Override
         public void onClick(View view) {
             if (ListRecycleViewAdapter.this.mClickListener != null) {
-                try {
-                    ListRecycleViewAdapter.this.mClickListener.onItemClick(view, this.getAdapterPosition());
-                } catch (MalformedURLException e) {
-                    Log.d(this, "Wrong URL. " + Arrays.toString(e.getStackTrace()));
-                }
+                ListRecycleViewAdapter.this.mClickListener.onItemClick(view, this.getAdapterPosition());
             }
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ListRecycleViewAdapter(Context context, ArrayList<ListItem> listDataset) {
+    public ListRecycleViewAdapter(Context context, List<ListItem> listDataset) {
         this.mInflater = LayoutInflater.from(context);
         this.listDataset = listDataset;
     }
@@ -86,11 +79,6 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
         return this.listDataset.size();
     }
 
-    // convenience method for getting data at click position
-    public ListItem getItem(int id) {
-        return this.listDataset.get(id);
-    }
-
     // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
@@ -98,6 +86,6 @@ public class ListRecycleViewAdapter extends RecyclerView.Adapter<ListRecycleView
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position) throws MalformedURLException;
+        void onItemClick(View view, int position);
     }
 }

@@ -70,6 +70,10 @@ public class ElementWrapper implements Comparable {
     public boolean isNotText() {
         return this.text == null || this.text.isEmpty();
     }
+
+    public boolean isText() {
+        return this.text != null && !this.text.isEmpty();
+    }
 }
 
 

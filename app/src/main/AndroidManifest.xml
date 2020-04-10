@@ -40,6 +40,7 @@
         <activity android:name=".activities.CompressResizeActivity" />
         <activity android:name=".activities.ScriptActivity" />
         <activity android:name=".activities.ScriptOptionsActivity" />
+        <activity android:name=".activities.SearchQueryBuilderActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
