@@ -27,7 +27,8 @@ public class ShareViaOpenWithHandler {
                 .filter(elementWrapper -> script ? elementWrapper.getSatisfiesSelection() : true)
                 .forEach(elementWrapper -> {
                     try {
-                        allValues.append(Uri.parse(ElementGrabber.trimURL(elementWrapper))).append(" ");
+                        String textToAppend = elementWrapper.isNotText() ? ElementGrabber.trimURL(elementWrapper).toString() : elementWrapper.getText();
+                        allValues.append(textToAppend).append(" ");
                     } catch (MalformedURLException e) {
                         Log.d("handleClick", e.getMessage());
                     }

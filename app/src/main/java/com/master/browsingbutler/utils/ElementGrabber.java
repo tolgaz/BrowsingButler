@@ -6,8 +6,6 @@ import com.master.browsingbutler.activities.WebpageRetrieverActivity;
 import com.master.browsingbutler.components.JavaScriptInterface;
 import com.master.browsingbutler.models.ElementWrapper;
 
-import org.jsoup.nodes.Element;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,9 +14,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ElementGrabber {
@@ -29,41 +27,74 @@ public class ElementGrabber {
         if (script) {
             elements = elements.stream().filter(ElementWrapper::getSatisfiesSelection).collect(Collectors.toList());
         }
-        getImages(elements);
+        getElements(elements);
     }
 
-    private static void getImages(List<ElementWrapper> elements) throws MalformedURLException {
-        Log.d(TAG, "getImages");
+    private static void getElements(List<ElementWrapper> elements) throws MalformedURLException {
+        Log.d(TAG, "getElements");
         File folder = createDirectory();
 
         for (final ElementWrapper elementWrapper : elements) {
-            //Open a URL Stream
+            if (!elementWrapper.isNotText()) {
+                String name = UUID.randomUUID().toString() + ".txt";
+                File newFile = createAndSetFileInElementWrapper(elementWrapper, folder, name);
+                if (newFile != null) {
+                    writeToFile(elementWrapper, folder, name);
+                }
+            } else {
+                //Open a URL Stream
             /*
                 Imgur links are like: https://i.imgur.com/yj9Xp7Q_d.jpg?maxwidth=520&shape=thumb&fidelity=high
                 We want to remove the query params. And trim the _d from the end of the url.
              */
-            String trimmedURL = trimURL(elementWrapper);
-
-            try (InputStream inputStream = new URL(trimmedURL).openStream()) {
-                String name = getFilenameFromSrc(trimmedURL) + getExtensionFromSrc(trimmedURL);
-                elementWrapper.setFile(createNewFile(folder, name));
-                writeToFile(inputStream, folder, name);
-            } catch (IOException e) {
-                Log.d(TAG, Arrays.toString(e.getStackTrace()));
+                URL trimmedURL = trimURL(elementWrapper);
+                try (InputStream inputStream = trimmedURL.openStream()) {
+                    String name = getFilenameFromSrc(trimmedURL.getPath());
+                    File file = createAndSetFileInElementWrapper(elementWrapper, folder, name);
+                    if (file != null) {
+                        writeToFile(inputStream, folder, name);
+                    }
+                } catch (IOException e) {
+                    Log.d(TAG, Arrays.toString(e.getStackTrace()));
+                }
             }
         }
     }
 
-    public static String trimURL(ElementWrapper elementWrapper) throws MalformedURLException {
+    private static File createAndSetFileInElementWrapper(ElementWrapper elementWrapper, File folder, String name) {
+        try {
+            /* if newFile is null it already esxists */
+            File file = new File(folder, name);
+
+            if (elementWrapper.getFile() == null) {
+                elementWrapper.setFile(file);
+            }
+
+            if (!file.createNewFile()) {
+                Log.d(TAG, "createNewFile, File already exists!");
+                return null;
+            }
+            return file;
+        } catch (IOException e) {
+            Log.d(TAG, Arrays.toString(e.getStackTrace()));
+        }
+        return null;
+    }
+
+    public static URL trimURL(ElementWrapper elementWrapper) throws MalformedURLException {
         String src = getSourceLink(elementWrapper);
-        URL url = new URL(src);
-        String protocol = url.getProtocol();
-        String host = url.getHost();
-        String filename = getFilenameFromSrc(src);
-        String extension = getExtensionFromSrc(src);
+        /* If URL contains host and everything we are good, else we can try adding it on */
+        URL url;
+        try {
+            url = new URL(src);
+        } catch (MalformedURLException e) {
+            src = WebpageRetrieverActivity.URL + src;
+            url = new URL(src);
+        }
+        String filename = getFilenameFromSrc(url.getPath());
         /* Check if tag is img for now. Then replace it with JPG: TODO: what is the tag og gifs, m4v, mp4, videos */
-        if (elementWrapper.getNormalName().equals("img")) extension = ".jpg";
-        return protocol + "://" + host + "/" + filename + extension;
+        //if (elementWrapper.getNormalName().equals("img")) extension = ".jpg";
+        return new URL(url.getProtocol(), url.getHost(), url.getPort(), filename);
     }
 
     private static void writeToFile(InputStream inputStream, File folder, String name) {
@@ -76,27 +107,30 @@ public class ElementGrabber {
         }
     }
 
-    private static File createNewFile(File folder, String name) throws IOException {
+    private static void writeToFile(ElementWrapper elementWrapper, File folder, String name) {
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(folder.getAbsolutePath() + "/" + name))) {
+            byte[] bytes = elementWrapper.getText().getBytes();
+            for (byte aByte : bytes) {
+                out.write(aByte);
+            }
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
+    }
+
+    private static File createNewFile(File file) throws IOException {
         // TODO: handle overwriting, maybe we dont?
-        File file = new File(folder, name);
         if (!file.createNewFile()) {
             Log.d(TAG, "createNewFile, File already exists!");
         }
         return file;
     }
 
-    private static String getExtensionFromSrc(String src) throws MalformedURLException {
-        String path = new URL(src).getPath();
-        String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
-        return filenameWithextension.substring(filenameWithextension.lastIndexOf('.'));
-    }
-
-    private static String getFilenameFromSrc(String src) throws MalformedURLException {
-        String path = new URL(src).getPath();
+    private static String getFilenameFromSrc(String path) {
         String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
         /* Remove _d From file */
         String filename = filenameWithextension.substring(0, filenameWithextension.lastIndexOf('.'));
-        return removeUnderscoreDIfExists(filename);
+        return removeUnderscoreDIfExists(filename) + path.substring(path.lastIndexOf('.'));
     }
 
     private static String removeUnderscoreDIfExists(String filename) {
@@ -105,43 +139,18 @@ public class ElementGrabber {
         return filename;
     }
 
-    private static String trimSrcToHostDomain(String src) throws MalformedURLException {
-        String host = new URL(src).getHost();
-        return host.substring(host.indexOf(".") + 1, host.lastIndexOf("."));
-    }
-
     private static File createDirectory() throws MalformedURLException {
         Log.d(TAG, "createFileAndDirectory started");
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/BrowsingButler/" + trimSrcToHostDomain(WebpageRetrieverActivity.URL));
-        if (!folder.mkdirs()) Log.d("ElementGrabber", "mkDir faileD");
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/BrowsingButler/" + new URL(WebpageRetrieverActivity.URL).getHost());
+        if (!folder.mkdirs()) {
+            Log.d("ElementGrabber", "mkDir faileD");
+        }
         Log.d(TAG, "createFileAndDirectory ended");
         return folder;
     }
 
-    private static ArrayList<String> getSourceLinks(ArrayList<ElementWrapper> elements) {
-        Log.d(TAG, "getSourceLinks started");
-        ArrayList<String> sources = new ArrayList<>();
-        for (ElementWrapper elementWrapper : elements) {
-            Element mediaElement = elementWrapper.getElement();
-            if (elementWrapper.getMediaElement() != null) {
-                mediaElement = elementWrapper.getMediaElement();
-            }
-            sources.add(mediaElement.attr("src"));
-            Log.d(TAG, "inLoop" + elementWrapper);
-        }
-        Log.d(TAG, "getSourceLinks ended");
-        return sources;
-    }
-
     private static String getSourceLink(ElementWrapper elementWrapper) {
         Log.d(TAG, "getSourceLink started");
-
-        Element mediaElement = elementWrapper.getElement();
-        if (elementWrapper.getMediaElement() != null) {
-            mediaElement = elementWrapper.getMediaElement();
-        }
-        Log.d(TAG, "inLoop" + elementWrapper);
-        Log.d(TAG, "getSourceLink ended");
-        return mediaElement.attr("src");
+        return elementWrapper.getElement().attr("src");
     }
 }

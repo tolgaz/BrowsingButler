@@ -8,14 +8,12 @@ import java.io.File;
 public class ElementWrapper implements Comparable {
 
     private Element element;
-    private Document document;
-    private Element mediaElement;
     private File file;
     private boolean chosen;
     private Boolean satisfiesSelection = null;
+    private String text = null;
 
     public ElementWrapper(Document document) {
-        this.document = document;
         this.element = document.body().child(0);
         this.chosen = false;
     }
@@ -24,17 +22,8 @@ public class ElementWrapper implements Comparable {
         return this.element.normalName();
     }
 
-    public String getMediaElementNormalName() {
-        return this.mediaElement.normalName();
-    }
-
-
     public Element getElement() {
         return this.element;
-    }
-
-    public Document getDocument() {
-        return this.document;
     }
 
     @Override
@@ -44,14 +33,6 @@ public class ElementWrapper implements Comparable {
             if (this.element.outerHtml().equals(elementWrapper.getElement().outerHtml())) return 0;
         }
         return -1;
-    }
-
-    public Element getMediaElement() {
-        return this.mediaElement;
-    }
-
-    public void setMediaElement(Element mediaElement) {
-        this.mediaElement = mediaElement;
     }
 
     public void setFile(File file) {
@@ -77,5 +58,18 @@ public class ElementWrapper implements Comparable {
     public void setSatisfiesSelection(Boolean satisfiesSelection) {
         this.satisfiesSelection = satisfiesSelection;
     }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isNotText() {
+        return this.text == null || this.text.isEmpty();
+    }
 }
+
 

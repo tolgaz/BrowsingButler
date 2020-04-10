@@ -33,9 +33,9 @@ import com.master.browsingbutler.utils.Log;
 import com.warkiz.widget.IndicatorSeekBar;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,7 +45,6 @@ import id.zelory.compressor.Compressor;
 
 import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_CANCEL;
 import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class CompressResizeActivity extends ActivityWithSwitchHandler {
 
@@ -167,6 +166,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                     .stream()
                     /* if script say all match predicate */
                     .filter(elementWrapper -> script ? elementWrapper.getSatisfiesSelection() : elementWrapper.getChosen())
+                    .filter(ElementWrapper::isNotText)
                     .forEach(elementWrapper -> {
                         File file = elementWrapper.getFile();
                         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
@@ -179,9 +179,10 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                         if (type.contains("video")) {
                             if (resizeWidth.get() != 0 && resizeHeight.get() != 0) {
                                 String extension = FileUtils.getExtensionFromSrc(file.getName());
-                                String outputFileName = String.format("%s/%s_compressed%s", file.getParent(), FileUtils.getFilenameFromSrc(file.getName()), extension);
-                                String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth.get(), resizeHeight.get(), outputFileName);
+                                File comressedFile = new File(String.format("%s/%s_compressed%s", file.getParent(), FileUtils.getFilenameFromSrc(file.getName()), extension));
+                                String cmd = String.format(Locale.getDefault(), "-y -i %s -vf scale=%d:%d -c:a copy %s", file.getAbsolutePath(), resizeWidth.get(), resizeHeight.get(), comressedFile.toPath());
                                 evaluateFFmpegReturnValue(FFmpeg.execute(cmd));
+                                moveAndOverwriteFile(comressedFile, file);
                             }
                         } else {
                             if (resizeWidth.get() == 0 || resizeHeight.get() == 0) {
@@ -192,7 +193,7 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
                             File compressedFile = compressFile(resizeWidth.get(), resizeHeight.get(), quality, file);
                             /* Move and overwrite original image */
                             if (compressedFile != null) {
-                                moveAndOverwriteFile(compressedFile.toPath(), file.toPath());
+                                moveAndOverwriteFile(compressedFile, file);
                             }
                         }
                     });
@@ -202,17 +203,18 @@ public class CompressResizeActivity extends ActivityWithSwitchHandler {
         Log.d(TAG, "applyCompressResize done");
     }
 
+    private static void moveAndOverwriteFile(File source, File target) {
+        try {
+            Files.move(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            Log.d(TAG, Arrays.toString(e.getStackTrace()));
+        }
+    }
+
     private static List<ElementWrapper> getElements(boolean script) {
         return script ? JavaScriptInterface.getSelectedElements() : WebpageRetrieverActivity.configuration.getImagePickerRecycleViewAdapter().getFileDataset();
     }
 
-    private static void moveAndOverwriteFile(Path source, Path target) {
-        try {
-            Files.move(source, target, REPLACE_EXISTING);
-        } catch (IOException e) {
-            Log.d(TAG, e.getMessage());
-        }
-    }
 
     private static File compressFile(int resizeWidth, int resizeHeight, int progressBarValue, File file) {
         /* Compress and resize image, save in tmp cache */

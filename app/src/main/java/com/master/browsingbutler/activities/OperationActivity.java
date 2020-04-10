@@ -29,7 +29,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
             this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         }
         /* Only for when WebPageRetriver is not used - TESTING */
-        WebpageRetrieverActivity.URL = this.getResources().getString(R.string.main_url);
+        //WebpageRetrieverActivity.URL = this.getResources().getString(R.string.main_url);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 1);
@@ -67,6 +67,7 @@ public class OperationActivity extends ActivityWithSwitchHandler {
                 Intent intent = new Intent(this, ScriptActivity.class);
                 intent.putExtra("EXECUTION", true);
                 this.startActivity(intent);
+                break;
             case 3:
                 /* Search on Google */
             default:

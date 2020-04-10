@@ -16,9 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <!--         <activity android:name=".activities.WebpageRetrieverActivity"> -->
-        <activity android:name="com.master.browsingbutler.activities.OperationActivity">
+        <activity android:name="com.master.browsingbutler.activities.WebpageRetrieverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,6 +34,7 @@
                 <data android:mimeType="application/*" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.OperationActivity" />
         <activity android:name=".activities.SaveActivity" />
         <activity android:name=".activities.MediaPickerActivity" />
         <activity android:name=".activities.CompressResizeActivity" />

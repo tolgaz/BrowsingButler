@@ -1,5 +1,5 @@
 <resources>
-    <string name="main_url">https://m.imgur.com/</string>
+    <string name="main_url">http://10.0.2.2:8080/</string>
 
     <string name="app_name">BrowsingButler</string>
     <string name="title_activity_main2">Main2Activity</string>
