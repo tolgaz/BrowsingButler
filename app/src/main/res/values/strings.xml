@@ -29,6 +29,8 @@
     <string name="save_save_desc">Save elements in folder specified in options.</string>
     <string name="save_compress_title">Save and compress/resize</string>
     <string name="save_compress_desc">Choose compression/resize settings in the next step.</string>
+    <string name="save_zip_title">Save and create a ZIP</string>
+    <string name="save_zip_desc">Compress all files to a easily shareable ZIP file</string>
     <string name="save_share_title">Save and share</string>
     <string name="save_share_desc">Share the saved elements with other people or applications.</string>
     <string name="save_script_title">Save and apply script</string>
@@ -47,11 +49,11 @@
 
     <!-- Script actions -->
     <string name="script_action_download_title">Download</string>
-    <string name="script_action_download_desc">Downloads element to the specified path.</string>
+    <string name="script_action_download_desc">Downloads element to the specified path</string>
     <string name="script_action_compress_title">Compress</string>
     <string name="script_action_compress_desc">Compresses downloaded elements. </string>
-    <string name="script_action_file_creator_title">Create a ZIP file with chosen elements</string>
-    <string name="script_action_file_creator_desc">A ZIP file is easily shareable.</string>
+    <string name="script_action_file_creator_title">Create a ZIP file</string>
+    <string name="script_action_file_creator_desc">A ZIP file is easily shareable</string>
     <string name="script_action_share_title">Share</string>
     <string name="script_action_share_desc">Open the share dialog automatically</string>
 

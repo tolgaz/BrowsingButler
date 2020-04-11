@@ -12,6 +12,7 @@ import com.master.browsingbutler.models.ElementWrapper;
 import com.master.browsingbutler.utils.ElementGrabber;
 import com.master.browsingbutler.utils.Log;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,26 @@ public class ShareViaOpenWithHandler {
         for (ResolveInfo resolveInfo : resInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
             allValues.forEach(uri -> activity.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION));
+        }
+
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(chooser);
+        }
+    }
+
+    public static void shareZIPFile(AppCompatActivity activity, File zipFile) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/zip");
+        Uri mediaUri = FileProvider.getUriForFile(activity, "com.master.browsingbutler.provider", zipFile);
+        intent.putExtra(Intent.EXTRA_STREAM, mediaUri);
+        String title = "Share this ZIP file with";
+
+        Intent chooser = Intent.createChooser(intent, title);
+
+        List<ResolveInfo> resInfoList = activity.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            activity.grantUriPermission(packageName, mediaUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
 
         if (intent.resolveActivity(activity.getPackageManager()) != null) {

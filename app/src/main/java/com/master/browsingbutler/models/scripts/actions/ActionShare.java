@@ -29,7 +29,9 @@ public class ActionShare extends ScriptAction {
     @Override
     public void execute(Script script) {
         Log.d(this, "ActionShare EXECUTING! ");
-        if (script.isSaved()) {
+        if (script.getZIPFile() != null) {
+            ShareViaOpenWithHandler.shareZIPFile(script.getActivity(), script.getZIPFile());
+        } else if (script.isSaved()) {
             ShareViaOpenWithHandler.shareSavedElements(script.getActivity(), true);
         } else {
             ShareViaOpenWithHandler.share(script.getActivity(), true);

@@ -98,8 +98,8 @@ public class Configuration implements ItemClickListener {
         ArrayList<ListItem> listDataset = new ArrayList<>();
         listDataset.add(new ListItem(getText(R.string.save_save_title), getText(R.string.save_save_desc)));
         listDataset.add(new ListItem(getText(R.string.save_compress_title), getText(R.string.save_compress_desc)));
+        listDataset.add(new ListItem(getText(R.string.save_zip_title), getText(R.string.save_zip_desc)));
         listDataset.add(new ListItem(getText(R.string.save_share_title), getText(R.string.save_share_desc)));
-        //listDataset.add(new ListItem(getText(R.string.save_script_title), getText(R.string.save_script_desc)));
         listDataset.add(new ListItem(getText(R.string.save_google_title), getText(R.string.save_google_desc)));
 
         RecyclerView recyclerView = this.currActivity.findViewById(R.id.save_recycle_view);

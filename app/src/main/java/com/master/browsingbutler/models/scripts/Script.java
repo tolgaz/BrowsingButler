@@ -13,6 +13,7 @@ import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Script {
     private List<ScriptSelection> selections = new ArrayList<>();
 
     private boolean saved = false;
+    private File ZIPFile = null;
     private transient AppCompatActivity activity = null;
 
     public Script(String title, String description, boolean isPremade) {
@@ -52,6 +54,7 @@ public class Script {
     public void startExecution(AppCompatActivity activity) {
         Log.d(this, "Executing script: " + this.toString());
         this.saved = false;
+        this.ZIPFile = null;
         this.activity = activity;
         /* Apply selections on the elementwrappers and set a boolean to their satisfaction of selection, then the list can just loop through these */
         List<ElementWrapper> elementWrappers = JavaScriptInterface.getSelectedElements();
@@ -138,6 +141,14 @@ public class Script {
 
     public boolean isSaved() {
         return this.saved;
+    }
+
+    public void setZIPFile(File ZIPFile) {
+        this.ZIPFile = ZIPFile;
+    }
+
+    public File getZIPFile() {
+        return this.ZIPFile;
     }
 
     public enum Type {

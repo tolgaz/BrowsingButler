@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 public class ElementGrabber {
     private static String TAG = "ElementGrabber";
+    static File BROWSING_BUTLER_FOLDER = null;
 
     public static void grabElements(boolean script) {
         List<ElementWrapper> elements = JavaScriptInterface.getSelectedElements();
@@ -122,14 +123,6 @@ public class ElementGrabber {
         }
     }
 
-    private static File createNewFile(File file) throws IOException {
-        // TODO: handle overwriting, maybe we dont?
-        if (!file.createNewFile()) {
-            Log.d(TAG, "createNewFile, File already exists!");
-        }
-        return file;
-    }
-
     private static String getFilenameFromSrc(String path) {
         String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
         /* Remove _d From file */
@@ -145,12 +138,12 @@ public class ElementGrabber {
 
     private static File createDirectory() throws MalformedURLException {
         Log.d(TAG, "createFileAndDirectory started");
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/BrowsingButler/" + new URL(WebpageRetrieverActivity.URL).getHost());
-        if (!folder.mkdirs()) {
+        BROWSING_BUTLER_FOLDER = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/BrowsingButler/" + new URL(WebpageRetrieverActivity.URL).getHost());
+        if (!BROWSING_BUTLER_FOLDER.mkdirs()) {
             Log.d("ElementGrabber", "mkDir faileD");
         }
         Log.d(TAG, "createFileAndDirectory ended");
-        return folder;
+        return BROWSING_BUTLER_FOLDER;
     }
 
     private static String getSourceLink(ElementWrapper elementWrapper) {

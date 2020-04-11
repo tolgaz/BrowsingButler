@@ -38,7 +38,6 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         Bundle intentExtras = this.getIntent().getExtras();
         if (intentExtras != null) URL = intentExtras.getString("android.intent.extra.TEXT");
         if (URL == null) URL = this.getResources().getString(R.string.main_url);
-
         this.setContentView(R.layout.activity_webpageretriever);
         ImageButton magicButton = this.findViewById(R.id.magic_button);
         magicButton.setOnClickListener(v -> this.startOperationActivity());
@@ -58,6 +57,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(this);
+        OperationActivity.firstRun = true;
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_main);
     }
 

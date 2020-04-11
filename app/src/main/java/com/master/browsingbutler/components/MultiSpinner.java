@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import com.master.browsingbutler.models.scripts.Script;
 import com.master.browsingbutler.models.scripts.actions.ActionCompress;
 import com.master.browsingbutler.models.scripts.actions.ActionDownload;
+import com.master.browsingbutler.models.scripts.actions.ActionZIPCreator;
 import com.master.browsingbutler.models.scripts.actions.ScriptAction;
 import com.master.browsingbutler.models.scripts.interfaces.ScriptOption;
 import com.master.browsingbutler.models.scripts.selections.ScriptSelection;
@@ -45,8 +46,9 @@ public class MultiSpinner<T> extends AppCompatSpinner implements OnMultiChoiceCl
 
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-        if (isChecked && this.optionType == Script.Option.ACTION && which == ActionCompress.getStaticID()) {
-            /* if compression is slsected check download aswell */
+        if (isChecked && this.optionType == Script.Option.ACTION &&
+                (which == ActionCompress.getStaticID() || which == ActionZIPCreator.getStaticID())) {
+            /* if compression or zip is slsected check download aswell */
             ((AlertDialog) dialog).getListView().setItemChecked(ActionDownload.getStaticID(), true);
             this.selected[ActionDownload.getStaticID()] = true;
             this.order[ActionDownload.getStaticID()] = this.checkedCounter++;

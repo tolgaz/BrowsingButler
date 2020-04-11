@@ -17,12 +17,17 @@ import com.master.browsingbutler.utils.Log;
 
 public class OperationActivity extends ActivityWithSwitchHandler {
 
+    public static boolean firstRun = true;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
         this.setContentView(R.layout.activity_operation);
-        this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        if (firstRun) {
+            firstRun = false;
+            this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        }
         /* Only for when WebPageRetriver is not used - TESTING */
         //WebpageRetrieverActivity.URL = this.getResources().getString(R.string.main_url);
         ActivityCompat.requestPermissions(this,

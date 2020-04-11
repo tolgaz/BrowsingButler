@@ -79,7 +79,7 @@ public class ScriptAction implements ScriptOption, Executable {
         ArrayList<ScriptAction> actions = new ArrayList<>();
         actions.add(new ActionDownload());
         actions.add(new ActionCompress());
-        actions.add(new ActionFileCreator());
+        actions.add(new ActionZIPCreator());
         actions.add(new ActionShare());
         ScriptAction.setScriptActions(actions);
     }

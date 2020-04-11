@@ -12,6 +12,7 @@ import com.master.browsingbutler.R;
 import com.master.browsingbutler.components.ShareViaOpenWithHandler;
 import com.master.browsingbutler.utils.ActivityUtils;
 import com.master.browsingbutler.utils.ElementGrabber;
+import com.master.browsingbutler.utils.FileUtils;
 import com.master.browsingbutler.utils.Log;
 
 public class SaveActivity extends ActivityWithSwitchHandler {
@@ -65,14 +66,23 @@ public class SaveActivity extends ActivityWithSwitchHandler {
                 this.startActivity(new Intent(this, MediaPickerActivity.class));
                 break;
             case 2:
+                Log.d(this, "pos 2- zip");
+                downloadAllElements(false, false);
+                if (FileUtils.createZIPFromDownloadedFiles() != null) {
+                    ActivityUtils.engageActivityComplete(this, "A ZIP file has been succesfully created");
+                } else {
+                    Log.d(this, "Script creation failed!");
+                }
+                break;
+            case 3:
                 /* Save and share */
-                Log.d(this, "pos 2 ");
+                Log.d(this, "pos 3 ");
                 ElementGrabber.grabElements(false);
                 ShareViaOpenWithHandler.shareSavedElements(this, false);
                 break;
-            case 3:
+            case 4:
                 /* Save and search on google */
-                Log.d(this, "pos 3 ");
+                Log.d(this, "pos 4 ");
                 downloadAllElements(true, false);
                 this.startActivity(new Intent(this, SearchQueryBuilderActivity.class));
                 break;
