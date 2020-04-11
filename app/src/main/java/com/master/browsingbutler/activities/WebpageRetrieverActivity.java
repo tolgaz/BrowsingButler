@@ -14,6 +14,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,9 @@ import com.master.browsingbutler.components.Scripts;
 import com.master.browsingbutler.components.WebViewClient;
 import com.master.browsingbutler.utils.Log;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class WebpageRetrieverActivity extends AppCompatActivity {
     /* TODO: Grab from intent */
     public static String URL = null;
@@ -36,9 +40,21 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(this);
         Bundle intentExtras = this.getIntent().getExtras();
-        if (intentExtras != null) URL = intentExtras.getString("android.intent.extra.TEXT");
-        if (URL == null) URL = this.getResources().getString(R.string.main_url);
         this.setContentView(R.layout.activity_webpageretriever);
+        if (intentExtras != null) {
+            URL = intentExtras.getString("android.intent.extra.TEXT");
+            try {
+                // Invalid URL
+                new URL(URL);
+            } catch (MalformedURLException e) {
+                this.setError(this.getString(R.string.error_invalid_url));
+                return;
+            }
+        } else {
+            // URL = this.getResources().getString(R.string.main_url);
+            this.setError(this.getString(R.string.error_no_url));
+            return;
+        }
         ImageButton magicButton = this.findViewById(R.id.magic_button);
         magicButton.setOnClickListener(v -> this.startOperationActivity());
 
@@ -51,6 +67,17 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
 
         Scripts.initScripts();
         this.loadWebpage();
+    }
+
+    private void setError(String message) {
+        this.setContentView(R.layout.custom_webpageretriever);
+        TextView errorMessage = this.findViewById(R.id.textview_webpageretriever);
+        errorMessage.setText(message);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
     }
 
     @Override

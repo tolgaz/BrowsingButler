@@ -73,4 +73,6 @@
     <string name="toast_script_created">Script has sucessfully been created!</string>
     <string name="toast_script_saved">Script has sucessfully been saved!</string>
     <string name="toast_script_deleted">Script has sucessfully been deleted!</string>
+    <string name="error_invalid_url">Invalid URL given to Browsing Butler</string>
+    <string name="error_no_url">Launch Browsing Butler with an URL</string>
 </resources>
