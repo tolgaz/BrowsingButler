@@ -27,26 +27,10 @@
 
 
 <h2>Videos</h2>
-<video width="300px" src="video1.mp4" type="video/mp4" loop autoplay
-       muted></video>
+<video width="300px" src="video1.mp4" type="video/mp4" loop autoplay muted></video>
 <video width="300px" src="video2.mp4" type="video/mp4" loop autoplay muted></video>
 <video width="300px" src="video3.mp4" type="video/mp4" loop autoplay muted></video>
 <video width="300px" src="video4.mp4" type="video/mp4" loop autoplay muted></video>
-
-<script>
-    var url = document.URL;
-    var elems = document.getElementsByTagName("video");
-    for (let i = 0; i < elems.length; i++){
-        var tmpSrc = new URL(elems[i].src).pathname.substring(1)
-        elems[i].src = url + tmpSrc;
-    }
-
-
-
-
-
-
-</script>
 
 <h2>Links/text</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
