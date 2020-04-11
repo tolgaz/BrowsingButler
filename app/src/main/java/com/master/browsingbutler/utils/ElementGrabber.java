@@ -1,7 +1,9 @@
 package com.master.browsingbutler.utils;
 
 import android.os.Environment;
+import android.widget.Toast;
 
+import com.master.browsingbutler.App;
 import com.master.browsingbutler.activities.WebpageRetrieverActivity;
 import com.master.browsingbutler.components.JavaScriptInterface;
 import com.master.browsingbutler.models.ElementWrapper;
@@ -54,10 +56,12 @@ public class ElementGrabber {
              */
                 URL trimmedURL = trimURL(elementWrapper);
                 try (InputStream inputStream = trimmedURL.openStream()) {
-                    String name = getFilenameFromSrc(trimmedURL.getPath());
-                    File file = createAndSetFileInElementWrapper(elementWrapper, folder, name);
-                    if (file != null) {
-                        writeToFile(inputStream, folder, name);
+                    String name = getFilenameFromSrc(trimmedURL.getPath(), true);
+                    if (name != null) {
+                        File file = createAndSetFileInElementWrapper(elementWrapper, folder, name);
+                        if (file != null) {
+                            writeToFile(inputStream, folder, name);
+                        }
                     }
                 } catch (IOException e) {
                     Log.d(TAG, Arrays.toString(e.getStackTrace()));
@@ -96,10 +100,23 @@ public class ElementGrabber {
             src = WebpageRetrieverActivity.URL + src;
             url = new URL(src);
         }
-        String filename = getFilenameFromSrc(url.getPath());
+        String filename = getFilenameFromSrc(url.getPath(), false);
+        if (filename == null) {
+            return null;
+        }
+        String extension = getExtensionFromSrc(url.getPath());
         /* Check if tag is img for now. Then replace it with JPG: TODO: what is the tag og gifs, m4v, mp4, videos */
-        //if (elementWrapper.getNormalName().equals("img")) extension = ".jpg";
-        return new URL(url.getProtocol(), url.getHost(), url.getPort(), filename);
+        /* imgur picks are in .webp which is a lower quality .jpg  */
+        if (elementWrapper.getNormalName().equals("img") && extension.equals(".webp")) {
+            extension = ".jpg";
+        }
+        String file = url.getFile();
+        return new URL(url.getProtocol(), url.getHost(), url.getPort(), file.substring(1, file.lastIndexOf(filename)) + filename + extension);
+    }
+
+    private static String getExtensionFromSrc(String path) {
+        String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
+        return filenameWithextension.substring(filenameWithextension.lastIndexOf('.'));
     }
 
     private static void writeToFile(InputStream inputStream, File folder, String name) {
@@ -123,11 +140,17 @@ public class ElementGrabber {
         }
     }
 
-    private static String getFilenameFromSrc(String path) {
+    private static String getFilenameFromSrc(String path, boolean withExtension) {
         String filenameWithextension = path.substring(path.lastIndexOf('/') + 1);
         /* Remove _d From file */
-        String filename = filenameWithextension.substring(0, filenameWithextension.lastIndexOf('.'));
-        return removeUnderscoreDIfExists(filename) + path.substring(path.lastIndexOf('.'));
+        try {
+            String filename = filenameWithextension.substring(0, filenameWithextension.lastIndexOf('.'));
+            return removeUnderscoreDIfExists(filename) + (withExtension ? path.substring(path.lastIndexOf('.')) : "");
+        } catch (Exception e) {
+            Log.d(TAG, "error on filename: " + filenameWithextension);
+            Toast.makeText(App.getInstance(), "Error when attempting to download media!", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     private static String removeUnderscoreDIfExists(String filename) {

@@ -8,7 +8,6 @@ import com.master.browsingbutler.utils.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,9 +54,11 @@ public class JavaScriptInterface {
     private boolean checkIfElementIsValidTag(ElementWrapper elementWrapper) {
         /* Might be a div with a <img> inside. How do we retrieve? */
         /* Currently grab element and find the img tag inside */
-        Elements elements = elementWrapper.getElement().getAllElements();
-        for (Element tmpElement : elements) {
-            if (Arrays.asList(this.validHTMLTags).contains(tmpElement.normalName())) {
+        /* Only check two layers as thats how imgur does it. */
+        for (int i = 0; i < elementWrapper.getElement().getAllElements().size(); i++) {
+            Element currentElement = elementWrapper.getElement().getAllElements().get(i);
+            if (Arrays.asList(this.validHTMLTags).contains(currentElement.normalName())) {
+                elementWrapper.setElement(currentElement);
                 return true;
             }
         }
@@ -66,7 +67,11 @@ public class JavaScriptInterface {
 
     private ElementWrapper checkIfElementListContains(ElementWrapper elementWrapper) {
         for (ElementWrapper eW : selectedElements) {
-            if (eW.compareTo(elementWrapper) == 0) return eW;
+            for (Element element : eW.getElement().getAllElements()) {
+                if (elementWrapper.compareTo(element)) {
+                    return eW;
+                }
+            }
         }
         return null;
     }
@@ -86,5 +91,9 @@ public class JavaScriptInterface {
             ).collect(Collectors.toList());
         }
         return new ArrayList<>();
+    }
+
+    public static void resetSelectedElements() {
+        selectedElements = new ArrayList<>();
     }
 }

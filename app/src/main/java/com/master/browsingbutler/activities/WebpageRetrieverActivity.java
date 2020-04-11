@@ -39,22 +39,11 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this);
-        Bundle intentExtras = this.getIntent().getExtras();
         this.setContentView(R.layout.activity_webpageretriever);
-        if (intentExtras != null) {
-            URL = intentExtras.getString("android.intent.extra.TEXT");
-            try {
-                // Invalid URL
-                new URL(URL);
-            } catch (MalformedURLException e) {
-                this.setError(this.getString(R.string.error_invalid_url));
-                return;
-            }
-        } else {
-            // URL = this.getResources().getString(R.string.main_url);
-            this.setError(this.getString(R.string.error_no_url));
+        if (this.evaluateIntentExtras()) {
             return;
         }
+
         ImageButton magicButton = this.findViewById(R.id.magic_button);
         magicButton.setOnClickListener(v -> this.startOperationActivity());
 
@@ -67,6 +56,26 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
 
         Scripts.initScripts();
         this.loadWebpage();
+    }
+
+    private boolean evaluateIntentExtras() {
+        Bundle intentExtras = this.getIntent().getExtras();
+        if (intentExtras != null) {
+            URL = intentExtras.getString("android.intent.extra.TEXT");
+            try {
+                // Invalid URL
+                new URL(URL);
+            } catch (MalformedURLException e) {
+                this.setError(this.getString(R.string.error_invalid_url));
+                return true;
+            }
+        } else {
+            // URL = this.getResources().getString(R.string.main_url);
+            this.setError(this.getString(R.string.error_no_url));
+            return true;
+        }
+        JavaScriptInterface.resetSelectedElements();
+        return false;
     }
 
     private void setError(String message) {
@@ -86,6 +95,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         Log.d(this);
         OperationActivity.firstRun = true;
         WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_main);
+        this.evaluateIntentExtras();
     }
 
     @Override

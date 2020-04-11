@@ -17,10 +17,7 @@ public class WebViewClient extends android.webkit.WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         Log.d(this, "MainURL: " + this.mainUrl + ", request: " + request.getUrl());
         String url = this.removeKeywords(request.getUrl().toString());
-        if (url.equals(this.mainUrl)) {
-            view.loadUrl(url);
-        }
-        return false;
+        return !url.equals(this.mainUrl);
     }
 
     private String removeKeywords(String url) {
@@ -33,11 +30,17 @@ public class WebViewClient extends android.webkit.WebViewClient {
         String js = "javascript: " +
                 /* Adds border around clicked elem */
                 "        document.addEventListener(\'click\', function (e) {\n" +
-                "           e.stopPropagation();\n" +
-                "           e.preventDefault();\n" +
+                "                   console.log(\"IN EVENT LISTENER!!\");\n" +
                 "           e = e || window.event;\n" +
                 "           var target = e.target || e.srcElement; \n" +
                 /* Set target.style preemptively */
+                "           if(!(target.outerHTML.onclick && target.outerHTML.onclick.includes(\"setAndSaveAllConsent\")))  {\n" +
+                "                   e.preventDefault();\n" +
+                /* IF video wwe also have disable propagation to the controls */
+                "               if (target.outerHTML.includes(\"video\"))   {\n" +
+                "                   e.stopPropagation();\n" +
+                "               } \n" +
+                "           }\n" +
                 "           target.style = \"border-color: red; border-style: solid; border-width: 3px; box-sizing: border-box;\" \n" +
                 "           const processedValue = JSInterface.processSelectedElement(target.outerHTML); \n" +
                 "           if(!processedValue) target.style = \"border-color: transparent; border-width: 0; \" " +

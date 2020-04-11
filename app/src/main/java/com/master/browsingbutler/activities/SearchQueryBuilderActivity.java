@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -36,6 +37,7 @@ public class SearchQueryBuilderActivity extends ActivityWithSwitchHandler {
         this.overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         this.allTextElements = JavaScriptInterface.getSelectedElements().stream().filter(ElementWrapper::isText).collect(Collectors.toList());
 
+
         Button selectAll = this.findViewById(R.id.select_all);
         selectAll.setOnClickListener(v -> {
             Log.d(this, "selectAll clicked");
@@ -47,6 +49,12 @@ public class SearchQueryBuilderActivity extends ActivityWithSwitchHandler {
 
         Button continueCompress = this.findViewById(R.id.continue_compress);
         continueCompress.setOnClickListener(v -> this.createAndLaunchSearchQuery());
+
+        if (this.allTextElements.isEmpty()) {
+            ((TextView) this.findViewById(R.id.text_query_creator)).setText("No text elements chosen!");
+            continueCompress.setVisibility(View.GONE);
+            selectAll.setVisibility(View.GONE);
+        }
     }
 
     @Override

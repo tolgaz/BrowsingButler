@@ -35,6 +35,10 @@ public class ElementWrapper implements Comparable {
         return -1;
     }
 
+    public boolean compareTo(Element toCompare) {
+        return this.element.outerHtml().equals(toCompare.outerHtml());
+    }
+
     public void setFile(File file) {
         this.file = file;
     }
@@ -45,6 +49,10 @@ public class ElementWrapper implements Comparable {
 
     public boolean getChosen() {
         return this.chosen;
+    }
+
+    public void setElement(Element element) {
+        this.element = element;
     }
 
     public void setChosen(boolean chosen) {
