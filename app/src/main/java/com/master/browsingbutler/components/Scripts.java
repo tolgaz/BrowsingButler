@@ -17,6 +17,7 @@ public class Scripts {
     private static List<Script> allScripts = new ArrayList<>();
 
     public static void initScripts() {
+        allScripts = new ArrayList<>();
         allScripts.add(getCompressTo50());
         allScripts.add(getDownloadAndSendScript());
         allScripts.add(getSaveAndCompressScript());

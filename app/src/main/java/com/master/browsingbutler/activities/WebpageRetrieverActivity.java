@@ -40,22 +40,20 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(this);
         this.setContentView(R.layout.activity_webpageretriever);
-        if (this.evaluateIntentExtras()) {
-            return;
+        if (!this.evaluateIntentExtras()) {
+            ImageButton magicButton = this.findViewById(R.id.magic_button);
+            magicButton.setOnClickListener(v -> this.startOperationActivity());
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Scripts.initScripts();
+            this.loadWebpage();
         }
-
-        ImageButton magicButton = this.findViewById(R.id.magic_button);
-        magicButton.setOnClickListener(v -> this.startOperationActivity());
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                1);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        Scripts.initScripts();
-        this.loadWebpage();
     }
 
     private boolean evaluateIntentExtras() {
@@ -81,6 +79,7 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     private void setError(String message) {
         this.setContentView(R.layout.custom_webpageretriever);
         TextView errorMessage = this.findViewById(R.id.textview_webpageretriever);
+        WebpageRetrieverActivity.configuration.configureToolbar(this, R.string.toolbar_operation_screen);
         errorMessage.setText(message);
     }
 
