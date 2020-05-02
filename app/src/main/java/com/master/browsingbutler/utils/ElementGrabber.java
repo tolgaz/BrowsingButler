@@ -148,7 +148,7 @@ public class ElementGrabber {
             return removeUnderscoreDIfExists(filename) + (withExtension ? path.substring(path.lastIndexOf('.')) : "");
         } catch (Exception e) {
             Log.d(TAG, "error on filename: " + filenameWithextension);
-            Toast.makeText(App.getInstance(), "Error when attempting to download media!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.getInstance(), "Error when attempting to save media!", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
