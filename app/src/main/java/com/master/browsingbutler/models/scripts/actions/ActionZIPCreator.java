@@ -29,6 +29,6 @@ public class ActionZIPCreator extends ScriptAction {
     @Override
     public void execute(Script script) {
         Log.d(this, "ActionZIPCreator EXECUTING! ");
-        script.setZIPFile(FileUtils.createZIPFromDownloadedFiles());
+        script.setZIPFile(FileUtils.createZIPFromDownloadedFiles(true));
     }
 }

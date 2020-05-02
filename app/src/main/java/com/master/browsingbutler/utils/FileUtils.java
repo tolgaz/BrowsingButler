@@ -26,22 +26,24 @@ public class FileUtils {
         return filenameWithextension.substring(0, filenameWithextension.lastIndexOf('.'));
     }
 
-    public static File createZIPFromDownloadedFiles() {
+    public static File createZIPFromDownloadedFiles(boolean isScript) {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd-HH.mm", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         String zipFilename = ElementGrabber.BROWSING_BUTLER_FOLDER + "/" + timeStamp + ".zip";
         try {
             final ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(zipFilename));
-            JavaScriptInterface.getSelectedElements().forEach(elementWrapper -> {
-                File file = elementWrapper.getFile();
-                try {
-                    outputStream.putNextEntry(new ZipEntry(file.toPath().getFileName().toString()));
-                    byte[] bytes = Files.readAllBytes(file.toPath());
-                    outputStream.write(bytes, 0, bytes.length);
-                    outputStream.closeEntry();
-                } catch (IOException e) {
-                    Log.d(TAG, Arrays.toString(e.getStackTrace()));
-                }
-            });
+            JavaScriptInterface.getSelectedElements().stream()
+                    .filter(elementWrapper -> isScript ? elementWrapper.getSatisfiesSelection() : true)
+                    .forEach(elementWrapper -> {
+                        File file = elementWrapper.getFile();
+                        try {
+                            outputStream.putNextEntry(new ZipEntry(file.toPath().getFileName().toString()));
+                            byte[] bytes = Files.readAllBytes(file.toPath());
+                            outputStream.write(bytes, 0, bytes.length);
+                            outputStream.closeEntry();
+                        } catch (IOException e) {
+                            Log.d(TAG, Arrays.toString(e.getStackTrace()));
+                        }
+                    });
             outputStream.close();
             return new File(zipFilename);
         } catch (IOException e) {

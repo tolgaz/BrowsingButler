@@ -68,7 +68,7 @@ public class SaveActivity extends ActivityWithSwitchHandler {
             case 2:
                 Log.d(this, "pos 2- zip");
                 downloadAllElements(false, false);
-                if (FileUtils.createZIPFromDownloadedFiles() != null) {
+                if (FileUtils.createZIPFromDownloadedFiles(false) != null) {
                     ActivityUtils.engageActivityComplete(this, "A ZIP file has been succesfully created");
                 } else {
                     Log.d(this, "Script creation failed!");
