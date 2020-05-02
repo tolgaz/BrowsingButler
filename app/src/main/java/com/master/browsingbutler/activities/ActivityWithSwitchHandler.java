@@ -17,17 +17,11 @@ public abstract class ActivityWithSwitchHandler extends AppCompatActivity {
         Log.d("onOptionsItemSelected", "Option clicked!");
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_options:
-                Log.d("onOptionsItemSelected", "options!");
-                return true;
             case R.id.menu_script_settings:
                 Log.d("onOptionsItemSelected", "script!");
                 Intent intent = new Intent(this, ScriptActivity.class);
                 intent.putExtra("EXECUTION", false);
                 this.startActivity(intent);
-                return true;
-            case R.id.menu_FAQ:
-                Log.d("onOptionsItemSelected", "faq!");
                 return true;
             default:
                 Log.d("onOptionsItemSelected", "DEFAULT: " + item.getItemId());

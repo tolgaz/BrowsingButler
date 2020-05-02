@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_options"
-        android:title="Options" />
-    <item
         android:id="@+id/menu_script_settings"
         android:title="Script settings" />
-    <item
-        android:id="@+id/menu_FAQ"
-        android:title="FAQ" />
 </menu>

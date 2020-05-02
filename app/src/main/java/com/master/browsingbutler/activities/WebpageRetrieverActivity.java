@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.master.browsingbutler.R;
@@ -30,7 +29,7 @@ import com.master.browsingbutler.utils.Log;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class WebpageRetrieverActivity extends AppCompatActivity {
+public class WebpageRetrieverActivity extends ActivityWithSwitchHandler {
     /* TODO: Grab from intent */
     public static String URL = null;
     public static Configuration configuration = new Configuration();
@@ -164,6 +163,11 @@ public class WebpageRetrieverActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
+
+    @Override
+    public void switchHandler(View view, int position) {
+        throw new UnsupportedOperationException();
     }
 }
 
