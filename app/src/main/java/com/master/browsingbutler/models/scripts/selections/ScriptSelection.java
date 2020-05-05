@@ -111,14 +111,19 @@ public class ScriptSelection implements ScriptOption, Selectable {
         throw new UnsupportedOperationException();
     }
 
-    protected boolean getSelection(ElementWrapper elementWrapper, String mimeType, String htmlType) {
+    boolean getSelection(ElementWrapper elementWrapper, String mimeType, String[] htmlType) {
         File file = elementWrapper.getFile();
         if (file != null) {
             String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath()));
             return type != null && type.contains(mimeType);
         } else {
-            return elementWrapper.getNormalName().equals(htmlType);
+            for (String type : htmlType) {
+                if (elementWrapper.getNormalName().equals(type)) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
 }
 

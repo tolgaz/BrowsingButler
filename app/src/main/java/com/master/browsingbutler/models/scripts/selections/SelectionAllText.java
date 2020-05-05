@@ -12,10 +12,10 @@ public class SelectionAllText extends ScriptSelection {
     private static int ID = 5;
     private static String MimeType = "text";
     // Is this god enought for text html types?
-    private static String HTMLType = "p";
+    private static String[] HTMLType = {"p", "span"};
     private static Type TYPE = FILETYPES;
 
-    public SelectionAllText() {
+    SelectionAllText() {
         super(title, null, ID);
     }
 

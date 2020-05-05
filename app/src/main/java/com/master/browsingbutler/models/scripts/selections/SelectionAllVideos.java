@@ -11,10 +11,10 @@ public class SelectionAllVideos extends ScriptSelection {
     private static String title = App.getResourses().getString(R.string.script_selection_all_videos_title);
     private static int ID = 4;
     private static String MimeType = "video";
-    private static String HTMLType = "video";
+    private static String[] HTMLType = {"video"};
     private static Type TYPE = FILETYPES;
 
-    public SelectionAllVideos() {
+    SelectionAllVideos() {
         super(title, null, ID);
     }
 

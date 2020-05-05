@@ -12,10 +12,10 @@ public class SelectionAllPictures extends ScriptSelection {
     private static int ID = 3;
     private static String MimeType = "image";
     //  HTML TAG for images
-    private static String HTMLType = "img";
+    private static String[] HTMLType = {"img"};
     private static Type TYPE = FILETYPES;
 
-    public SelectionAllPictures() {
+    SelectionAllPictures() {
         super(title, null, ID);
     }
 

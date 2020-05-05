@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class JavaScriptInterface {
     private static boolean TEST = false;
     private static List<ElementWrapper> selectedElements = generateTestData();
-    private String[] validHTMLTags = {"img", "video", "p"};
+    private String[] validHTMLTags = {"img", "video", "p", "span"};
     private WebpageRetrieverActivity webpageRetrieverActivity;
 
     public JavaScriptInterface(WebpageRetrieverActivity webpageRetrieverActivity) {
@@ -52,6 +52,7 @@ public class JavaScriptInterface {
     }
 
     private boolean checkIfElementIsValidTag(ElementWrapper elementWrapper) {
+        /* OUTDATED COMMENT, SAVED FOR CONTEXT */
         /* Might be a div with a <img> inside. How do we retrieve? */
         /* Currently grab element and find the img tag inside */
         /* Only check two layers as thats how imgur does it. */
