@@ -50,7 +50,9 @@ public class WebpageRetrieverActivity extends ActivityWithSwitchHandler {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Scripts.initScripts();
+            if (Scripts.getAllScripts().isEmpty()) {
+                Scripts.initScripts();
+            }
             this.loadWebpage();
         }
     }
@@ -119,6 +121,7 @@ public class WebpageRetrieverActivity extends ActivityWithSwitchHandler {
         webView.setWebViewClient(new WebViewClient(URL));
         webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
 
+        /* FOR DEBUGGING PURPOSES */
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {

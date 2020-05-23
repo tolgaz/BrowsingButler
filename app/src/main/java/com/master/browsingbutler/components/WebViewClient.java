@@ -1,5 +1,6 @@
 package com.master.browsingbutler.components;
 
+import android.net.Uri;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -16,7 +17,8 @@ public class WebViewClient extends android.webkit.WebViewClient {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         Log.d(this, "MainURL: " + this.mainUrl + ", request: " + request.getUrl());
-        String url = this.removeKeywords(request.getUrl().toString());
+        Uri uri = request.getUrl();
+        String url = this.removeKeywords(uri.toString());
         return !url.equals(this.mainUrl);
     }
 
